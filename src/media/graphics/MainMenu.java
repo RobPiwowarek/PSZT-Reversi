@@ -1,4 +1,4 @@
-package reversi;
+package media.graphics;
 
 import javafx.scene.Node;
 import javafx.application.Application;
