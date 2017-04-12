@@ -13,6 +13,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class MainMenu extends VBox
 {   
     public MainMenu(int x)
@@ -31,6 +34,7 @@ public class MainMenu extends VBox
         Button exitButton = new Button("Exit");
         
         setupStartButton(startButton);
+        setupOptionsButton(optionsButton);
         setupAuthorButton(authorButton);
         setupExitButton(exitButton);
         
@@ -45,8 +49,16 @@ public class MainMenu extends VBox
             public void handle(ActionEvent event) 
             {
                 hide();
+                Scene scene = start.getScene();
+                Board board = new Board();
+                scene.setRoot(board);
             }
         });
+    }
+    
+    private void setupOptionsButton(Button options)
+    {
+        
     }
     
     private void setupAuthorButton(Button author)
