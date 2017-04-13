@@ -1,8 +1,5 @@
 package media.graphics;
 
-import javafx.scene.Node;
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -12,9 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
-
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class MainMenu extends VBox
 {   
@@ -28,10 +22,10 @@ public class MainMenu extends VBox
             
     private void setupButtons(VBox buttonsBox)
     {
-        Button startButton = new Button("Start");
-        Button optionsButton = new Button("Options");
-        Button authorButton = new Button("Author");
-        Button exitButton = new Button("Exit");
+        MyButton startButton = new MyButton("Start");
+        MyButton optionsButton = new MyButton("Options");
+        MyButton authorButton = new MyButton("Author");
+        MyButton exitButton = new MyButton("Exit");
         
         setupStartButton(startButton);
         setupOptionsButton(optionsButton);
@@ -94,5 +88,16 @@ public class MainMenu extends VBox
     public void hide()
     {
         setVisible(false);
+    }
+}
+
+class MyButton extends Button
+{
+    public MyButton(String text)
+    {
+        super(text);
+        setMinSize(200, 30);
+        setMaxSize(200, 30);
+        setStyle("-fx-font: 18 arial;");
     }
 }

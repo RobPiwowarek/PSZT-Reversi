@@ -2,9 +2,9 @@ package media.graphics;
 
 // TODO: size ma sie zmieniac od 8x8 do 32x32
 
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.image.Image;
+import javafx.geometry.Pos;
 
 public class Board extends StackPane
 {
@@ -37,10 +37,12 @@ public class Board extends StackPane
     private void setupEmptyTiles()
     {
         VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
         HBox hBoxes[] = new HBox[size];
         for(int i=0;i<hBoxes.length;i++)
         {
             hBoxes[i]=new HBox();
+            hBoxes[i].setAlignment(Pos.CENTER);
             for(int j=0;j<tiles.length;j++)
             {
                 tiles[i][j]=new Tile(this);
@@ -53,10 +55,12 @@ public class Board extends StackPane
     
     private void startingPosition()
     {
-        tiles[3][3].changeToWhite();
-        tiles[4][4].changeToWhite();
-        tiles[3][4].changeToBlack();
-        tiles[4][3].changeToBlack();
+        int a = size/2;
+        int b=a-1;
+        tiles[a][a].putNewWhitePawn();
+        tiles[b][b].putNewWhitePawn();
+        tiles[a][b].putNewBlackPawn();
+        tiles[b][a].putNewBlackPawn();
     }
     
     public void show()

@@ -8,14 +8,17 @@ public class Tile extends Button
 {
     ImageView imageView;
     Board board;
+    boolean isEmpty;
             
     public Tile(Board b)
     {
         board=b;
+        isEmpty=true;
         setMinSize(50, 50);
         setMaxSize(50, 50);
         imageView = new ImageView(board.emptyTileImage);
         setGraphic(imageView);
+        setStyle("-fx-focus-color: transparent;");
         onClick();
     }
     
@@ -24,23 +27,37 @@ public class Tile extends Button
         setOnAction(new EventHandler<ActionEvent>() 
         {
             @Override public void handle(ActionEvent e) {
-                if (board.round%2==0)
-                    changeToBlack();
-                else 
-                    changeToWhite();
-                board.round++;
+                if (isEmpty)
+                {
+                    if (board.round%2==0)
+                        putNewBlackPawn();
+                    else 
+                        putNewWhitePawn();
+                    board.round++;
+                }
             }
         });
     }
    
-    public void changeToBlack()
+    private void setBlackImage()
     {
         imageView.setImage(board.blackPawnImage);
     }
     
-    public void changeToWhite()
+    private void setWhiteImage()
     {
         imageView.setImage(board.whitePawnImage);
+    } 
+    
+    public void putNewBlackPawn()
+    {
+        setBlackImage();
+        isEmpty=false;
     }
-  
+    
+    public void putNewWhitePawn()
+    {
+        setWhiteImage();
+        isEmpty=false;
+    }
 }
