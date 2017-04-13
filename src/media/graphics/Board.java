@@ -8,20 +8,23 @@ import javafx.geometry.Pos;
 
 public class Board extends StackPane
 {
+    private GameView gameView;
+    
     private Tile[][] tiles;
     
     Image blackPawnImage;
     Image whitePawnImage;
     Image emptyTileImage;
     
-    short size;
+    private int size;
     int round;
     
-    public Board()
+    public Board(int s, GameView view)
     {
+        gameView = view;
         loadImages();
-        size=8;
         round=0;
+        size=s;
         tiles = new Tile[size][size];
         setupEmptyTiles();
         startingPosition();
@@ -71,5 +74,5 @@ public class Board extends StackPane
     public void hide()
     {
         setVisible(false);
-    }
+    }  
 }

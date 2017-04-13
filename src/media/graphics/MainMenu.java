@@ -12,12 +12,15 @@ import javax.swing.JOptionPane;
 
 public class MainMenu extends VBox
 {   
-    public MainMenu(int x)
+    private GameView gameView;
+    
+    public MainMenu(int x, GameView view)
     {
         super(20);
         setPadding(new Insets(5));
         setAlignment(Pos.CENTER);
         setupButtons(this);
+        gameView = view;
     }
             
     private void setupButtons(VBox buttonsBox)
@@ -42,10 +45,8 @@ public class MainMenu extends VBox
             @Override
             public void handle(ActionEvent event) 
             {
-                hide();
                 Scene scene = start.getScene();
-                Board board = new Board();
-                scene.setRoot(board);
+                scene.setRoot(gameView.getBoard());
             }
         });
     }

@@ -6,9 +6,9 @@ import javafx.scene.image.ImageView;
 
 public class Tile extends Button
 {
-    ImageView imageView;
-    Board board;
-    boolean isEmpty;
+    private ImageView imageView;
+    private Board board;
+    private boolean isEmpty;
             
     public Tile(Board b)
     {
