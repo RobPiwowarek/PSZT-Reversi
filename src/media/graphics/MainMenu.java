@@ -1,5 +1,6 @@
 package media.graphics;
 
+import mvc.GameView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;

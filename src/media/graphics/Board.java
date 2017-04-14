@@ -2,6 +2,7 @@ package media.graphics;
 
 // TODO: size ma sie zmieniac od 8x8 do 32x32
 
+import mvc.GameView;
 import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 import javafx.geometry.Pos;
