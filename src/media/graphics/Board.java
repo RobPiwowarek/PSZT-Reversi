@@ -4,38 +4,25 @@ package media.graphics;
 
 import mvc.GameView;
 import javafx.scene.layout.*;
-import javafx.scene.image.Image;
 import javafx.geometry.Pos;
 
 public class Board extends StackPane
 {
-    private GameView gameView;
+    private final GameView gameView;
     
-    private Tile[][] tiles;
-    
-    Image blackPawnImage;
-    Image whitePawnImage;
-    Image emptyTileImage;
-    
-    private int size;
+    private final Tile[][] tiles;
+   
+    private final int size;
     int round;
     
     public Board(int s, GameView view)
     {
         gameView = view;
-        loadImages();
         round=0;
         size=s;
         tiles = new Tile[size][size];
         setupEmptyTiles();
         startingPosition();
-    }
-    
-    private void loadImages()
-    {
-        blackPawnImage = new Image(getClass().getResourceAsStream("black.png"));
-        whitePawnImage = new Image(getClass().getResourceAsStream("white.png"));
-        emptyTileImage = new Image(getClass().getResourceAsStream("empty.png"));
     }
     
     private void setupEmptyTiles()

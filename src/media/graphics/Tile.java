@@ -2,12 +2,11 @@ package media.graphics;
 
 import javafx.scene.control.Button;
 import javafx.event.*;
-import javafx.scene.image.ImageView;
 
 public class Tile extends Button
 {
-    private ImageView imageView;
-    private Board board;
+    private final PawnSprite pawnSprite;
+    private final Board board;
     private boolean isEmpty;
             
     public Tile(Board b)
@@ -16,8 +15,9 @@ public class Tile extends Button
         isEmpty=true;
         setMinSize(50, 50);
         setMaxSize(50, 50);
-        imageView = new ImageView(board.emptyTileImage);
-        setGraphic(imageView);
+
+        pawnSprite=new PawnSprite();
+        setGraphic(pawnSprite);
         setStyle("-fx-focus-color: transparent;");
         onClick();
     }
@@ -41,12 +41,12 @@ public class Tile extends Button
    
     private void setBlackImage()
     {
-        imageView.setImage(board.blackPawnImage);
+        pawnSprite.setBlackPawn();
     }
     
     private void setWhiteImage()
     {
-        imageView.setImage(board.whitePawnImage);
+        pawnSprite.setWhitePawn();
     } 
     
     public void putNewBlackPawn()
