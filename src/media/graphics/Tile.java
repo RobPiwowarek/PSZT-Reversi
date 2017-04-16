@@ -13,12 +13,13 @@ public class Tile extends Button
     {
         board=b;
         isEmpty=true;
+        pawnSprite=new PawnSprite();
+        
         setMinSize(50, 50);
         setMaxSize(50, 50);
-
-        pawnSprite=new PawnSprite();
         setGraphic(pawnSprite);
         setStyle("-fx-focus-color: transparent;");
+        
         onClick();
     }
     

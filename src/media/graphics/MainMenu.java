@@ -7,24 +7,26 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
 public class MainMenu extends VBox
 {   
     private GameView gameView;
+    private OptionsPanel optionsPanel;
     
     public MainMenu(int x, GameView view)
     {
         super(20);
         setPadding(new Insets(5));
         setAlignment(Pos.CENTER);
-        setupButtons(this);
+        setupButtons();
         gameView = view;
     }
             
-    private void setupButtons(VBox buttonsBox)
+    private void setupButtons()
     {
         MyButton startButton = new MyButton("Start");
         MyButton optionsButton = new MyButton("Options");
@@ -36,30 +38,40 @@ public class MainMenu extends VBox
         setupAuthorButton(authorButton);
         setupExitButton(exitButton);
         
-        buttonsBox.getChildren().addAll(startButton, optionsButton, authorButton, exitButton);
+        getChildren().addAll(startButton, optionsButton, authorButton, exitButton);
     }
     
-    private void setupStartButton(final Button start)
+    private void setupStartButton(final Button startButton)
     {
-         start.setOnAction(new EventHandler<ActionEvent>() 
+         startButton.setOnAction(new EventHandler<ActionEvent>() 
          {
             @Override
             public void handle(ActionEvent event) 
             {
-                Scene scene = start.getScene();
+                Scene scene = startButton.getScene();
                 scene.setRoot(gameView.getBoard());
             }
         });
     }
     
-    private void setupOptionsButton(Button options)
+    private void setupOptionsButton(final Button optionsButton)
     {
-        
+        final MainMenu thisMenu=this;
+        optionsButton.setOnAction(new EventHandler<ActionEvent>() 
+        {
+            @Override
+            public void handle(ActionEvent event) 
+            {
+                OptionsPanel optionsPanel = new OptionsPanel(thisMenu);
+                Scene scene = optionsButton.getScene();
+                scene.setRoot(optionsPanel);
+            }
+        });
     }
     
-    private void setupAuthorButton(Button author)
+    private void setupAuthorButton(Button authorButton)
     {
-         author.setOnAction(new EventHandler<ActionEvent>() 
+         authorButton.setOnAction(new EventHandler<ActionEvent>() 
          {
             @Override
             public void handle(ActionEvent event) 
@@ -69,14 +81,14 @@ public class MainMenu extends VBox
         });
     }
     
-    private void setupExitButton(final Button exit)
+    private void setupExitButton(final Button exitButton)
     {
-         exit.setOnAction(new EventHandler<ActionEvent>() 
+         exitButton.setOnAction(new EventHandler<ActionEvent>() 
          {
             @Override
             public void handle(ActionEvent event) 
             {
-                Stage stage = (Stage) exit.getScene().getWindow();
+                Stage stage = (Stage) exitButton.getScene().getWindow();
                 stage.close();
             }
         });
@@ -90,6 +102,11 @@ public class MainMenu extends VBox
     public void hide()
     {
         setVisible(false);
+    }
+    
+    public GameView getGameView()
+    {
+        return gameView;
     }
 }
 

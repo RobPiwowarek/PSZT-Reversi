@@ -21,6 +21,7 @@ public class Board extends StackPane
         round=0;
         size=s;
         tiles = new Tile[size][size];
+        
         setupEmptyTiles();
         startingPosition();
     }
@@ -30,6 +31,7 @@ public class Board extends StackPane
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
         HBox hBoxes[] = new HBox[size];
+        
         for(int i=0;i<hBoxes.length;i++)
         {
             hBoxes[i]=new HBox();
@@ -40,6 +42,7 @@ public class Board extends StackPane
                 hBoxes[i].getChildren().add(tiles[i][j]);
             }
         }
+        
         vBox.getChildren().addAll(hBoxes);
         getChildren().add(vBox);
     }
@@ -48,6 +51,7 @@ public class Board extends StackPane
     {
         int a = size/2;
         int b=a-1;
+        
         tiles[a][a].putNewWhitePawn();
         tiles[b][b].putNewWhitePawn();
         tiles[a][b].putNewBlackPawn();
