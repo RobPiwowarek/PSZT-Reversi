@@ -40,8 +40,8 @@ public class GameBoard {
     }
 
     public boolean placePawn(Point p){
-        if (canPlace(p)){
-            moveManager.changeOwnership();
+        if (canPlace(p, getPawn(p).getColor())){
+            // TODO: niech tu bedzie wlacznik do flipowanie ownershipu na pawnach a can place niech bedzie tylko sprawdzalo legalnosc
         }
 
         return true;

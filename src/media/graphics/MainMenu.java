@@ -76,7 +76,7 @@ public class MainMenu extends VBox
             @Override
             public void handle(ActionEvent event) 
             {
-                JOptionPane.showMessageDialog(null, "ssss", "Author", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "git push -fml\nschnutzer@tumblr\nlolidestroyer69", "Author", JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }

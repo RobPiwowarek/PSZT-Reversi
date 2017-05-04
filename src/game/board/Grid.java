@@ -19,6 +19,14 @@ public class Grid {
         return true;
     }
 
+    public short getX() {
+        return x;
+    }
+
+    public short getY() {
+        return y;
+    }
+
     boolean isEmpty(Point p){
         return tiles[(int) p.getY()][(int) p.getX()].getOwner() == PawnColor.EMPTY;
     }
@@ -30,6 +38,4 @@ public class Grid {
     Pawn getPawn(Point p){
         return tiles[(int)p.getY()][(int)p.getX()].getPawn();
     }
-
-
 }
