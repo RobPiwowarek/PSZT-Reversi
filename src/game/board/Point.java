@@ -24,4 +24,13 @@ public class Point {
     public void setY(double y) {
         this.y = y;
     }
+
+    public void translate(double dx, double dy) {
+        this.x += dx;
+        this.y += dy;
+    }
+
+    public boolean isInGrid(Grid grid) {
+        return (x >= 0 && x < grid.getX() && y >= 0 && y < grid.getX());
+    }
 }

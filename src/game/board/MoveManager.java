@@ -12,109 +12,31 @@ public class MoveManager {
     }
 
     public boolean checkMove(Point p, PawnColor playerColor) {
-        return checkVerticalUp(p, playerColor) | checkDownLeftDiagonal(p, playerColor) | checkDownRightDiagonal(p, playerColor) | checkHorizontalLeft(p, playerColor) |
-                checkHorizontalRight(p, playerColor) | checkTopLeftDiagonal(p, playerColor) | checkTopRightDiagonal(p, playerColor) | checkVerticalDown(p, playerColor);
-
-    }
-
-    private boolean checkVerticalUp(Point p, PawnColor playerColor) {
-        boolean foundEnemyPawn = false;
-        ArrayDeque<Pawn> potentialPawnsToFlip = new ArrayDeque<Pawn>();
-
-        for (int y = (int) p.getY() - 1; y >= 0; --y) {
-            Pawn pawn = grid.getPawn(new Point(p.getX(), (double) y));
-            PawnColor currentColor = pawn.getColor();
-
-            if (currentColor != PawnColor.EMPTY && currentColor != playerColor) {
-                potentialPawnsToFlip.add(pawn);
-                foundEnemyPawn = true;
-            } else if (foundEnemyPawn && currentColor == playerColor) {
-                pawnsToFlip.addAll(potentialPawnsToFlip);
-                return true;
-            } else {
-                break;
-            }
-
-            // nie potrzeba dalej sprawdzac warunkow
-            // upraszczamy funkcje
-        }
-
-        return false;
-    }
-
-    private boolean checkVerticalDown(Point p, PawnColor playerColor) {
-        boolean foundEnemyPawn = false;
-        ArrayDeque<Pawn> potentialPawnsToFlip = new ArrayDeque<Pawn>();
-
-        for (int y = (int) p.getY() + 1; y < grid.getY(); ++y) {
-            Pawn pawn = grid.getPawn(new Point(p.getX(), (double) y));
-            PawnColor currentColor = pawn.getColor();
-
-            if (currentColor != PawnColor.EMPTY && currentColor != playerColor) {
-                potentialPawnsToFlip.add(pawn);
-                foundEnemyPawn = true;
-            } else if (foundEnemyPawn && currentColor == playerColor) {
-                pawnsToFlip.addAll(potentialPawnsToFlip);
-                return true;
-            } else {
-                break;
-            }
-
-        }
-
-        return false;
-    }
-
-    private boolean checkHorizontalRight(Point p, PawnColor playerColor) {
-        boolean foundEnemyPawn = false;
-        ArrayDeque<Pawn> potentialPawnsToFlip = new ArrayDeque<Pawn>();
-
-        for (int x = (int) p.getX() + 1; x < grid.getX(); ++x) {
-            Pawn pawn = grid.getPawn(new Point((double) x, p.getY()));
-            PawnColor currentColor = pawn.getColor();
-
-            if (currentColor != PawnColor.EMPTY && currentColor != playerColor) {
-                potentialPawnsToFlip.add(pawn);
-                foundEnemyPawn = true;
-            } else if (foundEnemyPawn && currentColor == playerColor) {
-                pawnsToFlip.addAll(potentialPawnsToFlip);
-                return true;
-            } else {
-                break;
-            }
-
-        }
-        return false;
-    }
-
-    private boolean checkHorizontalLeft(Point p, PawnColor playerColor) {
-        boolean foundEnemyPawn = false;
-        ArrayDeque<Pawn> potentialPawnsToFlip = new ArrayDeque<Pawn>();
-
-        for (int x = (int) p.getX() - 1; x >= 0; --x) {
-            Pawn pawn = grid.getPawn(new Point((double) x, p.getY()));
-            PawnColor currentColor = pawn.getColor();
-
-            if (currentColor != PawnColor.EMPTY && currentColor != playerColor) {
-                potentialPawnsToFlip.add(pawn);
-                foundEnemyPawn = true;
-            } else if (foundEnemyPawn && currentColor == playerColor) {
-                pawnsToFlip.addAll(potentialPawnsToFlip);
-                return true;
-            } else {
-                break;
+        for(int i = -1; i <= 1; ++i) {
+            for(int j = -1; j <= 1; ++j) {
+                if(i != 0 || j != 0) {
+                    if(checkInDirection(p, playerColor, new Point(i,j))) {
+                        return true;
+                    }
+                }
             }
         }
         return false;
     }
 
-    private boolean checkTopRightDiagonal(Point p, PawnColor playerColor) {
+    // direction = (-1,-1), (1,1), (0,1) (1,0), (0,-1), (-1,0) (-1,1) (1,-1)
+    private boolean checkInDirection(Point p, PawnColor playerColor, Point direction) {
         boolean foundEnemyPawn = false;
         ArrayDeque<Pawn> potentialPawnsToFlip = new ArrayDeque<Pawn>();
+        double dx = direction.getX();
+        double dy = direction.getY();
+        Pawn pawn;
+        PawnColor currentColor;
+        Point currentPoint = new Point(p.getX() + dx, p.getY() + dy);
 
-        for (int x = (int) p.getX() + 1, y = (int) p.getY() - 1; x < grid.getX() && y >= 0; ++x, --y) {
-            Pawn pawn = grid.getPawn(new Point((double) x, y));
-            PawnColor currentColor = pawn.getColor();
+        while(currentPoint.isInGrid(grid)) {
+            pawn = grid.getPawn(currentPoint);
+            currentColor = pawn.getColor();
 
             if (currentColor != PawnColor.EMPTY && currentColor != playerColor) {
                 potentialPawnsToFlip.add(pawn);
@@ -126,70 +48,9 @@ public class MoveManager {
                 break;
             }
 
+            currentPoint.translate(dx,dy);
         }
-        return false;
-    }
 
-    private boolean checkDownRightDiagonal(Point p, PawnColor playerColor) {
-        boolean foundEnemyPawn = false;
-        ArrayDeque<Pawn> potentialPawnsToFlip = new ArrayDeque<Pawn>();
-
-        for (int x = (int) p.getX() + 1, y = (int) p.getY() + 1; x < grid.getX() && y < grid.getY(); ++x, ++y) {
-            Pawn pawn = grid.getPawn(new Point((double) x, y));
-            PawnColor currentColor = pawn.getColor();
-
-            if (currentColor != PawnColor.EMPTY && currentColor != playerColor) {
-                potentialPawnsToFlip.add(pawn);
-                foundEnemyPawn = true;
-            } else if (foundEnemyPawn && currentColor == playerColor) {
-                pawnsToFlip.addAll(potentialPawnsToFlip);
-                return true;
-            } else {
-                break;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkDownLeftDiagonal(Point p, PawnColor playerColor) {
-        boolean foundEnemyPawn = false;
-        ArrayDeque<Pawn> potentialPawnsToFlip = new ArrayDeque<Pawn>();
-
-        for (int x = (int) p.getX() - 1, y = (int) p.getY() + 1; x >= 0 && y < grid.getY(); --x, ++y) {
-            Pawn pawn = grid.getPawn(new Point((double) x, y));
-            PawnColor currentColor = pawn.getColor();
-
-            if (currentColor != PawnColor.EMPTY && currentColor != playerColor) {
-                potentialPawnsToFlip.add(pawn);
-                foundEnemyPawn = true;
-            } else if (foundEnemyPawn && currentColor == playerColor) {
-                pawnsToFlip.addAll(potentialPawnsToFlip);
-                return true;
-            } else {
-                break;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkTopLeftDiagonal(Point p, PawnColor playerColor) {
-        boolean foundEnemyPawn = false;
-        ArrayDeque<Pawn> potentialPawnsToFlip = new ArrayDeque<Pawn>();
-
-        for (int x = (int) p.getX() - 1, y = (int) p.getY() - 1; x >= 0 && y >= 0; --x, --y) {
-            Pawn pawn = grid.getPawn(new Point((double) x, y));
-            PawnColor currentColor = pawn.getColor();
-
-            if (currentColor != PawnColor.EMPTY && currentColor != playerColor) {
-                potentialPawnsToFlip.add(pawn);
-                foundEnemyPawn = true;
-            } else if (foundEnemyPawn && currentColor == playerColor) {
-                pawnsToFlip.addAll(potentialPawnsToFlip);
-                return true;
-            } else {
-                break;
-            }
-        }
         return false;
     }
 
