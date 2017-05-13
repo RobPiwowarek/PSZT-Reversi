@@ -4,33 +4,37 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.collections.*;
+
 import javafx.scene.text.Text;
+
 
 public class OptionsPanel extends StackPane
 {
     private MainMenu mainMenu;
-    TextField textField;
     
     public OptionsPanel(MainMenu menu)
     {
         mainMenu=menu;
-        
-        textField = new TextField();
-        textField.setMinSize(30, 20);
-        textField.setMaxSize(30, 20);
-        
+
+        ObservableList<String> boardSize =
+                FXCollections.observableArrayList(
+                        "8",
+                        "16",
+                        "32"
+                );
+
+        final ComboBox comboBox = new ComboBox(boardSize);
+        comboBox.setValue("8");
+
         Button button = new Button("Confirm");
-        setupSizeButton(button);
         
         Text text = new Text("Change board size:");
        
         HBox hBox = new HBox(20);
-        hBox.getChildren().addAll(text,textField);
+        hBox.getChildren().addAll(text,comboBox);
         hBox.setAlignment(Pos.CENTER);
         
         VBox vBox = new VBox(10);
@@ -38,17 +42,19 @@ public class OptionsPanel extends StackPane
         vBox.setAlignment(Pos.CENTER);
         
         getChildren().add(vBox);
+
+        setupSizeButton(button,comboBox);
     }
     
-    private void setupSizeButton(final Button sizeButton)
+    private void setupSizeButton(final Button sizeButton, final ComboBox comboBox)
     {
-         sizeButton.setOnAction(new EventHandler<ActionEvent>() 
+         sizeButton.setOnAction(new EventHandler<ActionEvent>()
          {
             @Override
-            public void handle(ActionEvent event) 
+            public void handle(ActionEvent event)
             {
                 Scene scene = sizeButton.getScene();
-                String text = textField.getText();
+                String text = comboBox.getValue().toString();;
                 if (text.matches("^-?\\d+$"))
                 {
                     int size = Integer.parseInt(text);
@@ -58,7 +64,7 @@ public class OptionsPanel extends StackPane
                         mainMenu.getGameView().setBoard(board);
                         scene.setRoot(mainMenu);
                     }
-                }   
+                }
             }
         });
     }   
