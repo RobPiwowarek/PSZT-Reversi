@@ -25,28 +25,28 @@ public class Board extends StackPane
         setupEmptyTiles();
         startingPosition();
     }
-    
+
     private void setupEmptyTiles()
     {
-        VBox vBox = new VBox();
-        vBox.setAlignment(Pos.CENTER);
-        HBox hBoxes[] = new HBox[size];
-        
-        for(int i=0;i<hBoxes.length;i++)
+        HBox hBox = new HBox();
+        hBox.setAlignment(Pos.CENTER);
+        VBox vBoxes[] = new VBox[size];
+
+        for(int i=0;i<vBoxes.length;i++)
         {
-            hBoxes[i]=new HBox();
-            hBoxes[i].setAlignment(Pos.CENTER);
+            vBoxes[i]=new VBox();
+            vBoxes[i].setAlignment(Pos.CENTER);
             for(int j=0;j<tiles.length;j++)
             {
                 tiles[i][j]=new Tile(this);
-                hBoxes[i].getChildren().add(tiles[i][j]);
+                vBoxes[i].getChildren().add(tiles[i][j]);
             }
         }
-        
-        vBox.getChildren().addAll(hBoxes);
-        getChildren().add(vBox);
+
+        hBox.getChildren().addAll(vBoxes);
+        getChildren().add(hBox);
     }
-    
+
     private void startingPosition()
     {
         int a = size/2;
