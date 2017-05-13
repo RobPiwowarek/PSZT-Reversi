@@ -1,3 +1,5 @@
+import mvc.GameController;
+
 import java.io.*;
 import java.net.*;
 
@@ -14,11 +16,14 @@ public class NetworkManager
     private MessageSender messageSender;
     private MessageReceiver messageReceiver;
 
-    public NetworkManager(int port, String host, boolean isServer)
+    private GameController gameController;
+
+    public NetworkManager(int port, String host, boolean isServer, GameController gameController)
     {
         this.port = port;
         this.host = host;
         this.isServer = isServer;
+        this.gameController = gameController;
     }
 
     public void connect()
@@ -101,7 +106,7 @@ public class NetworkManager
                     while ((object = socketIn.readObject()) != null)
                     {
                         int position[] = (int[]) object;
-                        System.out.println(position[0]+" "+position[1]);
+                        //GameController does something
                     }
                 }
             }
