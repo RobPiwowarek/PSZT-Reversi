@@ -22,10 +22,11 @@ public class GameView extends Application
         mainMenu = new MainMenu(20,this);
         board = new Board(8,this);
         
-        Scene scene = new Scene(mainMenu, 600, 600);
+        Scene scene = new Scene(mainMenu, 700, 700);
  
         primaryStage.setTitle("Reversi");
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
     

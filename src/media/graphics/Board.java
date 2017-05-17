@@ -5,6 +5,8 @@ package media.graphics;
 import mvc.GameView;
 import javafx.scene.layout.*;
 import javafx.geometry.Pos;
+import javafx.scene.paint.Color;
+import javafx.geometry.Insets;
 
 public class Board extends StackPane
 {
@@ -21,9 +23,10 @@ public class Board extends StackPane
         round=0;
         size=s;
         tiles = new Tile[size][size];
-        
+
         setupEmptyTiles();
         startingPosition();
+        setScale();
     }
 
     private void setupEmptyTiles()
@@ -45,6 +48,20 @@ public class Board extends StackPane
 
         hBox.getChildren().addAll(vBoxes);
         getChildren().add(hBox);
+    }
+
+    private void setScale()
+    {
+        if (size==16)
+        {
+            setScaleX(getScaleX() * 0.7);
+            setScaleY(getScaleY() * 0.7);
+        }
+        if (size==32)
+        {
+            setScaleX(getScaleX() * 0.4);
+            setScaleY(getScaleY() * 0.4);
+        }
     }
 
     private void startingPosition()
