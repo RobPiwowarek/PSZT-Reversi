@@ -30,8 +30,8 @@ class ImageManager
     
     ImageManager()
     {
-        whitePawnImage = new Image(getClass().getResourceAsStream("white.png"));
-        blackPawnImage = new Image(getClass().getResourceAsStream("black.png"));
-        emptyTileImage = new Image(getClass().getResourceAsStream("empty.png"));
+        whitePawnImage = new Image("file:src/resources/sprites/white.png");
+        blackPawnImage = new Image("file:src/resources/sprites/black.png");
+        emptyTileImage = new Image("file:src/resources/sprites/empty.png");
     }
 }

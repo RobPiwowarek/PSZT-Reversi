@@ -1,12 +1,8 @@
 package media.graphics;
 
-// TODO: size ma sie zmieniac od 8x8 do 32x32
-
 import mvc.GameView;
 import javafx.scene.layout.*;
 import javafx.geometry.Pos;
-import javafx.scene.paint.Color;
-import javafx.geometry.Insets;
 
 public class Board extends StackPane
 {
