@@ -1,6 +1,6 @@
-package mvc;
+package game.player;
 
-public class HumanController extends PlayerController {
+public class HumanPlayer extends Player {
 
 
     @Override

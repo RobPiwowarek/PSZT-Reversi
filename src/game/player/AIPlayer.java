@@ -1,10 +1,9 @@
-package mvc;
+package game.player;
 
 import game.actions.Action;
 import game.ai.AlphaBeta;
-import game.board.Point;
 
-public class AIController extends PlayerController {
+public class AIPlayer extends Player {
 
     final int DEPTH = 6;
 

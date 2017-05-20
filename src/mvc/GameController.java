@@ -9,7 +9,7 @@ public abstract class GameController {
 
     public abstract void move(Point p);
 
-    GameModel getModel() {
+    public GameModel getModel() {
         return model;
     }
 
