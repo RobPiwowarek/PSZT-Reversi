@@ -3,6 +3,7 @@ package game.board;
 import game.actions.Action;
 import game.actions.Pass;
 import game.actions.Place;
+import game.player.Player;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -18,6 +19,9 @@ public class GameModel implements game.ai.Game, Cloneable {
     private int whitePawnCount;
     private int blackPawnCount;
     private int passCount;
+
+    Player player;
+    Player opponent;
 
     public void switchPlayers() {
         if(currentPlayer == PawnColor.DARK) {
@@ -113,8 +117,28 @@ public class GameModel implements game.ai.Game, Cloneable {
         return this.board.canPlace(p, currentPlayer);
     }
 
+    public void placePawn(Point p){
+        board.placePawnWithoutChecking(p, currentPlayer);
+    }
+
     public boolean isOver() {
         // board full or both players were forced to pass or a player lost all their pawns
         return (blackPawnCount + whitePawnCount == board.getSize()) || (passCount >= 2) || (blackPawnCount == 0) || (whitePawnCount == 0);
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Player getOpponent() {
+        return opponent;
+    }
+
+    public void setOpponent(Player opponent) {
+        this.opponent = opponent;
     }
 }

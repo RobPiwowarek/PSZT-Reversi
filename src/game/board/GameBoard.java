@@ -67,6 +67,12 @@ public class GameBoard {
         return 0;
     }
 
+    //TODO: Aga check if this shit is correct
+    public void placePawnWithoutChecking(Point p, PawnColor color){
+        grid.addPawn(p, color);
+        moveManager.flipPawns();
+    }
+
     public void setStartingPawns()
     {
         int a = grid.getX();
