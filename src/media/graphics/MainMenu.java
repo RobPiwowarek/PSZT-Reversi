@@ -7,7 +7,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
@@ -15,7 +14,6 @@ import javax.swing.JOptionPane;
 public class MainMenu extends VBox
 {   
     private GameView gameView;
-    private OptionsPanel optionsPanel;
     
     public MainMenu(int x, GameView view)
     {
@@ -28,28 +26,28 @@ public class MainMenu extends VBox
             
     private void setupButtons()
     {
-        MyButton startButton = new MyButton("Start");
+        MyButton onlineButton = new MyButton("Play online");
         MyButton optionsButton = new MyButton("Options");
         MyButton authorButton = new MyButton("Author");
         MyButton exitButton = new MyButton("Exit");
         
-        setupStartButton(startButton);
+        setupOnlineButton(onlineButton);
         setupOptionsButton(optionsButton);
         setupAuthorButton(authorButton);
         setupExitButton(exitButton);
         
-        getChildren().addAll(startButton, optionsButton, authorButton, exitButton);
+        getChildren().addAll(onlineButton, optionsButton, authorButton, exitButton);
     }
     
-    private void setupStartButton(final Button startButton)
+    private void setupOnlineButton(final Button onlineButton)
     {
-         startButton.setOnAction(new EventHandler<ActionEvent>() 
+         onlineButton.setOnAction(new EventHandler<ActionEvent>() 
          {
             @Override
             public void handle(ActionEvent event) 
             {
-                Scene scene = startButton.getScene();
-                scene.setRoot(gameView.getBoard());
+                Scene scene = onlineButton.getScene();
+                scene.setRoot(gameView.getNetworkGUI());
             }
         });
     }
@@ -62,9 +60,8 @@ public class MainMenu extends VBox
             @Override
             public void handle(ActionEvent event) 
             {
-                OptionsPanel optionsPanel = new OptionsPanel(thisMenu);
                 Scene scene = optionsButton.getScene();
-                scene.setRoot(optionsPanel);
+                scene.setRoot(gameView.getOptionsPanel());
             }
         });
     }
@@ -115,8 +112,8 @@ class MyButton extends Button
     public MyButton(String text)
     {
         super(text);
-        setMinSize(200, 30);
-        setMaxSize(200, 30);
+        setMinSize(200, 40);
+        setMaxSize(200, 40);
         setStyle("-fx-font: 18 arial;");
     }
 }
