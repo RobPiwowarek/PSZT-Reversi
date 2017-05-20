@@ -26,19 +26,34 @@ public class MainMenu extends VBox
             
     private void setupButtons()
     {
-        MyButton onlineButton = new MyButton("Play online");
+        MyButton playButton = new MyButton("Play");
+        MyButton onlineButton = new MyButton("Network Play");
         MyButton optionsButton = new MyButton("Options");
         MyButton authorButton = new MyButton("Author");
         MyButton exitButton = new MyButton("Exit");
-        
+
+        setupPlayButton(playButton);
         setupOnlineButton(onlineButton);
         setupOptionsButton(optionsButton);
         setupAuthorButton(authorButton);
         setupExitButton(exitButton);
         
-        getChildren().addAll(onlineButton, optionsButton, authorButton, exitButton);
+        getChildren().addAll(playButton, onlineButton, optionsButton, authorButton, exitButton);
     }
-    
+
+    private void setupPlayButton(final Button onlineButton)
+    {
+        onlineButton.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                Scene scene = onlineButton.getScene();
+                scene.setRoot(gameView.getPlayGUI());
+            }
+        });
+    }
+
     private void setupOnlineButton(final Button onlineButton)
     {
          onlineButton.setOnAction(new EventHandler<ActionEvent>() 

@@ -17,6 +17,7 @@ public class GameView extends Application
     private Board board;
     OptionsPanel optionsPanel;
     NetworkGUI networkGUI;
+    PlayGUI playGUI;
 
     @Override
     public void start(Stage primaryStage) 
@@ -25,6 +26,7 @@ public class GameView extends Application
         board = new Board(8,this);
         optionsPanel = new OptionsPanel(this);
         networkGUI  = new NetworkGUI(this);
+        playGUI = new PlayGUI(this);
         
         Scene scene = new Scene(mainMenu, 700, 700, Color.WHITESMOKE);
  
@@ -68,5 +70,12 @@ public class GameView extends Application
     public void setNetworkGUI(NetworkGUI networkGUI)
     {
         this.networkGUI = networkGUI;
+    }
+
+    public PlayGUI getPlayGUI() { return playGUI; }
+
+    public void setPlayGUI(PlayGUI playGUI)
+    {
+        this.playGUI = playGUI;
     }
 }
