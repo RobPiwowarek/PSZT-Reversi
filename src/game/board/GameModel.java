@@ -9,6 +9,11 @@ import java.util.Deque;
 
 public class GameModel implements game.ai.Game, Cloneable {
     private GameBoard board;
+
+    public PawnColor getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     private PawnColor currentPlayer;
     private int whitePawnCount;
     private int blackPawnCount;
