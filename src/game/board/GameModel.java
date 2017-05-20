@@ -58,7 +58,8 @@ public class GameModel implements game.ai.Game, Cloneable {
         }
         flipCount = board.placePawn(p, currentPlayer);
         if(flipCount == 0) {
-            throw new IllegalStateException("game/GameModel:makeMove: move was not valid and resulted in 0 pawns flipped");
+            switchPlayers();
+            return;
         }
         if(currentPlayer == PawnColor.DARK) {
             blackPawnCount += flipCount + 1;
@@ -104,7 +105,7 @@ public class GameModel implements game.ai.Game, Cloneable {
     }
 
     public boolean isOver() {
-        // board full or both players were forced to pass
-        return (blackPawnCount + whitePawnCount == board.getSize()) || (passCount >= 2);
+        // board full or both players were forced to pass or a player lost all their pawns
+        return (blackPawnCount + whitePawnCount == board.getSize()) || (passCount >= 2) || (blackPawnCount == 0) || (whitePawnCount == 0);
     }
 }
