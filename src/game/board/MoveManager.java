@@ -56,15 +56,16 @@ public class MoveManager {
 
     // flip and clear could be easily merged if necessary.
 
-    public void flipPawns() {
+    int flipPawns() {
+        int size = pawnsToFlip.size();
         for (Pawn p : pawnsToFlip) {
             p.changeOwner();
         }
-
         clearPawnsQueue();
+        return size;
     }
 
-    private void clearPawnsQueue(){
+    void clearPawnsQueue(){
         pawnsToFlip.clear();
     }
 

@@ -7,16 +7,36 @@ public class GameBoard {
     public final short MAX_BOARD_SIZE = 32;
     public final short MIN_BOARD_SIZE = 8;
 
-    private MoveManager moveManager;
+    public short getSize() {
+        return size;
+    }
 
+    private short size;
+    private MoveManager moveManager;
     private Grid grid;
 
     public GameBoard() {
+        this.size = DEFAULT_BOARD_SIZE;
         grid = new Grid(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);
     }
 
-    public GameBoard(short size){
+    public GameBoard clone() {
+        GameBoard cloned = new GameBoard(size);
+        Point p;
+        PawnColor c;
+        // TODO - optimize
+        for(int x = 0; x < size; ++x) {
+            for(int y = 0; y < size; ++y) {
+                p = new Point(x,y);
+                c = getPawn(p).getColor();
+                cloned.grid.addPawn(p, c);
+            }
+        }
+        return cloned;
+    }
 
+    public GameBoard(short size){
+        this.size = size;
         if (size <= MAX_BOARD_SIZE && size >= MIN_BOARD_SIZE){
             grid = new Grid(size, size);
         }
@@ -34,13 +54,24 @@ public class GameBoard {
 
     }
 
-    public boolean placePawn(Point p){
-        if (canPlace(p, getPawn(p).getColor())){
-            moveManager.flipPawns();
+    // return how many pawns were flipped
+    public int placePawn(Point p, PawnColor color){
+        if (canPlace(p, color)){
+            grid.addPawn(p, color);
+            return moveManager.flipPawns();
         }
-        else return false;
+        return 0;
+    }
 
-        return true;
+    public void setStartingPawns()
+    {
+        int a = grid.getX();
+        int b=a-1;
+
+        grid.addPawn(new Point(a,a), PawnColor.LIGHT);
+        grid.addPawn(new Point(b,b), PawnColor.LIGHT);
+        grid.addPawn(new Point(a,b), PawnColor.DARK);
+        grid.addPawn(new Point(b,a), PawnColor.DARK);
     }
 
     private Pawn getPawn(Point p){
