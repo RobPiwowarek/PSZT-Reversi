@@ -1,7 +1,11 @@
 package mvc;
 
-//TODO: wyobrazam sobie to tak, ze roznego typu controllery (AI/GRACZ/SIECIOWY etc) zrobimy jako oddzielne klasy implementujace ten interfejs
-//TODO: co da w gruncie rzeczy tyle ze switchowanie miedzy nimi powinno byc trywialne a sporo z nich bedziemy mogli przetestowac
+import game.board.Point;
 
-public interface GameController {
+public abstract class GameController {
+
+    //TODO: gamemodel?
+    GameView view;
+
+    public abstract void makeMove(Point point);
 }

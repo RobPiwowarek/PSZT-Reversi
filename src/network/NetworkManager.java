@@ -1,3 +1,5 @@
+package network;
+import game.board.Point;
 import mvc.GameController;
 
 import java.io.*;
@@ -37,9 +39,9 @@ public class NetworkManager
         {
             messageSender.sendMessage(x, y);
         }
-        catch (IOException e)
+        catch (IOException ignored)
         {
-            ;
+
         }
     }
 
@@ -64,9 +66,9 @@ public class NetworkManager
                 messageReceiver = new MessageReceiver();
                 messageReceiver.start();
             }
-            catch (IOException e)
+            catch (IOException ignored)
             {
-                ;
+
             }
         }
     }
@@ -100,23 +102,20 @@ public class NetworkManager
         {
             try
             {
-                Object object = null;
+                Object object;
                 while (true)
                 {
                     while ((object = socketIn.readObject()) != null)
                     {
+
                         int position[] = (int[]) object;
-                        //GameController does something
+                        gameController.makeMove(new Point(position[0], position[1]));
                     }
                 }
             }
-            catch (IOException e)
+            catch (IOException | ClassNotFoundException ignored)
             {
-                ;
-            }
-            catch (ClassNotFoundException e)
-            {
-                ;
+
             }
         }
     }

@@ -3,7 +3,7 @@ package game.board;
 // TODO: size ma sie zmieniac od 8x8 do 32x32
 
 public class GameBoard {
-    public final short DEFAULT_BOARD_SIZE = 8;
+    private final short DEFAULT_BOARD_SIZE = 8;
     public final short MAX_BOARD_SIZE = 32;
     public final short MIN_BOARD_SIZE = 8;
 
@@ -29,25 +29,21 @@ public class GameBoard {
 
     }
 
-    private boolean canPlace(Point p, PawnColor color){
-        if (!grid.isEmpty(p)){
-            return false;
-        }
-        else{
-            return moveManager.checkMove(p, color);
-        }
+    private boolean canPlace(Point p, PawnColor color) {
+        return grid.isEmpty(p) && moveManager.checkMove(p, color);
 
     }
 
     public boolean placePawn(Point p){
         if (canPlace(p, getPawn(p).getColor())){
-            // TODO: niech tu bedzie wlacznik do flipowanie ownershipu na pawnach a can place niech bedzie tylko sprawdzalo legalnosc
+            moveManager.flipPawns();
         }
+        else return false;
 
         return true;
     }
 
-    public Pawn getPawn(Point p){
+    private Pawn getPawn(Point p){
         return grid.getPawn(p);
     }
 

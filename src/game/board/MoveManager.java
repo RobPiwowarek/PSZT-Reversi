@@ -28,8 +28,8 @@ public class MoveManager {
     private boolean checkInDirection(Point p, PawnColor playerColor, Point direction) {
         boolean foundEnemyPawn = false;
         ArrayDeque<Pawn> potentialPawnsToFlip = new ArrayDeque<Pawn>();
-        double dx = direction.getX();
-        double dy = direction.getY();
+        int dx = (int)direction.getX();
+        int dy = (int)direction.getY();
         Pawn pawn;
         PawnColor currentColor;
         Point currentPoint = new Point(p.getX() + dx, p.getY() + dy);
@@ -56,13 +56,16 @@ public class MoveManager {
 
     // flip and clear could be easily merged if necessary.
 
-    private void flipPawns() {
+    public void flipPawns() {
         for (Pawn p : pawnsToFlip) {
             p.changeOwner();
         }
+
+        clearPawnsQueue();
     }
 
     private void clearPawnsQueue(){
         pawnsToFlip.clear();
     }
+
 }
