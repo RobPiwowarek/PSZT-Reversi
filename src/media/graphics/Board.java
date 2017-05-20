@@ -33,7 +33,14 @@ public class Board extends StackPane {
             tiles[x][y].putNewBlackPawn();
         else
             tiles[x][y].putNewWhitePawn();
-        round++;
+    }
+
+    public Turn getTurn()
+    {
+        if (round%2==0)
+            return Turn.BLACK_TURN;
+        else
+            return Turn.WHITE_TURN;
     }
 
     private HBox setupEmptyTiles() {
