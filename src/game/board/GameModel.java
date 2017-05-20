@@ -109,7 +109,7 @@ public class GameModel implements game.ai.Game, Cloneable {
         }
     }
 
-    public boolean makeMove(Point p){
+    public boolean canPlace(Point p){
         return this.board.canPlace(p, currentPlayer);
     }
 

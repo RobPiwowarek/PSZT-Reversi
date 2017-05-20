@@ -15,10 +15,11 @@ public class NetworkController extends GameController {
         this.networkManager = networkManager;
     }
 
-    public void playerMove(Point point) {
+    //player move
+    public void move(Point point) {
         networkManager.sendMessage((int)point.getX(), (int)point.getY());
 
-        // TODO: graphics
+        this.view.getBoard().putNewPawn((int) point.getX(), (int)point.getY());
 
         this.model.switchPlayers();
     }
@@ -26,7 +27,7 @@ public class NetworkController extends GameController {
     public void enemyMove(Point point){
         this.model.makeMove(new Place((int)point.getX(), (int)point.getY()));
 
-        // TODO: graphics
+        this.view.getBoard().putNewPawn((int) point.getX(), (int)point.getY());
 
         this.model.switchPlayers();
     }
