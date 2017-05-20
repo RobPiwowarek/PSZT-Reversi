@@ -1,21 +1,34 @@
 package mvc;
 
+import game.actions.Place;
+import game.board.GameModel;
 import game.board.Point;
 import network.NetworkManager;
 
-public abstract class NetworkController extends GameController {
+public class NetworkController extends GameController {
 
-    private NetworkManager networkManager;
+    NetworkManager networkManager;
 
-    @Override
-    public void makeMove(Point point) { }
-
-    public void createNetworkManager(int port, String ip, boolean isHost) {
-        networkManager = new NetworkManager(port, ip, isHost, this);
+    public NetworkController(GameView view, GameModel model, NetworkManager networkManager) {
+        this.view = view;
+        this.model = model;
+        this.networkManager = networkManager;
     }
 
-    public void connect() {
-        networkManager.connect();
+    public void playerMove(Point point) {
+        networkManager.sendMessage((int)point.getX(), (int)point.getY());
+
+        // TODO: graphics
+
+        this.model.switchPlayers();
+    }
+
+    public void enemyMove(Point point){
+        this.model.makeMove(new Place((int)point.getX(), (int)point.getY()));
+
+        // TODO: graphics
+
+        this.model.switchPlayers();
     }
 
 }

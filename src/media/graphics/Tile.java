@@ -25,17 +25,14 @@ public class Tile extends Button
     
     private void onClick()
     {
-        setOnAction(new EventHandler<ActionEvent>() 
-        {
-            @Override public void handle(ActionEvent e) {
-                if (isEmpty)
-                {
-                    if (board.round%2==0)
-                        putNewBlackPawn();
-                    else 
-                        putNewWhitePawn();
-                    board.round++;
-                }
+        setOnAction(e -> {
+            if (isEmpty)
+            {
+                if (board.round%2==0)
+                    putNewBlackPawn();
+                else
+                    putNewWhitePawn();
+                board.round++;
             }
         });
     }

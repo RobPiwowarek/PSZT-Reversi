@@ -19,7 +19,7 @@ public class GameModel implements game.ai.Game, Cloneable {
     private int blackPawnCount;
     private int passCount;
 
-    private void switchPlayers() {
+    public void switchPlayers() {
         if(currentPlayer == PawnColor.DARK) {
             currentPlayer = PawnColor.LIGHT;
         }
@@ -84,7 +84,7 @@ public class GameModel implements game.ai.Game, Cloneable {
 
     public Deque<Action> getPossibleMoves(PawnColor color) {
         //TODO - optimize
-        ArrayDeque<Action> actions = new ArrayDeque<Action>();
+        ArrayDeque<Action> actions = new ArrayDeque<>();
         for(int x = 0; x < board.getSize(); ++x) {
             for(int y = 0; y < board.getSize(); ++y) {
                 if(board.canPlace(new Point(x,y), color)) {
@@ -107,6 +107,10 @@ public class GameModel implements game.ai.Game, Cloneable {
         else {
             return whitePawnCount - blackPawnCount;
         }
+    }
+
+    public boolean makeMove(Point p){
+        return this.board.canPlace(p, currentPlayer);
     }
 
     public boolean isOver() {

@@ -1,6 +1,7 @@
 package network;
 import game.board.Point;
 import mvc.GameController;
+import mvc.NetworkController;
 
 import java.io.*;
 import java.net.*;
@@ -18,9 +19,9 @@ public class NetworkManager
     private MessageSender messageSender;
     private MessageReceiver messageReceiver;
 
-    private GameController gameController;
+    private NetworkController gameController;
 
-    public NetworkManager(int port, String host, boolean isServer, GameController gameController)
+    public NetworkManager(int port, String host, boolean isServer, NetworkController gameController)
     {
         this.port = port;
         this.host = host;
@@ -109,7 +110,7 @@ public class NetworkManager
                     {
 
                         int position[] = (int[]) object;
-                        gameController.makeMove(new Point(position[0], position[1]));
+                        gameController.enemyMove(new Point(position[0], position[1]));
                     }
                 }
             }

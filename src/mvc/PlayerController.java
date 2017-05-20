@@ -1,12 +1,9 @@
 package mvc;
 
-import game.board.Point;
+public abstract class PlayerController {
 
-public class PlayerController extends GameController {
-    @Override
-    public void makeMove(Point point) {
+    GameController controller;
 
-    }
-
+    public abstract boolean makeMove();
 
 }

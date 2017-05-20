@@ -1,11 +1,9 @@
 package mvc;
 
+import game.board.GameModel;
 import game.board.Point;
 
 public abstract class GameController {
-
-    //TODO: gamemodel?
+    GameModel model;
     GameView view;
-
-    public abstract void makeMove(Point point);
 }
