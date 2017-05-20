@@ -6,6 +6,8 @@ import game.board.Point;
 public class LocalController extends GameController {
 
     public void move(Point point){
+        this.model.placePawn(point);
+
         this.view.getBoard().putNewPawn((int) point.getX(), (int)point.getY());
 
         this.model.switchPlayers();

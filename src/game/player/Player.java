@@ -6,6 +6,6 @@ public abstract class Player {
 
     GameController controller;
 
-    public abstract boolean makeMove();
+    public abstract void makeMove();
 
 }

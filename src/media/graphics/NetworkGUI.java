@@ -56,7 +56,7 @@ public class NetworkGUI extends StackPane
         vBox.setAlignment(Pos.CENTER);
         getChildren().add(vBox);
 
-        setupConnect(connectButton);
+        setupConnectButton(connectButton);
     }
 
     private void createToggleGroup(HBox hBox)
@@ -70,7 +70,7 @@ public class NetworkGUI extends StackPane
         hBox.getChildren().addAll(button1,button2);
     }
 
-    private void setupConnect(final Button conntectButton)
+    private void setupConnectButton(final Button conntectButton)
     {
         conntectButton.setOnAction(new EventHandler<ActionEvent>()
         {
