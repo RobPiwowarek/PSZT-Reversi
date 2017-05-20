@@ -10,14 +10,15 @@ import javafx.scene.layout.*;
 import javafx.collections.*;
 
 import javafx.scene.text.Text;
+import mvc.GameView;
 
 
 public class NetworkGUI extends StackPane
 {
-    private MainMenu mainMenu;
+    private GameView gameView;
 
-    public NetworkGUI(MainMenu menu) {
-        mainMenu = menu;
+    public NetworkGUI(GameView gameView) {
+        this.gameView=gameView;
 
         HBox hBox[] = new HBox[5];
         VBox vBox = new VBox(10);
@@ -77,7 +78,7 @@ public class NetworkGUI extends StackPane
             public void handle(ActionEvent event)
             {
                 Scene scene = conntectButton.getScene();
-                scene.setRoot(mainMenu.getGameView().getBoard());
+                scene.setRoot(gameView.getBoard());
             }
         });
     }

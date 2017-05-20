@@ -9,15 +9,16 @@ import javafx.scene.layout.*;
 import javafx.collections.*;
 
 import javafx.scene.text.Text;
+import mvc.GameView;
 
 
 public class OptionsPanel extends StackPane
 {
-    private MainMenu mainMenu;
+    private GameView gameView;
     
-    public OptionsPanel(MainMenu menu)
+    public OptionsPanel(GameView gameView)
     {
-        mainMenu=menu;
+        this.gameView=gameView;
 
         ObservableList<String> boardSize =
                 FXCollections.observableArrayList(
@@ -60,6 +61,7 @@ public class OptionsPanel extends StackPane
                     int size = Integer.parseInt(text);
                     if (size <= 32 && size >= 8)
                     {
+                        MainMenu mainMenu = gameView.getMenu();
                         Board board = new Board(size,mainMenu.getGameView());
                         mainMenu.getGameView().setBoard(board);
                         scene.setRoot(mainMenu);
