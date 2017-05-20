@@ -1,0 +1,110 @@
+package game.board;
+
+import game.actions.Action;
+import game.actions.Pass;
+import game.actions.Place;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+public class GameModel implements game.ai.Game, Cloneable {
+    private GameBoard board;
+    private PawnColor currentPlayer;
+    private int whitePawnCount;
+    private int blackPawnCount;
+    private int passCount;
+
+    private void switchPlayers() {
+        if(currentPlayer == PawnColor.DARK) {
+            currentPlayer = PawnColor.LIGHT;
+        }
+        else {
+            currentPlayer = PawnColor.DARK;
+        }
+    }
+
+    private void init(short size, PawnColor startingPlayer) {
+        this.passCount = 0;
+        this.board = new GameBoard(size);
+        this.board.setStartingPawns();
+        currentPlayer = startingPlayer;
+        blackPawnCount = whitePawnCount = 2;
+    }
+    public GameModel(short size) {
+        init(size, PawnColor.LIGHT);
+    }
+
+    public GameModel(short size, PawnColor startingPlayer) {
+        init(size, startingPlayer);
+    }
+
+    public GameModel clone() {
+        GameModel cloned = new GameModel(board.getSize());
+        cloned.currentPlayer = currentPlayer;
+        cloned.blackPawnCount = blackPawnCount;
+        cloned.whitePawnCount = whitePawnCount;
+        cloned.passCount = passCount;
+        cloned.board = board.clone();
+        return cloned;
+    }
+
+    public void makeMove(Action move) {
+        int flipCount;
+        Point p = move.getPoint();
+        if(p == null) { // pass
+            ++passCount;
+            switchPlayers();
+            return;
+        }
+        flipCount = board.placePawn(p, currentPlayer);
+        if(flipCount == 0) {
+            throw new IllegalStateException("game/GameModel:makeMove: move was not valid and resulted in 0 pawns flipped");
+        }
+        if(currentPlayer == PawnColor.DARK) {
+            blackPawnCount += flipCount + 1;
+            whitePawnCount -= flipCount;
+        }
+        else {
+            blackPawnCount -= flipCount;
+            whitePawnCount += flipCount + 1;
+        }
+        passCount = 0;
+        switchPlayers();
+    }
+
+    public Deque<Action> getPossibleMoves() {
+        return getPossibleMoves(currentPlayer);
+    }
+
+    public Deque<Action> getPossibleMoves(PawnColor color) {
+        //TODO - optimize
+        ArrayDeque<Action> actions = new ArrayDeque<Action>();
+        for(int x = 0; x < board.getSize(); ++x) {
+            for(int y = 0; y < board.getSize(); ++y) {
+                if(board.canPlace(new Point(x,y), color)) {
+                    actions.add(new Place(x, y));
+                }
+                board.clearPawnsQueue();
+            }
+        }
+        if(actions.size() == 0) {
+            actions.add(new Pass());
+        }
+        return actions;
+    }
+
+    public int getScoring() {
+        // TODO - better heuristic scoring
+        if(currentPlayer == PawnColor.DARK) {
+            return blackPawnCount - whitePawnCount;
+        }
+        else {
+            return whitePawnCount - blackPawnCount;
+        }
+    }
+
+    public boolean isOver() {
+        // board full or both players were forced to pass
+        return (blackPawnCount + whitePawnCount == board.getSize()) || (passCount >= 2);
+    }
+}

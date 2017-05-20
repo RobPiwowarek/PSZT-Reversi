@@ -13,8 +13,8 @@ public class Grid {
         tiles = new Tile[y][x];
     }
 
-    boolean addPawn(Point p, Pawn pawn){
-        tiles[(int)p.getY()][(int)p.getX()].placePawn(pawn.getColor());
+    boolean addPawn(Point p, PawnColor color){
+        tiles[(int)p.getY()][(int)p.getX()].placePawn(color);
 
         return true;
     }

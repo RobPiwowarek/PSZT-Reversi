@@ -49,9 +49,13 @@ public class GameBoard {
 
     }
 
-    private boolean canPlace(Point p, PawnColor color) {
+    boolean canPlace(Point p, PawnColor color) {
         return grid.isEmpty(p) && moveManager.checkMove(p, color);
 
+    }
+
+    void clearPawnsQueue() {
+        moveManager.clearPawnsQueue();
     }
 
     // return how many pawns were flipped

@@ -2,6 +2,8 @@ package game.ai;
 
 import game.actions.Action;
 
+import java.util.Collection;
+
 // bardzo generic AI dla dowolnej gry
 public class AlphaBeta {
     private Action chosenMove;
@@ -14,7 +16,7 @@ public class AlphaBeta {
     }
 
     private double alphaBeta(Game game, int depth, int origDepth, double alpha, double beta, boolean aiTurn) {
-        Action[] possibleMoves;
+        Collection<Action> possibleMoves;
         Game gameClone;
         double a, b, score;
 
