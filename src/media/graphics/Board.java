@@ -27,6 +27,7 @@ public class Board extends StackPane {
         setScale(hBox);
     }
 
+    public void putNewPawn(int x, int y)
     {
         if (round%2==0)
             tiles[x][y].putNewBlackPawn();
