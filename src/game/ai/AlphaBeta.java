@@ -2,7 +2,6 @@ package game.ai;
 
 import game.actions.Action;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -80,7 +79,19 @@ public class AlphaBeta {
 
     public Action play() {
         double inf = Double.POSITIVE_INFINITY;
-        alphaBeta(game, depth, depth, -inf, inf, true);
+        return play((int) inf);
+    }
+
+    // timeConstraint - nanoseconds
+    public Action play(long timeConstraint) {
+        double inf = Double.POSITIVE_INFINITY;
+        long startTime = System.nanoTime();
+        chosenMove = null; // just in case
+        // maybe zeby scislej trzymac sie time constraint mozna by
+        // w oddzielnym threadzie odliczac czas i po przekroczeniu na chama wyrzucic chosenMove
+        for(int d = 1; d < this.depth && System.nanoTime() - startTime < timeConstraint; ++d) {
+            alphaBeta(game, d, d, -inf, inf, true); // chosenMove will update
+        }
         return chosenMove;
     }
 }
