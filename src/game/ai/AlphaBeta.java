@@ -2,7 +2,9 @@ package game.ai;
 
 import game.actions.Action;
 
-import java.util.Collection;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.stream.Collectors;
 
 // bardzo generic AI dla dowolnej gry
 public class AlphaBeta {
@@ -15,9 +17,17 @@ public class AlphaBeta {
         this.depth = depth;
     }
 
+    private class GameActionPair {
+        public Game game;
+        public Action action;
+        public GameActionPair(Game game, Action action) {
+            this.game = game;
+            this.action = action;
+        }
+    }
+
     private double alphaBeta(Game game, int depth, int origDepth, double alpha, double beta, boolean aiTurn) {
         Collection<Action> possibleMoves;
-        Game gameClone;
         double a, b, score;
 
         // TODO - tablice transponowań
@@ -33,11 +43,20 @@ public class AlphaBeta {
         a = alpha;
         b = beta;
 
+        // initial sort by shallow heuristic value
+        List<GameActionPair> cloneList = possibleMoves
+                .stream()
+                .map(m -> {
+                    Game clone = game.clone();
+                    clone.makeMove(m);
+                    return new GameActionPair(clone, m);
+                })
+                .sorted(Comparator.comparingInt(c -> c.game.getScoring()))
+                .collect(Collectors.toList());
+
         if (!aiTurn) {
-            for (Action move : possibleMoves) {
-                gameClone = game.clone();
-                gameClone.makeMove(move);
-                score = alphaBeta(gameClone, depth - 1, origDepth, a, b, true);
+            for (GameActionPair cloneMove : cloneList) {
+                score = alphaBeta(cloneMove.game, depth - 1, origDepth, a, b, true);
                 if (score < b) {
                     b = score;
                 }
@@ -45,14 +64,12 @@ public class AlphaBeta {
             }
             return b;
         } else {
-            for (Action move : possibleMoves) {
-                gameClone = game.clone();
-                gameClone.makeMove(move);
-                score = alphaBeta(gameClone, depth - 1, origDepth, a, b, false);
+            for (GameActionPair cloneMove : cloneList) {
+                score = alphaBeta(cloneMove.game, depth - 1, origDepth, a, b, false);
                 if (score > a) {
                     a = score;
                     if (depth == origDepth) { // wrocilismy do root nodea
-                        chosenMove = move;
+                        chosenMove = cloneMove.action;
                     }
                 }
                 if (a >= b) break; // odcinamy branch beta

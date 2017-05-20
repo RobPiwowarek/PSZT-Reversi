@@ -12,7 +12,7 @@ public interface Game {
 
     Collection<Action> getPossibleMoves();
 
-    int getScoring(); // jak dobry jest board dla obecnego gracza
+    int getScoring(); // jak dobry jest board dla NIE obecnego gracza i think
 
     boolean isOver();
 }
