@@ -23,8 +23,8 @@ public class GameView extends Application
     {
         mainMenu = new MainMenu(20,this);
         board = new Board(8,this);
-        optionsPanel = new OptionsPanel(mainMenu);
-        networkGUI  = new NetworkGUI(mainMenu);
+        optionsPanel = new OptionsPanel(this);
+        networkGUI  = new NetworkGUI(this);
         
         Scene scene = new Scene(mainMenu, 700, 700, Color.WHITESMOKE);
  
