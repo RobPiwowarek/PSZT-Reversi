@@ -1,5 +1,6 @@
 package media.graphics;
 
+import game.board.Point;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import mvc.GameView;
@@ -52,7 +53,7 @@ public class Board extends StackPane {
             vBoxes[i] = new VBox();
             vBoxes[i].setAlignment(Pos.CENTER);
             for (int j = 0; j < tiles.length; j++) {
-                tiles[i][j] = new Tile(this);
+                tiles[i][j] = new Tile(this, new Point(j, i)); // inverted because i in double for loop is like y-coordinate
                 vBoxes[i].getChildren().add(tiles[i][j]);
             }
         }
@@ -93,6 +94,10 @@ public class Board extends StackPane {
         stackPane.setAlignment(Pos.TOP_LEFT);
         stackPane.getChildren().add(clockText);
         getChildren().add(stackPane);
+    }
+
+    GameView getGameView() {
+        return gameView;
     }
 
     public void show() {

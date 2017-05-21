@@ -10,9 +10,10 @@ public abstract class GameController {
 
     public abstract void move(Point p);
 
-    protected void humanMove(Point p){
+    // todo: aga sprawdz to i onclick w klasie Tile, czy to ma sens? czy nie wyjdzie czasem tak ze wywolamy to gunwo jak nie mamy ludzkiego gracza?
+    public boolean humanMove(Point p){
         HumanPlayer player = (HumanPlayer)this.model.getPlayer();
-        player.checkMove(p);
+        return player.checkMove(p);
     }
 
     public GameModel getModel() {

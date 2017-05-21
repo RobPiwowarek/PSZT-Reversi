@@ -5,6 +5,7 @@
  */
 package mvc;
 
+import game.player.Player;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
@@ -15,6 +16,7 @@ public class GameView extends Application
 {
     private MainMenu mainMenu;
     private Board board;
+    private GameController gameController;
     OptionsPanel optionsPanel;
     NetworkGUI networkGUI;
     PlayGUI playGUI;
@@ -35,8 +37,16 @@ public class GameView extends Application
         primaryStage.setMaximized(true);
         primaryStage.show();
     }
-    
-    public static void main(String[] args) 
+
+    public GameController getGameController() {
+        return gameController;
+    }
+
+    public void setGameController(GameController gameController) {
+        this.gameController = gameController;
+    }
+
+    public static void main(String[] args)
     {
         launch(args);
     }

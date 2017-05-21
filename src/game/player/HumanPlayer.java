@@ -6,13 +6,15 @@ public class HumanPlayer extends Player {
 
     private Point legalMove;
 
-    public void checkMove(Point point) {
+    public boolean checkMove(Point point) {
         if (controller.getModel().canPlace(point)){
             legalMove = point;
             makeMove();
+            return true;
         }
         else {
             // TODO: some info back to the player to know he fucked up??
+            return false;
         }
     }
 

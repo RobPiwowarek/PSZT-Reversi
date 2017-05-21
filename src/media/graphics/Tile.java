@@ -1,20 +1,23 @@
 package media.graphics;
 
+import game.board.Point;
 import javafx.scene.control.Button;
 import javafx.event.*;
 
 public class Tile extends Button
 {
+    private Point locationOnBoard;
     private final PawnSprite pawnSprite;
     private final Board board;
     private boolean isEmpty;
             
-    public Tile(Board b)
+    public Tile(Board b, Point location)
     {
         board=b;
         isEmpty=true;
         pawnSprite=new PawnSprite();
-        
+        locationOnBoard = location;
+
         setMinSize(50, 50);
         setMaxSize(50, 50);
         setGraphic(pawnSprite);
@@ -26,7 +29,8 @@ public class Tile extends Button
     private void onClick()
     {
         setOnAction(e -> {
-            if (isEmpty)
+
+            if (isEmpty && board.getGameView().getGameController().humanMove(locationOnBoard))
             {
                 if (board.round%2==0)
                     putNewBlackPawn();
