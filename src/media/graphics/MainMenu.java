@@ -120,15 +120,16 @@ public class MainMenu extends VBox
     {
         return gameView;
     }
-}
 
-class MyButton extends Button
-{
-    public MyButton(String text)
+    private class MyButton extends Button
     {
-        super(text);
-        setMinSize(200, 40);
-        setMaxSize(200, 40);
-        setStyle("-fx-font: 18 arial;");
+        public MyButton(String text)
+        {
+            super(text);
+            setMinSize(200, 40);
+            setMaxSize(200, 40);
+            setStyle("-fx-font: 18 arial;");
+        }
     }
 }
+

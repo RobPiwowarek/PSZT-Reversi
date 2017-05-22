@@ -1,20 +1,23 @@
 package media.graphics;
 
 import game.board.Point;
+import javafx.geometry.*;
+import javafx.scene.control.Button;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import mvc.GameView;
 import javafx.scene.layout.*;
-import javafx.geometry.Pos;
+import javafx.scene.control.*;
+
+import java.awt.*;
 
 public class Board extends StackPane {
     private final GameView gameView;
-
     private final Tile[][] tiles;
-
     private final int size;
     int round;
     private Text clockText;
+
 
     public Board(int s, GameView view) {
         gameView = view;
@@ -26,6 +29,8 @@ public class Board extends StackPane {
         HBox hBox = setupEmptyTiles();
         startingPosition();
         setScale(hBox);
+
+        setupButtons();
     }
 
     public void putNewPawn(int x, int y)
@@ -44,7 +49,24 @@ public class Board extends StackPane {
             return Turn.WHITE_TURN;
     }
 
-    private HBox setupEmptyTiles() {
+    private void setupButtons()
+    {
+        MyButton passButton = new MyButton("Pass");
+        setupPassButton(passButton);
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().add(passButton);
+        stackPane.setAlignment(Pos.CENTER_RIGHT);
+        setPadding(new javafx.geometry.Insets(20));
+        getChildren().add(stackPane);
+    }
+
+    private void setupPassButton(Button passButton)
+    {
+
+    }
+
+    private HBox setupEmptyTiles()
+    {
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
         VBox vBoxes[] = new VBox[size];
@@ -108,6 +130,14 @@ public class Board extends StackPane {
         setVisible(false);
     }
 
+    private class MyButton extends Button {
+        public MyButton(String text) {
+            super(text);
+            setMinSize(100, 40);
+            setMaxSize(100, 40);
+            setStyle("-fx-font: 12 arial;");
+        }
+    }
 }
 
 

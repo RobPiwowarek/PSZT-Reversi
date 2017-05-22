@@ -13,18 +13,16 @@ import javafx.scene.text.Text;
 import mvc.GameView;
 
 
-public class NetworkGUI extends StackPane
-{
+public class NetworkGUI extends StackPane {
     private GameView gameView;
 
     public NetworkGUI(GameView gameView) {
-        this.gameView=gameView;
+        this.gameView = gameView;
 
-        HBox hBox[] = new HBox[5];
+        HBox hBox[] = new HBox[6];
         VBox vBox = new VBox(10);
 
-        for (int i = 0; i < hBox.length; i++)
-        {
+        for (int i = 0; i < hBox.length; i++) {
             hBox[i] = new HBox(10);
             hBox[i].setAlignment(Pos.CENTER);
         }
@@ -32,11 +30,10 @@ public class NetworkGUI extends StackPane
         Text text[] = new Text[2];
         TextField textField[] = new MyTextField[2];
 
-        String string1[] = {"IP","Port"};
-        String string2[] = {"localhost","4444"};
+        String string1[] = {"IP", "Port"};
+        String string2[] = {"localhost", "4444"};
 
-        for (int i = 0; i < text.length; i++)
-        {
+        for (int i = 0; i < text.length; i++) {
             text[i] = new Text(string1[i]);
             textField[i] = new MyTextField(string2[i]);
             hBox[i].getChildren().addAll(text[i], textField[i]);
@@ -47,49 +44,66 @@ public class NetworkGUI extends StackPane
 
         createToggleGroup(hBox[3]);
 
-        Button connectButton = new Button("Connect");
+        MyButton connectButton = new MyButton("Connect");
         hBox[4].getChildren().add(connectButton);
+        setupConnectButton(connectButton);
+
+        MyButton menuButton = new MyButton("MainMenu");
+        hBox[5].getChildren().add(menuButton);
+        setupMenuButton(menuButton);
 
         for (int i = 0; i < hBox.length; i++)
             vBox.getChildren().add(hBox[i]);
 
         vBox.setAlignment(Pos.CENTER);
         getChildren().add(vBox);
-
-        setupConnectButton(connectButton);
     }
 
-    private void createToggleGroup(HBox hBox)
-    {
+    private void createToggleGroup(HBox hBox) {
         ToggleGroup group = new ToggleGroup();
         RadioButton button1 = new RadioButton("Player mode");
         button1.setToggleGroup(group);
         button1.setSelected(true);
         RadioButton button2 = new RadioButton("AI mode");
         button2.setToggleGroup(group);
-        hBox.getChildren().addAll(button1,button2);
+        hBox.getChildren().addAll(button1, button2);
     }
 
-    private void setupConnectButton(final Button conntectButton)
-    {
-        conntectButton.setOnAction(new EventHandler<ActionEvent>()
-        {
+    private void setupConnectButton(final Button conntectButton) {
+        conntectButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event)
-            {
+            public void handle(ActionEvent event) {
                 Scene scene = conntectButton.getScene();
                 scene.setRoot(gameView.getBoard());
             }
         });
     }
-}
 
-class MyTextField extends TextField
-{
-    MyTextField(String string)
-    {
-        super(string);
-        setMinWidth(100);
-        setMaxWidth(100);
+    private void setupMenuButton(final Button menuButton) {
+        menuButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Scene scene = menuButton.getScene();
+                scene.setRoot(gameView.getMenu());
+            }
+        });
     }
+
+    private class MyTextField extends TextField {
+        MyTextField(String string) {
+            super(string);
+            setMinWidth(100);
+            setMaxWidth(100);
+        }
+    }
+
+    private class MyButton extends Button {
+        public MyButton(String text) {
+            super(text);
+            setMinSize(100, 40);
+            setMaxSize(100, 40);
+            setStyle("-fx-font: 12 arial;");
+        }
+    }
+
 }

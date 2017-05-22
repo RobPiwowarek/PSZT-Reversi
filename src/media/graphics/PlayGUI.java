@@ -23,13 +23,16 @@ public class PlayGUI extends StackPane
         HBox hBox = new HBox(20);
         hBox.setAlignment(Pos.CENTER);
 
-        Button playButton = new Button("Play");
+        MyButton playButton = new MyButton("Play");
         setupPlayButton(playButton);
+
+        MyButton menuButton = new MyButton("MainMenu");
+        setupMenuButton(menuButton);
 
         createToggleGroup(hBox);
 
         VBox vBox = new VBox(20);
-        vBox.getChildren().addAll(hBox,playButton);
+        vBox.getChildren().addAll(hBox,playButton, menuButton);
         vBox.setAlignment(Pos.CENTER);
 
         getChildren().add(vBox);
@@ -63,5 +66,27 @@ public class PlayGUI extends StackPane
                 scene.setRoot(gameView.getBoard());
             }
         });
+    }
+
+    private void setupMenuButton(final Button menuButton)
+    {
+        menuButton.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                Scene scene = menuButton.getScene();
+                scene.setRoot(gameView.getMenu());
+            }
+        });
+    }
+
+    private class MyButton extends Button {
+        public MyButton(String text) {
+            super(text);
+            setMinSize(100, 40);
+            setMaxSize(100, 40);
+            setStyle("-fx-font: 12 arial;");
+        }
     }
 }
