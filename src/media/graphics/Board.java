@@ -1,15 +1,14 @@
 package media.graphics;
 
 import game.board.Point;
-import javafx.geometry.*;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import mvc.GameView;
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
-
-import java.awt.*;
 
 public class Board extends StackPane {
     private final GameView gameView;
@@ -33,24 +32,21 @@ public class Board extends StackPane {
         setupButtons();
     }
 
-    public void putNewPawn(int x, int y)
-    {
-        if (round%2==0)
+    public void putNewPawn(int x, int y) {
+        if (round % 2 == 0)
             tiles[x][y].putNewBlackPawn();
         else
             tiles[x][y].putNewWhitePawn();
     }
 
-    public Turn getTurn()
-    {
-        if (round%2==0)
+    public Turn getTurn() {
+        if (round % 2 == 0)
             return Turn.BLACK_TURN;
         else
             return Turn.WHITE_TURN;
     }
 
-    private void setupButtons()
-    {
+    private void setupButtons() {
         MyButton passButton = new MyButton("Pass");
         setupPassButton(passButton);
         StackPane stackPane = new StackPane();
@@ -60,13 +56,11 @@ public class Board extends StackPane {
         getChildren().add(stackPane);
     }
 
-    private void setupPassButton(Button passButton)
-    {
+    private void setupPassButton(Button passButton) {
 
     }
 
-    private HBox setupEmptyTiles()
-    {
+    private HBox setupEmptyTiles() {
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
         VBox vBoxes[] = new VBox[size];

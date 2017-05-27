@@ -1,14 +1,14 @@
 package media.graphics;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.collections.*;
-
+import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import mvc.GameView;
 
@@ -70,22 +70,16 @@ public class NetworkGUI extends StackPane {
     }
 
     private void setupConnectButton(final Button conntectButton) {
-        conntectButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Scene scene = conntectButton.getScene();
-                scene.setRoot(gameView.getBoard());
-            }
+        conntectButton.setOnAction(event -> {
+            Scene scene = conntectButton.getScene();
+            scene.setRoot(gameView.getBoard());
         });
     }
 
     private void setupMenuButton(final Button menuButton) {
-        menuButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Scene scene = menuButton.getScene();
-                scene.setRoot(gameView.getMenu());
-            }
+        menuButton.setOnAction(event -> {
+            Scene scene = menuButton.getScene();
+            scene.setRoot(gameView.getMenu());
         });
     }
 

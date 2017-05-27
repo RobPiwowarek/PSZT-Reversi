@@ -1,35 +1,30 @@
 package media.graphics;
 
-import javafx.scene.image.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-public class PawnSprite extends ImageView
-{
+public class PawnSprite extends ImageView {
     static ImageManager imageManager = new ImageManager();
-    
-    PawnSprite()
-    {
+
+    PawnSprite() {
         setImage(imageManager.emptyTileImage);
     }
-    
-    public void setBlackPawn()
-    {
+
+    public void setBlackPawn() {
         setImage(imageManager.blackPawnImage);
     }
-    
-    public void setWhitePawn()
-    {
+
+    public void setWhitePawn() {
         setImage(imageManager.whitePawnImage);
     }
 }
 
-class ImageManager
-{
+class ImageManager {
     public Image blackPawnImage;
     public Image whitePawnImage;
     public Image emptyTileImage;
-    
-    ImageManager()
-    {
+
+    ImageManager() {
         whitePawnImage = new Image("file:src/resources/sprites/white.png");
         blackPawnImage = new Image("file:src/resources/sprites/black.png");
         emptyTileImage = new Image("file:src/resources/sprites/empty.png");

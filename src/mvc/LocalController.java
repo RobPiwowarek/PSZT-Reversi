@@ -1,20 +1,18 @@
 package mvc;
 
-import game.board.GameModel;
 import game.board.Point;
 
 public class LocalController extends GameController {
 
-    public void move(Point point){
-        this.model.placePawn(point);
+    public void move(Point point) {
+        this.controller.placePawn(point);
 
-        this.view.getBoard().putNewPawn((int) point.getX(), (int)point.getY());
+        this.controller.putNewPawnOnBoard((int) point.getX(), (int) point.getY());
 
-        this.model.switchPlayers();
+        this.controller.switchPlayers();
     }
 
-    public LocalController(GameView view, GameModel model) {
-        this.view = view;
-        this.model = model;
+    public LocalController(Controller controller) {
+        this.controller = controller;
     }
 }

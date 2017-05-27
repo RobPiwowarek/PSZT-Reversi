@@ -7,7 +7,7 @@ public class HumanPlayer extends Player {
     private Point legalMove;
 
     public boolean checkMove(Point point) {
-        if (controller.getModel().canPlace(point)){
+        if (controller.canPlace(point)){
             legalMove = point;
             makeMove();
             return true;

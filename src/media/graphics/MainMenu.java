@@ -1,31 +1,27 @@
 package media.graphics;
 
-import mvc.GameView;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javax.swing.JOptionPane;
+import mvc.GameView;
 
-public class MainMenu extends VBox
-{   
+import javax.swing.*;
+
+public class MainMenu extends VBox {
     private GameView gameView;
-    
-    public MainMenu(int x, GameView view)
-    {
+
+    public MainMenu(int x, GameView view) {
         super(20);
         setPadding(new Insets(5));
         setAlignment(Pos.CENTER);
         setupButtons();
         gameView = view;
     }
-            
-    private void setupButtons()
-    {
+
+    private void setupButtons() {
         MyButton playButton = new MyButton("Play");
         MyButton onlineButton = new MyButton("Network Play");
         MyButton optionsButton = new MyButton("Options");
@@ -37,94 +33,57 @@ public class MainMenu extends VBox
         setupOptionsButton(optionsButton);
         setupAuthorButton(authorButton);
         setupExitButton(exitButton);
-        
+
         getChildren().addAll(playButton, onlineButton, optionsButton, authorButton, exitButton);
     }
 
-    private void setupPlayButton(final Button onlineButton)
-    {
-        onlineButton.setOnAction(new EventHandler<ActionEvent>()
-        {
-            @Override
-            public void handle(ActionEvent event)
-            {
-                Scene scene = onlineButton.getScene();
-                scene.setRoot(gameView.getPlayGUI());
-            }
+    private void setupPlayButton(final Button onlineButton) {
+        onlineButton.setOnAction(event -> {
+            Scene scene = onlineButton.getScene();
+            scene.setRoot(gameView.getPlayGUI());
         });
     }
 
-    private void setupOnlineButton(final Button onlineButton)
-    {
-         onlineButton.setOnAction(new EventHandler<ActionEvent>() 
-         {
-            @Override
-            public void handle(ActionEvent event) 
-            {
-                Scene scene = onlineButton.getScene();
-                scene.setRoot(gameView.getNetworkGUI());
-            }
+    private void setupOnlineButton(final Button onlineButton) {
+        onlineButton.setOnAction(event -> {
+            Scene scene = onlineButton.getScene();
+            scene.setRoot(gameView.getNetworkGUI());
         });
     }
-    
-    private void setupOptionsButton(final Button optionsButton)
-    {
-        final MainMenu thisMenu=this;
-        optionsButton.setOnAction(new EventHandler<ActionEvent>() 
-        {
-            @Override
-            public void handle(ActionEvent event) 
-            {
-                Scene scene = optionsButton.getScene();
-                scene.setRoot(gameView.getOptionsPanel());
-            }
+
+    private void setupOptionsButton(final Button optionsButton) {
+        final MainMenu thisMenu = this;
+        optionsButton.setOnAction(event -> {
+            Scene scene = optionsButton.getScene();
+            scene.setRoot(gameView.getOptionsPanel());
         });
     }
-    
-    private void setupAuthorButton(Button authorButton)
-    {
-         authorButton.setOnAction(new EventHandler<ActionEvent>() 
-         {
-            @Override
-            public void handle(ActionEvent event) 
-            {
-                JOptionPane.showMessageDialog(null, "git push -fml\nschnutzer@tumblr\nlolidestroyer69", "Author", JOptionPane.INFORMATION_MESSAGE);
-            }
+
+    private void setupAuthorButton(Button authorButton) {
+        authorButton.setOnAction(event -> JOptionPane.showMessageDialog(null, "git push -fml\nschnutzer@tumblr\nlolidestroyer69", "Author", JOptionPane.INFORMATION_MESSAGE));
+    }
+
+    private void setupExitButton(final Button exitButton) {
+        exitButton.setOnAction(event -> {
+            Stage stage = (Stage) exitButton.getScene().getWindow();
+            stage.close();
         });
     }
-    
-    private void setupExitButton(final Button exitButton)
-    {
-         exitButton.setOnAction(new EventHandler<ActionEvent>() 
-         {
-            @Override
-            public void handle(ActionEvent event) 
-            {
-                Stage stage = (Stage) exitButton.getScene().getWindow();
-                stage.close();
-            }
-        });
-    }
-    
-    public void show()
-    {
+
+    public void show() {
         setVisible(true);
     }
-    
-    public void hide()
-    {
+
+    public void hide() {
         setVisible(false);
     }
-    
-    public GameView getGameView()
-    {
+
+    public GameView getGameView() {
         return gameView;
     }
 
-    private class MyButton extends Button
-    {
-        public MyButton(String text)
-        {
+    private class MyButton extends Button {
+        public MyButton(String text) {
             super(text);
             setMinSize(200, 40);
             setMaxSize(200, 40);
