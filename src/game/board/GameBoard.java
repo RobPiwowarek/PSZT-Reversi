@@ -77,7 +77,7 @@ public class GameBoard {
 
     public void setStartingPawns()
     {
-        int a = grid.getX();
+        int a = grid.getX() / 2;
         int b=a-1;
 
         grid.addPawn(new Point(a,a), PawnColor.LIGHT);
