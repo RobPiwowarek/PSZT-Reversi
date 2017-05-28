@@ -1,5 +1,6 @@
 package media.graphics;
 
+import game.PlayerType;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,6 +17,11 @@ import mvc.GameView;
 public class NetworkGUI extends StackPane {
     private GameView gameView;
 
+    private RadioButton hostButton;
+    private RadioButton playerModeButton;
+    private RadioButton aiModeButton;
+    private TextField textField[];
+
     public NetworkGUI(GameView gameView) {
         this.gameView = gameView;
 
@@ -28,7 +34,7 @@ public class NetworkGUI extends StackPane {
         }
 
         Text text[] = new Text[2];
-        TextField textField[] = new MyTextField[2];
+        textField = new MyTextField[2];
 
         String string1[] = {"IP", "Port"};
         String string2[] = {"localhost", "4444"};
@@ -39,8 +45,8 @@ public class NetworkGUI extends StackPane {
             hBox[i].getChildren().addAll(text[i], textField[i]);
         }
 
-        RadioButton radioButton = new RadioButton("Host");
-        hBox[2].getChildren().add(radioButton);
+        hostButton = new RadioButton("Host");
+        hBox[2].getChildren().add(hostButton);
 
         createToggleGroup(hBox[3]);
 
@@ -52,8 +58,7 @@ public class NetworkGUI extends StackPane {
         hBox[5].getChildren().add(menuButton);
         setupMenuButton(menuButton);
 
-        for (int i = 0; i < hBox.length; i++)
-            vBox.getChildren().add(hBox[i]);
+        for (HBox aHBox : hBox) vBox.getChildren().add(aHBox);
 
         vBox.setAlignment(Pos.CENTER);
         getChildren().add(vBox);
@@ -61,18 +66,24 @@ public class NetworkGUI extends StackPane {
 
     private void createToggleGroup(HBox hBox) {
         ToggleGroup group = new ToggleGroup();
-        RadioButton button1 = new RadioButton("Player mode");
-        button1.setToggleGroup(group);
-        button1.setSelected(true);
-        RadioButton button2 = new RadioButton("AI mode");
-        button2.setToggleGroup(group);
-        hBox.getChildren().addAll(button1, button2);
+        playerModeButton = new RadioButton("Player mode");
+        playerModeButton.setToggleGroup(group);
+        playerModeButton.setSelected(true);
+        aiModeButton = new RadioButton("AI mode");
+        aiModeButton.setToggleGroup(group);
+        hBox.getChildren().addAll(playerModeButton, aiModeButton);
     }
 
-    private void setupConnectButton(final Button conntectButton) {
-        conntectButton.setOnAction(event -> {
-            Scene scene = conntectButton.getScene();
+    private void setupConnectButton(final Button connectButton) {
+        connectButton.setOnAction(event -> {
+            Scene scene = connectButton.getScene();
             scene.setRoot(gameView.getBoard());
+
+            if (playerModeButton.isSelected())
+                this.gameView.getGameController().createHumanVsHumanNetworkController(!hostButton.isSelected(), PlayerType.HUMAN, Integer.valueOf(textField[1].getText()), textField[0].getText());
+            else {
+                this.gameView.getGameController().createHumanVsHumanNetworkController(!hostButton.isSelected(), PlayerType.AI, Integer.valueOf(textField[1].getText()), textField[0].getText());
+            }
         });
     }
 

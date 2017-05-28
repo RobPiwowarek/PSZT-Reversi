@@ -1,6 +1,6 @@
 package game.board;
 
-import game.PlayerType;
+import game.Player;
 import game.actions.Action;
 import game.actions.Pass;
 import game.actions.Place;
@@ -15,16 +15,16 @@ public class GameModel implements game.ai.Game, Cloneable {
     private int nplayer = 0;
     private int nopponent = 1;
 
-    private PlayerType[] players;
+    private Player[] players;
     private int whitePawnCount;
     private int blackPawnCount;
     private int passCount;
 
-    public PlayerType getCurrentPlayer() {
+    public Player getCurrentPlayer() {
         return players[nplayer];
     }
     public PawnColor getCurrentPlayerColor() { return players[nplayer].getColor(); }
-    public void setPlayers(PlayerType p1, PlayerType p2)
+    public void setPlayers(Player p1, Player p2)
     {
         players[0] = p1;
         players[1] = p2;
@@ -37,7 +37,7 @@ public class GameModel implements game.ai.Game, Cloneable {
     }
 
     public GameModel(short size) {
-        this.players = new PlayerType[2];
+        this.players = new Player[2];
         this.passCount = 0;
         this.board = new GameBoard(size);
         this.board.setStartingPawns();

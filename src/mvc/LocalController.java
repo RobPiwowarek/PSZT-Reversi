@@ -1,13 +1,12 @@
 package mvc;
 
-import game.PlayerType;
 import game.board.Point;
 
 public class LocalController extends GameController {
 
     public void move(Point point) {
-        /*
-        switch (player) {
+
+        switch (controller.getCurrentPlayer().getPlayerType()) {
             case HUMAN:
                 controller.placePawn(point);
                 controller.putNewPawnOnBoard((int) point.getX(), (int) point.getY());
@@ -20,7 +19,6 @@ public class LocalController extends GameController {
                 // todo;
                 break;
         }
-        */
 
     }
 

@@ -1,12 +1,17 @@
 package mvc;
 
-import game.board.GameModel;
-import game.board.Point;
+import game.Player;
 import game.PlayerType;
+import game.board.GameModel;
+import game.board.PawnColor;
+import game.board.Point;
+import network.NetworkManager;
+
 
 public class Controller {
     private GameView gameView;
     private GameModel gameModel;
+    private NetworkManager networkManager;
 
     private GameController gameController;
 
@@ -36,7 +41,7 @@ public class Controller {
     }
 
     public boolean isCurrentPlayerHuman(){
-       // return gameModel.getCurrentPlayer() == gameController.getColor();
+       return gameModel.getCurrentPlayer().getPlayerType() == PlayerType.HUMAN;
     }
 
     public void move(Point point) {
@@ -47,14 +52,57 @@ public class Controller {
         return gameModel.canPlace(point);
     }
 
+    public Player getCurrentPlayer(){
+        return gameModel.getCurrentPlayer();
+    }
+
+    public PawnColor getCurrentPlayerColor(){
+        return gameModel.getCurrentPlayer().getColor();
+    }
+
+    public void createNetworkManager(int port, String host, boolean isServer){
+        networkManager = new NetworkManager(port, host, isServer);
+    }
+
+    public void createHumanVsHumanNetworkController(boolean isRemotePlayerHost, PlayerType HumanOrAI, int port, String host){
+        createNetworkManager(port, host, !isRemotePlayerHost);
+        NetworkController networkController = new NetworkController(this, networkManager);
+        networkManager.setGameController(networkController);
+
+        Player player1, player2;
+
+        if (isRemotePlayerHost){
+            player1 = new Player(PawnColor.LIGHT, HumanOrAI);
+            player2 = new Player(PawnColor.DARK, PlayerType.NETWORK);
+            gameModel.setPlayers(player2, player1);
+        }
+        else {
+            player2 = new Player(PawnColor.LIGHT, PlayerType.NETWORK);
+            player1 = new Player(PawnColor.DARK, HumanOrAI);
+            gameModel.setPlayers(player1, player2);
+        }
+
+        gameController = networkController;
+    }
+
     public void createHumanVsHumanLocalController() {
         LocalController localController = new LocalController(this);
+        Player player1 = new Player(PawnColor.DARK, PlayerType.HUMAN);
+        Player player2 = new Player(PawnColor.LIGHT, PlayerType.HUMAN);
+
+        gameModel.setPlayers(player1, player2);
 
         gameController = localController;
     }
 
+    // TODO: jakas mozliwosc decyzji kto zaczyna?
     public void createHumanVsAILocalController() {
         LocalController localController = new LocalController(this);
+
+        Player player1 = new Player(PawnColor.DARK, PlayerType.HUMAN);
+        Player player2 = new Player(PawnColor.LIGHT, PlayerType.AI);
+
+        gameModel.setPlayers(player1, player2);
 
         gameController = localController;
 
@@ -62,6 +110,11 @@ public class Controller {
 
     public void createAIvsAILocalController() {
         LocalController localController = new LocalController(this);
+
+        Player player1 = new Player(PawnColor.DARK, PlayerType.AI);
+        Player player2 = new Player(PawnColor.LIGHT, PlayerType.AI);
+
+        gameModel.setPlayers(player1, player2);
 
         gameController = localController;
 

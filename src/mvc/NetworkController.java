@@ -14,13 +14,22 @@ public class NetworkController extends GameController {
 
     //player move
     public void move(Point point) {
-        networkManager.sendMessage((int) point.getX(), (int) point.getY());
+        switch (controller.getCurrentPlayer().getPlayerType()) {
+            case HUMAN:
+                networkManager.sendMessage((int) point.getX(), (int) point.getY());
+                this.controller.placePawn(point);
+                this.controller.putNewPawnOnBoard((int) point.getX(), (int) point.getY());
+                this.controller.switchPlayers();
+                break;
+            case AI:
+                // TODO;
+                break;
+            default:
+                // todo;
+                break;
+        }
 
-        this.controller.placePawn(point);
 
-        this.controller.putNewPawnOnBoard((int) point.getX(), (int) point.getY());
-
-        this.controller.switchPlayers();
     }
 
     public void enemyMove(Point point) {

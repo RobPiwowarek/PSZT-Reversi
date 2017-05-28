@@ -21,11 +21,14 @@ public class NetworkManager
 
     private NetworkController gameController;
 
-    public NetworkManager(int port, String host, boolean isServer, NetworkController gameController)
+    public NetworkManager(int port, String host, boolean isServer)
     {
         this.port = port;
         this.host = host;
         this.isServer = isServer;
+    }
+
+    public void setGameController(NetworkController gameController) {
         this.gameController = gameController;
     }
 
