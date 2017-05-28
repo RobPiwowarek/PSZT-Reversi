@@ -28,6 +28,10 @@ public class Controller {
         this.gameController = gameController;
     }
 
+    public void setGameModelSize(short size){
+        gameModel.setSize(size);
+    }
+
     public void placePawn(Point point) {
         this.gameModel.placePawn(point);
     }

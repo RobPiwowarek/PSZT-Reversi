@@ -16,6 +16,8 @@ import mvc.GameView;
 public class OptionsPanel extends StackPane {
     private GameView gameView;
 
+    final ComboBox comboBox;
+
     public OptionsPanel(GameView gameView) {
         this.gameView = gameView;
 
@@ -26,7 +28,7 @@ public class OptionsPanel extends StackPane {
                         "32"
                 );
 
-        final ComboBox comboBox = new ComboBox(boardSize);
+        comboBox = new ComboBox(boardSize);
         comboBox.setValue("8");
 
         Button button = new Button("Confirm");
@@ -43,23 +45,25 @@ public class OptionsPanel extends StackPane {
 
         getChildren().add(vBox);
 
-        setupSizeButton(button, comboBox);
+        setupSizeButton(button);
     }
 
-    private void setupSizeButton(final Button sizeButton, final ComboBox comboBox) {
+    private void setupSizeButton(final Button sizeButton) {
         sizeButton.setOnAction(event -> {
             Scene scene = sizeButton.getScene();
             String text = comboBox.getValue().toString();
-            ;
-            if (text.matches("^-?\\d+$")) {
-                int size = Integer.parseInt(text);
-                if (size <= 32 && size >= 8) {
+
+            short size = Short.valueOf(text);
+            if (size <= 32 && size >= 8) {
                     MainMenu mainMenu = gameView.getMenu();
                     Board board = new Board(size, mainMenu.getGameView());
                     mainMenu.getGameView().setBoard(board);
                     scene.setRoot(mainMenu);
-                }
+            // todo
+                gameView.getGameController().setGameModelSize(size);
             }
+
+
         });
     }
 

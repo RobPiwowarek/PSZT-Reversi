@@ -24,10 +24,11 @@ public class Tile extends Button {
     }
 
     private void onClick() {
+        System.out.println("zupa");
         setOnAction(e -> {
-
+            System.out.println("dupa");
             if (board.getGameView().getGameController().isCurrentPlayerHuman()) {
-
+                System.out.println("pupa agaty");
                 if (isEmpty) {
                     board.getGameView().move(locationOnBoard);
                 }
