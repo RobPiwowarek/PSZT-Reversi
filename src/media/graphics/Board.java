@@ -19,10 +19,7 @@ public class Board extends BorderPane {
     int round;
     private Text clockText;
     private Text turnText;
-    private int blackPawnsCount=2;
-    private int whitePawnsCount=2;
-
-
+    
     public Board(int s, GameView view) {
         gameView = view;
         round = 0;
@@ -40,13 +37,11 @@ public class Board extends BorderPane {
     public void putNewPawn(int x, int y) {
         if (getTurn() == Turn.BLACK_TURN) {
             tiles[x][y].putNewBlackPawn();
-            blackPawnsCount++;
             turnText.setText("White turn");
         }
         else {
             tiles[x][y].putNewWhitePawn();
-            whitePawnsCount++;
-            turnText.setText("Black turn  " );
+            turnText.setText("Black turn" );
         }
 
         round++;
@@ -54,15 +49,6 @@ public class Board extends BorderPane {
 
     public void flipPawn(int x, int y) {
         tiles[x][y].flip();
-
-        if (getTurn() == Turn.BLACK_TURN) {
-            blackPawnsCount++;
-            whitePawnsCount--;
-        }
-        else {
-            whitePawnsCount++;
-            blackPawnsCount--;
-        }
     }
 
     public Turn getTurn() {
