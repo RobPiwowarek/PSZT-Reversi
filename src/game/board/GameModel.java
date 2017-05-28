@@ -4,6 +4,7 @@ import game.Player;
 import game.actions.Action;
 import game.actions.Pass;
 import game.actions.Place;
+import mvc.Controller;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -67,7 +68,7 @@ public class GameModel implements game.ai.Game, Cloneable {
     public void makeMove(Action move) {
         int flipCount;
         Point p = move.getPoint();
-        if (p == null) { // pass
+        if (p.getX() == -1 && p.getY() == -1) { // pass
             ++passCount;
             switchPlayers();
             return;
@@ -159,5 +160,9 @@ public class GameModel implements game.ai.Game, Cloneable {
     @Override
     public short getSize() {
         return board.getSize();
+    }
+
+    public void setController(Controller c) {
+        board.setController(c);
     }
 }

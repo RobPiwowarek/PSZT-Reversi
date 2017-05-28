@@ -66,6 +66,7 @@ public class PlayGUI extends StackPane {
             } else {
                 this.gameView.getGameController().createAIvsAILocalController();
             }
+            this.gameView.startGame();
 
         });
     }

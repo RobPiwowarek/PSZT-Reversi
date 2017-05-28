@@ -2,6 +2,8 @@ package game.board;
 
 // TODO: size ma sie zmieniac od 8x8 do 32x32
 
+import mvc.Controller;
+
 public class GameBoard {
     private final short DEFAULT_BOARD_SIZE = 8;
     public final short MAX_BOARD_SIZE = 32;
@@ -68,7 +70,6 @@ public class GameBoard {
         return 0;
     }
 
-    //TODO: Aga check if this shit is correct
     public void placePawnWithoutChecking(Point p, PawnColor color) {
         grid.addPawn(p, color);
         moveManager.flipPawns();
@@ -86,6 +87,10 @@ public class GameBoard {
 
     Pawn getPawn(Point p) {
         return grid.getPawn(p);
+    }
+
+    void setController(Controller c){
+        moveManager.setController(c);
     }
 
 }

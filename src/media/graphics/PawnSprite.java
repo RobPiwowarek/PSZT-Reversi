@@ -5,16 +5,23 @@ import javafx.scene.image.ImageView;
 
 public class PawnSprite extends ImageView {
     static ImageManager imageManager = new ImageManager();
+    private int color;
 
+    public int getColor() {
+        return color;
+    }
     PawnSprite() {
+        this.color = 0;
         setImage(imageManager.emptyTileImage);
     }
 
     public void setBlackPawn() {
+        this.color = 1;
         setImage(imageManager.blackPawnImage);
     }
 
     public void setWhitePawn() {
+        this.color = -1;
         setImage(imageManager.whitePawnImage);
     }
 }

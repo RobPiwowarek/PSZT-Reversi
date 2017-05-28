@@ -41,6 +41,10 @@ public class Board extends BorderPane {
         round++;
     }
 
+    public void flipPawn(int x, int y) {
+        tiles[y][x].flip(); // this one SHOULD be inverted
+    }
+
     public Turn getTurn() {
         if (round % 2 == 0)
             return Turn.BLACK_TURN;

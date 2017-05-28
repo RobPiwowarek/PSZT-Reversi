@@ -50,4 +50,13 @@ public class Tile extends Button {
         setWhiteImage();
         isEmpty = false;
     }
+
+    public void flip() {
+        if(pawnSprite.getColor() == 1) {
+            setWhiteImage();
+        }
+        else {
+            setBlackImage();
+        }
+    }
 }

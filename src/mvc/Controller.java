@@ -7,6 +7,9 @@ import game.board.PawnColor;
 import game.board.Point;
 import network.NetworkManager;
 
+import java.util.Observable;
+import java.util.Observer;
+
 
 public class Controller {
     private GameView gameView;
@@ -14,14 +17,23 @@ public class Controller {
     private NetworkManager networkManager;
     private static final int AI_TIME_CONSTRAINT = 1000000000;
     private GameController gameController;
+    private Thread aiThread;
 
     public Controller(GameView gameView, GameModel gameModel) {
+        Runnable aiMove = () -> { move(getCurrentPlayer().getAIMove(AI_TIME_CONSTRAINT)); };
+        this.aiThread = new Thread(aiMove);
         this.gameView = gameView;
         this.gameModel = gameModel;
+        this.gameModel.setSize((short)8);
+        this.gameModel.setController(this);
     }
 
     public GameController getGameController() {
         return gameController;
+    }
+
+    public void killAIThread() {
+        aiThread.stop();
     }
 
     public void setGameController(GameController gameController) {
@@ -30,6 +42,7 @@ public class Controller {
 
     public void setGameModelSize(short size){
         gameModel.setSize(size);
+        this.gameModel.setController(this);
     }
 
     public void placePawn(Point point) {
@@ -40,11 +53,26 @@ public class Controller {
         this.gameView.putNewPawn(x, y);
     }
 
+    public void flipPawn(int x, int y) {
+        this.gameView.flipPawn(x,y);
+    }
+
+    private void makeAIMove() {
+        aiThread.start();
+
+    }
+    public void startGame() {
+        Player currentPlayer = gameModel.getCurrentPlayer();
+        if (currentPlayer.getPlayerType() == PlayerType.AI) {
+            makeAIMove();
+        }
+    }
+
     public void switchPlayers() {
         this.gameModel.switchPlayers();
         Player currentPlayer = gameModel.getCurrentPlayer();
         if (currentPlayer.getPlayerType() == PlayerType.AI) {
-            move(currentPlayer.getAIMove(AI_TIME_CONSTRAINT));
+            makeAIMove();
         }
     }
 

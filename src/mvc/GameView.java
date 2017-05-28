@@ -86,7 +86,13 @@ public class GameView {
         board.putNewPawn(x, y);
     }
 
+    public void flipPawn(int x, int y) { board.flipPawn(x,y);}
+
     public void move(Point locationOnBoard) {
         gameController.move(locationOnBoard);
+    }
+
+    public void startGame() {
+        gameController.startGame();
     }
 }
