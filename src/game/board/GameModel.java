@@ -104,7 +104,7 @@ public class GameModel implements game.ai.Game, Cloneable {
 
     public int getScoring() {
         // TODO - better heuristic scoring
-        if(getCurrentPlayerColor() == PawnColor.LIGHT) {
+        if(getCurrentPlayerColor() == PawnColor.DARK) {
             return blackPawnCount - whitePawnCount;
         }
         else {
