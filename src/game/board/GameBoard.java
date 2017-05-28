@@ -29,7 +29,9 @@ public class GameBoard {
             for(int y = 0; y < size; ++y) {
                 p = new Point(x,y);
                 c = getPawn(p).getColor();
-                cloned.grid.addPawn(p, c);
+                if(c != PawnColor.EMPTY){
+                    cloned.grid.addPawn(p, c);
+                }
             }
         }
         return cloned;

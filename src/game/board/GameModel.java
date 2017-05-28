@@ -123,7 +123,7 @@ public class GameModel implements game.ai.Game, Cloneable {
 
     public boolean isOver() {
         // board full or both players were forced to pass or a player lost all their pawns
-        return (blackPawnCount + whitePawnCount == board.getSize()) || (passCount >= 2) || (blackPawnCount == 0) || (whitePawnCount == 0);
+        return (blackPawnCount + whitePawnCount == board.getSize()*board.getSize()) || (passCount >= 2) || (blackPawnCount == 0) || (whitePawnCount == 0);
     }
 
     public Player getPlayer() {

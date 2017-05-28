@@ -11,6 +11,13 @@ public class Grid {
         this.y = y;
 
         tiles = new Tile[y][x];
+        for(int i = 0; i < this.y; ++i)
+        {
+            for(int j = 0; j < this.x; ++j)
+            {
+                tiles[i][j] = new Tile(new Point(i,j));
+            }
+        }
     }
 
     boolean addPawn(Point p, PawnColor color){
