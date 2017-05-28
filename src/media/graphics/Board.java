@@ -2,6 +2,7 @@ package media.graphics;
 
 import game.board.Point;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -17,6 +18,9 @@ public class Board extends BorderPane {
     private final int size;
     int round;
     private Text clockText;
+    private Text turnText;
+    private int blackPawnsCount=2;
+    private int whitePawnsCount=2;
 
 
     public Board(int s, GameView view) {
@@ -25,24 +29,40 @@ public class Board extends BorderPane {
         size = s;
         tiles = new Tile[size][size];
 
-        setupClock();
+        setupClockText();
         HBox hBox = setupEmptyTiles();
         startingPosition();
         setScale(hBox);
         setupButtons();
+        setupTurnText();
     }
 
     public void putNewPawn(int x, int y) {
-        if (round % 2 == 0)
+        if (getTurn() == Turn.BLACK_TURN) {
             tiles[x][y].putNewBlackPawn();
-        else
+            blackPawnsCount++;
+            turnText.setText("White turn");
+        }
+        else {
             tiles[x][y].putNewWhitePawn();
+            whitePawnsCount++;
+            turnText.setText("Black turn  " );
+        }
 
         round++;
     }
 
     public void flipPawn(int x, int y) {
-        tiles[y][x].flip(); // this one SHOULD be inverted
+        tiles[x][y].flip();
+
+        if (getTurn() == Turn.BLACK_TURN) {
+            blackPawnsCount++;
+            whitePawnsCount--;
+        }
+        else {
+            whitePawnsCount++;
+            blackPawnsCount--;
+        }
     }
 
     public Turn getTurn() {
@@ -55,25 +75,34 @@ public class Board extends BorderPane {
     private void setupButtons() {
         MyButton passButton = new MyButton("Pass");
         setupPassButton(passButton);
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().add(passButton);
-        stackPane.setAlignment(Pos.CENTER_RIGHT);
+
+        MyButton endButton = new MyButton("End game");
+        setupEndButton(endButton);
+
+        VBox vBox = new VBox(20);
+        vBox.getChildren().addAll(passButton, endButton);
+        vBox.setAlignment(Pos.CENTER_RIGHT);
         setPadding(new javafx.geometry.Insets(20));
-        setRight(stackPane);
+        setRight(vBox);
     }
 
     private void setupPassButton(Button passButton) {
 
     }
 
+    private void setupEndButton(Button endButton) {
+        endButton.setOnAction(event -> {
+            Scene scene = endButton.getScene();
+            scene.setRoot(gameView.getMenu());
+        });
+    }
+
     private HBox setupEmptyTiles() {
         HBox hBox = new HBox();
-        hBox.setAlignment(Pos.CENTER);
         VBox vBoxes[] = new VBox[size];
 
         for (int i = 0; i < vBoxes.length; i++) {
             vBoxes[i] = new VBox();
-            vBoxes[i].setAlignment(Pos.CENTER);
             for (int j = 0; j < tiles.length; j++) {
                 tiles[i][j] = new Tile(this, new Point(i, j));
                 vBoxes[i].getChildren().add(tiles[i][j]);
@@ -81,20 +110,22 @@ public class Board extends BorderPane {
         }
 
         hBox.getChildren().addAll(vBoxes);
-        setCenter(hBox);
 
         return hBox;
     }
 
     private void setScale(HBox hBox) {
         if (size == 16) {
-            hBox.setScaleX(getScaleX() * 0.7);
-            hBox.setScaleY(getScaleY() * 0.7);
+            hBox.setScaleX(hBox.getScaleX() * 0.7);
+            hBox.setScaleY(hBox.getScaleY() * 0.7);
         }
         if (size == 32) {
-            hBox.setScaleX(getScaleX() * 0.4);
-            hBox.setScaleY(getScaleY() * 0.4);
+            hBox.setScaleX(hBox.getScaleX() * 0.4);
+            hBox.setScaleY(hBox.getScaleY() * 0.4);
         }
+
+        setCenter(hBox);
+        hBox.setAlignment(Pos.CENTER);
     }
 
     private void startingPosition() {
@@ -107,15 +138,24 @@ public class Board extends BorderPane {
         tiles[b][a].putNewBlackPawn();
     }
 
-    private void setupClock() {
+    private void setupClockText() {
         clockText = new Text("Kot");
         Font font = new Font("Arial Bold", 29);
         clockText.setFont(font);
 
+        setLeft(clockText);
+    }
+
+    private void setupTurnText() {
+        turnText = new Text("Black turn");
+        Font font = new Font("Arial Bold", 29);
+        turnText.setFont(font);
+
         StackPane stackPane = new StackPane();
         stackPane.setAlignment(Pos.TOP_LEFT);
-        stackPane.getChildren().add(clockText);
-        setLeft(stackPane);
+        stackPane.getChildren().add(turnText);
+        stackPane.setAlignment(Pos.CENTER);
+        setBottom(stackPane);
     }
 
     GameView getGameView() {

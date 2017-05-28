@@ -33,7 +33,7 @@ public class Controller {
     }
 
     public void killAIThread() {
-        aiThread.stop();
+        //aiThread.stop();
     }
 
     public void setGameController(GameController gameController) {
@@ -104,6 +104,7 @@ public class Controller {
         createNetworkManager(port, host, !isRemotePlayerHost);
         NetworkController networkController = new NetworkController(this, networkManager);
         networkManager.setGameController(networkController);
+        networkManager.connect();
 
         Player player1, player2;
 

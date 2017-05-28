@@ -13,7 +13,7 @@ public class Grid {
         tiles = new Tile[y][x];
         for (int i = 0; i < this.y; ++i) {
             for (int j = 0; j < this.x; ++j) {
-                tiles[i][j] = new Tile(new Point(i, j));
+                tiles[j][i] = new Tile(new Point(i, j));
             }
         }
     }

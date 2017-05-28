@@ -3,6 +3,7 @@ package network;
 import game.board.Point;
 import mvc.NetworkController;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -60,7 +61,7 @@ public class NetworkManager {
                 messageReceiver = new MessageReceiver();
                 messageReceiver.start();
             } catch (IOException ignored) {
-
+                JOptionPane.showMessageDialog(null, "Connection failed", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
