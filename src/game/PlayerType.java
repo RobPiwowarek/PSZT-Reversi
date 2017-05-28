@@ -1,6 +1,6 @@
 package game;
 
-public enum PlayerType{
+public enum PlayerType {
     HUMAN,
     AI,
     NETWORK;

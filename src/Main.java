@@ -13,11 +13,11 @@ public class Main extends Application {
 
     // TODO:
 
-    public void restart(Stage primaryStage){
-       GameModel gameModel = new GameModel();
-       GameView gameView = new GameView(primaryStage);
-       Controller controller = new Controller(gameView, gameModel);
-       gameView.setGameController(controller);
+    public void restart(Stage primaryStage) {
+        GameModel gameModel = new GameModel();
+        GameView gameView = new GameView(primaryStage);
+        Controller controller = new Controller(gameView, gameModel);
+        gameView.setGameController(controller);
     }
 
     public static void main(String[] args) {

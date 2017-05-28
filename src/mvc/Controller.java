@@ -39,50 +39,48 @@ public class Controller {
     public void switchPlayers() {
         this.gameModel.switchPlayers();
         Player currentPlayer = gameModel.getCurrentPlayer();
-        if(currentPlayer.getPlayerType() == PlayerType.AI)
-        {
+        if (currentPlayer.getPlayerType() == PlayerType.AI) {
             move(currentPlayer.getAIMove(AI_TIME_CONSTRAINT));
         }
     }
 
-    public boolean isCurrentPlayerHuman(){
-       return gameModel.getCurrentPlayer().getPlayerType() == PlayerType.HUMAN;
+    public boolean isCurrentPlayerHuman() {
+        return gameModel.getCurrentPlayer().getPlayerType() == PlayerType.HUMAN;
     }
 
     public void move(Point point) {
         gameController.move(point);
     }
 
-    public boolean canPlace(Point point){
+    public boolean canPlace(Point point) {
         return gameModel.canPlace(point);
     }
 
-    public Player getCurrentPlayer(){
+    public Player getCurrentPlayer() {
         return gameModel.getCurrentPlayer();
     }
 
-    public PawnColor getCurrentPlayerColor(){
+    public PawnColor getCurrentPlayerColor() {
         return gameModel.getCurrentPlayer().getColor();
     }
 
-    public void createNetworkManager(int port, String host, boolean isServer){
+    public void createNetworkManager(int port, String host, boolean isServer) {
         networkManager = new NetworkManager(port, host, isServer);
     }
 
-    public void createHumanVsHumanNetworkController(boolean isRemotePlayerHost, PlayerType HumanOrAI, int port, String host){
+    public void createHumanVsHumanNetworkController(boolean isRemotePlayerHost, PlayerType HumanOrAI, int port, String host) {
         createNetworkManager(port, host, !isRemotePlayerHost);
         NetworkController networkController = new NetworkController(this, networkManager);
         networkManager.setGameController(networkController);
 
         Player player1, player2;
 
-        if (isRemotePlayerHost){
+        if (isRemotePlayerHost) {
             player1 = new Player(PawnColor.LIGHT, HumanOrAI);
             player1.setGame(gameModel);
             player2 = new Player(PawnColor.DARK, PlayerType.NETWORK);
             gameModel.setPlayers(player2, player1);
-        }
-        else {
+        } else {
             player2 = new Player(PawnColor.LIGHT, PlayerType.NETWORK);
             player1 = new Player(PawnColor.DARK, HumanOrAI);
             player2.setGame(gameModel);

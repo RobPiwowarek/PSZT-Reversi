@@ -12,10 +12,10 @@ public class MoveManager {
     }
 
     public boolean checkMove(Point p, PawnColor playerColor) {
-        for(int i = -1; i <= 1; ++i) {
-            for(int j = -1; j <= 1; ++j) {
-                if(i != 0 || j != 0) {
-                    if(checkInDirection(p, playerColor, new Point(i,j))) {
+        for (int i = -1; i <= 1; ++i) {
+            for (int j = -1; j <= 1; ++j) {
+                if (i != 0 || j != 0) {
+                    if (checkInDirection(p, playerColor, new Point(i, j))) {
                         return true;
                     }
                 }
@@ -28,13 +28,13 @@ public class MoveManager {
     private boolean checkInDirection(Point p, PawnColor playerColor, Point direction) {
         boolean foundEnemyPawn = false;
         ArrayDeque<Pawn> potentialPawnsToFlip = new ArrayDeque<Pawn>();
-        int dx = (int)direction.getX();
-        int dy = (int)direction.getY();
+        int dx = (int) direction.getX();
+        int dy = (int) direction.getY();
         Pawn pawn;
         PawnColor currentColor;
         Point currentPoint = new Point(p.getX() + dx, p.getY() + dy);
 
-        while(currentPoint.isInGrid(grid)) {
+        while (currentPoint.isInGrid(grid)) {
             pawn = grid.getPawn(currentPoint);
             currentColor = pawn.getColor();
 
@@ -48,7 +48,7 @@ public class MoveManager {
                 break;
             }
 
-            currentPoint.translate(dx,dy);
+            currentPoint.translate(dx, dy);
         }
 
         return false;
@@ -65,7 +65,7 @@ public class MoveManager {
         return size;
     }
 
-    void clearPawnsQueue(){
+    void clearPawnsQueue() {
         pawnsToFlip.clear();
     }
 

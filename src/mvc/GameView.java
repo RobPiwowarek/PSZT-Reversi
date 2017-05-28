@@ -86,7 +86,7 @@ public class GameView {
         board.putNewPawn(x, y);
     }
 
-    public void move(Point locationOnBoard){
+    public void move(Point locationOnBoard) {
         gameController.move(locationOnBoard);
     }
 }

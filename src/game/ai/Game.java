@@ -11,11 +11,17 @@ public interface Game {
     void makeMove(Action move);
 
     Collection<Action> getPossibleMoves();
+
     boolean isOver();
+
     int getBlackPawnCount();
+
     int getWhitePawnCount();
+
     int getCurrentColorAsInt();
+
     int getPawnAsInt(int x, int y); // empty = 0, black = 1, white = -1
+
     short getSize();
 
 }

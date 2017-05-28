@@ -2,7 +2,9 @@ package game.ai;
 
 import game.actions.Action;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 // bardzo generic AI dla dowolnej gry
@@ -25,6 +27,7 @@ public class AlphaBeta {
     private class GameActionPair {
         public Game game;
         public Action action;
+
         public GameActionPair(Game game, Action action) {
             this.game = game;
             this.action = action;
@@ -90,7 +93,7 @@ public class AlphaBeta {
         chosenMove = null; // just in case
         // maybe zeby scislej trzymac sie time constraint mozna by
         // w oddzielnym threadzie odliczac czas i po przekroczeniu na chama wyrzucic chosenMove
-        for(int d = 1; d < this.depth && System.nanoTime() - startTime < timeConstraint; ++d) {
+        for (int d = 1; d < this.depth && System.nanoTime() - startTime < timeConstraint; ++d) {
             alphaBeta(game, d, d, -inf, inf, true); // chosenMove will update
         }
         return chosenMove;

@@ -6,22 +6,20 @@ public class Grid {
 
     Tile[][] tiles;
 
-    public Grid(short x, short y){
+    public Grid(short x, short y) {
         this.x = x;
         this.y = y;
 
         tiles = new Tile[y][x];
-        for(int i = 0; i < this.y; ++i)
-        {
-            for(int j = 0; j < this.x; ++j)
-            {
-                tiles[i][j] = new Tile(new Point(i,j));
+        for (int i = 0; i < this.y; ++i) {
+            for (int j = 0; j < this.x; ++j) {
+                tiles[i][j] = new Tile(new Point(i, j));
             }
         }
     }
 
-    boolean addPawn(Point p, PawnColor color){
-        tiles[(int)p.getY()][(int)p.getX()].placePawn(color);
+    boolean addPawn(Point p, PawnColor color) {
+        tiles[(int) p.getY()][(int) p.getX()].placePawn(color);
 
         return true;
     }
@@ -34,15 +32,15 @@ public class Grid {
         return y;
     }
 
-    boolean isEmpty(Point p){
+    boolean isEmpty(Point p) {
         return tiles[(int) p.getY()][(int) p.getX()].getOwner() == PawnColor.EMPTY;
     }
 
-    Tile getTile(Point p){
-        return tiles[(int)p.getY()][(int)p.getX()];
+    Tile getTile(Point p) {
+        return tiles[(int) p.getY()][(int) p.getX()];
     }
 
-    Pawn getPawn(Point p){
-        return tiles[(int)p.getY()][(int)p.getX()].getPawn();
+    Pawn getPawn(Point p) {
+        return tiles[(int) p.getY()][(int) p.getX()].getPawn();
     }
 }

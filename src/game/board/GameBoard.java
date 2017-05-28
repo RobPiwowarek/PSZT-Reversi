@@ -25,11 +25,11 @@ public class GameBoard {
         Point p;
         PawnColor c;
         // TODO - optimize
-        for(int x = 0; x < size; ++x) {
-            for(int y = 0; y < size; ++y) {
-                p = new Point(x,y);
+        for (int x = 0; x < size; ++x) {
+            for (int y = 0; y < size; ++y) {
+                p = new Point(x, y);
                 c = getPawn(p).getColor();
-                if(c != PawnColor.EMPTY){
+                if (c != PawnColor.EMPTY) {
                     cloned.grid.addPawn(p, c);
                 }
             }
@@ -37,12 +37,11 @@ public class GameBoard {
         return cloned;
     }
 
-    public GameBoard(short size){
+    public GameBoard(short size) {
         this.size = size;
-        if (size <= MAX_BOARD_SIZE && size >= MIN_BOARD_SIZE){
+        if (size <= MAX_BOARD_SIZE && size >= MIN_BOARD_SIZE) {
             grid = new Grid(size, size);
-        }
-        else{
+        } else {
             //TODO:  Display Error Message if incorrect size
             grid = new Grid(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);
         }
@@ -61,8 +60,8 @@ public class GameBoard {
     }
 
     // return how many pawns were flipped
-    public int placePawn(Point p, PawnColor color){
-        if (canPlace(p, color)){
+    public int placePawn(Point p, PawnColor color) {
+        if (canPlace(p, color)) {
             grid.addPawn(p, color);
             return moveManager.flipPawns();
         }
@@ -70,23 +69,22 @@ public class GameBoard {
     }
 
     //TODO: Aga check if this shit is correct
-    public void placePawnWithoutChecking(Point p, PawnColor color){
+    public void placePawnWithoutChecking(Point p, PawnColor color) {
         grid.addPawn(p, color);
         moveManager.flipPawns();
     }
 
-    public void setStartingPawns()
-    {
+    public void setStartingPawns() {
         int a = grid.getX() / 2;
-        int b=a-1;
+        int b = a - 1;
 
-        grid.addPawn(new Point(a,a), PawnColor.LIGHT);
-        grid.addPawn(new Point(b,b), PawnColor.LIGHT);
-        grid.addPawn(new Point(a,b), PawnColor.DARK);
-        grid.addPawn(new Point(b,a), PawnColor.DARK);
+        grid.addPawn(new Point(a, a), PawnColor.LIGHT);
+        grid.addPawn(new Point(b, b), PawnColor.LIGHT);
+        grid.addPawn(new Point(a, b), PawnColor.DARK);
+        grid.addPawn(new Point(b, a), PawnColor.DARK);
     }
 
-    Pawn getPawn(Point p){
+    Pawn getPawn(Point p) {
         return grid.getPawn(p);
     }
 

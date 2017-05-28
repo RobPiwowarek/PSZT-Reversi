@@ -6,7 +6,6 @@ import game.actions.Pass;
 import game.actions.Place;
 
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Deque;
 
 public class GameModel implements game.ai.Game, Cloneable {
@@ -23,9 +22,12 @@ public class GameModel implements game.ai.Game, Cloneable {
     public Player getCurrentPlayer() {
         return players[nplayer];
     }
-    public PawnColor getCurrentPlayerColor() { return players[nplayer].getColor(); }
-    public void setPlayers(Player p1, Player p2)
-    {
+
+    public PawnColor getCurrentPlayerColor() {
+        return players[nplayer].getColor();
+    }
+
+    public void setPlayers(Player p1, Player p2) {
         players[0] = p1;
         players[1] = p2;
     }
@@ -65,21 +67,20 @@ public class GameModel implements game.ai.Game, Cloneable {
     public void makeMove(Action move) {
         int flipCount;
         Point p = move.getPoint();
-        if(p == null) { // pass
+        if (p == null) { // pass
             ++passCount;
             switchPlayers();
             return;
         }
         flipCount = board.placePawn(p, getCurrentPlayerColor());
-        if(flipCount == 0) {
+        if (flipCount == 0) {
             switchPlayers();
             return;
         }
-        if(getCurrentPlayerColor() == PawnColor.DARK) {
+        if (getCurrentPlayerColor() == PawnColor.DARK) {
             blackPawnCount += flipCount + 1;
             whitePawnCount -= flipCount;
-        }
-        else {
+        } else {
             blackPawnCount -= flipCount;
             whitePawnCount += flipCount + 1;
         }
@@ -94,31 +95,31 @@ public class GameModel implements game.ai.Game, Cloneable {
     public Deque<Action> getPossibleMoves(PawnColor color) {
         //TODO - optimize
         ArrayDeque<Action> actions = new ArrayDeque<>();
-        for(int x = 0; x < board.getSize(); ++x) {
-            for(int y = 0; y < board.getSize(); ++y) {
-                if(board.canPlace(new Point(x,y), color)) {
+        for (int x = 0; x < board.getSize(); ++x) {
+            for (int y = 0; y < board.getSize(); ++y) {
+                if (board.canPlace(new Point(x, y), color)) {
                     actions.add(new Place(x, y));
                 }
                 board.clearPawnsQueue();
             }
         }
-        if(actions.size() == 0) {
+        if (actions.size() == 0) {
             actions.add(new Pass());
         }
         return actions;
     }
 
-    public boolean canPlace(Point p){
+    public boolean canPlace(Point p) {
         return this.board.canPlace(p, getCurrentPlayerColor());
     }
 
-    public void placePawn(Point p){
+    public void placePawn(Point p) {
         board.placePawnWithoutChecking(p, getCurrentPlayerColor());
     }
 
     public boolean isOver() {
         // board full or both players were forced to pass or a player lost all their pawns
-        return (blackPawnCount + whitePawnCount == board.getSize()*board.getSize()) || (passCount >= 2) || (blackPawnCount == 0) || (whitePawnCount == 0);
+        return (blackPawnCount + whitePawnCount == board.getSize() * board.getSize()) || (passCount >= 2) || (blackPawnCount == 0) || (whitePawnCount == 0);
     }
 
     @Override
@@ -134,12 +135,10 @@ public class GameModel implements game.ai.Game, Cloneable {
     @Override
     public int getCurrentColorAsInt() {
         PawnColor c = getCurrentPlayerColor();
-        if(c == PawnColor.DARK)
-        {
+        if (c == PawnColor.DARK) {
             return 1;
         }
-        if(c == PawnColor.LIGHT)
-        {
+        if (c == PawnColor.LIGHT) {
             return -1;
         }
         return 0;
@@ -147,13 +146,11 @@ public class GameModel implements game.ai.Game, Cloneable {
 
     @Override
     public int getPawnAsInt(int x, int y) {
-        PawnColor c = board.getPawn(new Point(x,y)).getColor();
-        if(c == PawnColor.DARK)
-        {
+        PawnColor c = board.getPawn(new Point(x, y)).getColor();
+        if (c == PawnColor.DARK) {
             return 1;
         }
-        if(c == PawnColor.LIGHT)
-        {
+        if (c == PawnColor.LIGHT) {
             return -1;
         }
         return 0;

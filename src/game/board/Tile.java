@@ -17,7 +17,7 @@ public class Tile {
         }
     }
 
-    public void changeOwner(){
+    public void changeOwner() {
         pawn.changeOwner();
     }
 

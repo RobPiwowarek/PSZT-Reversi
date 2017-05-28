@@ -5,7 +5,7 @@ import game.board.GameModel;
 import game.board.PawnColor;
 import game.board.Point;
 
-public class Player{
+public class Player {
 
     private PawnColor color;
     private PlayerType playerType;
@@ -15,22 +15,19 @@ public class Player{
     public Player(PawnColor color, PlayerType playerType) {
         this.color = color;
         this.playerType = playerType;
-        if(playerType == PlayerType.AI)
-        {
+        if (playerType == PlayerType.AI) {
             this.ai = new AlphaBeta(DEPTH);
         }
     }
 
-    public void setGame(GameModel game)
-    {
-        if(playerType == PlayerType.AI) {
+    public void setGame(GameModel game) {
+        if (playerType == PlayerType.AI) {
             ai.setGame(game);
         }
     }
 
     public Point getAIMove(long timeConstraint) {
-        if(playerType == PlayerType.AI)
-        {
+        if (playerType == PlayerType.AI) {
             return ai.play(timeConstraint).getPoint();
         }
         return null;

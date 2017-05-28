@@ -1,13 +1,15 @@
 package network;
+
 import game.board.Point;
-import mvc.GameController;
 import mvc.NetworkController;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-public class NetworkManager
-{
+public class NetworkManager {
     private boolean isConnected = false;
     private int port;
     private String host;
@@ -21,8 +23,7 @@ public class NetworkManager
 
     private NetworkController gameController;
 
-    public NetworkManager(int port, String host, boolean isServer)
-    {
+    public NetworkManager(int port, String host, boolean isServer) {
         this.port = port;
         this.host = host;
         this.isServer = isServer;
@@ -32,93 +33,69 @@ public class NetworkManager
         this.gameController = gameController;
     }
 
-    public void connect()
-    {
+    public void connect() {
         new GameServer().run();
     }
 
-    public void sendMessage(int x, int y)
-    {
-        try
-        {
+    public void sendMessage(int x, int y) {
+        try {
             messageSender.sendMessage(x, y);
-        }
-        catch (IOException ignored)
-        {
+        } catch (IOException ignored) {
 
         }
     }
 
-    private class GameServer extends Thread
-    {
-        public void run()
-        {
-            try
-            {
-                if (isServer)
-                {
+    private class GameServer extends Thread {
+        public void run() {
+            try {
+                if (isServer) {
                     ServerSocket serverSocket = new ServerSocket(port);
                     serverSocket.setSoTimeout(200000);
                     clientSocket = serverSocket.accept();
-                } 
-                else
-                {
+                } else {
                     clientSocket = new Socket(host, port);
                 }
 
                 messageSender = new MessageSender();
                 messageReceiver = new MessageReceiver();
                 messageReceiver.start();
-            }
-            catch (IOException ignored)
-            {
+            } catch (IOException ignored) {
 
             }
         }
     }
 
-    private class MessageSender extends Thread
-    {
+    private class MessageSender extends Thread {
         private ObjectOutputStream socketOut;
-        
-        public MessageSender() throws IOException
-        {
+
+        public MessageSender() throws IOException {
             socketOut = new ObjectOutputStream(clientSocket.getOutputStream());
         }
 
-        public void sendMessage(int x, int y) throws IOException
-        {
-            int ints[] = {x,y};
+        public void sendMessage(int x, int y) throws IOException {
+            int ints[] = {x, y};
             socketOut.writeObject(ints);
         }
     }
 
-    private class MessageReceiver extends Thread
-    {
+    private class MessageReceiver extends Thread {
         private ObjectInputStream socketIn;
 
-        public MessageReceiver() throws IOException
-        {
+        public MessageReceiver() throws IOException {
             socketIn = new ObjectInputStream(clientSocket.getInputStream());
         }
 
-        public void run()
-        {
-            try
-            {
+        public void run() {
+            try {
                 Object object;
-                while (true)
-                {
-                    while ((object = socketIn.readObject()) != null)
-                    {
+                while (true) {
+                    while ((object = socketIn.readObject()) != null) {
 
                         int position[] = (int[]) object;
                         gameController.enemyMove(new Point(position[0], position[1]));
                     }
                 }
-            }
-            catch (IOException | ClassNotFoundException ignored)
-            {
+            } catch (IOException | ClassNotFoundException ignored) {
 
             }
         }
