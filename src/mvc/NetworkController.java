@@ -14,12 +14,15 @@ public class NetworkController extends GameController {
 
     //player move
     public void move(Point point) {
-        networkManager.sendMessage((int) point.getX(), (int) point.getY());
-        super.move(point);
+        if(controller.canPlace(point)) {
+            super.move(point);
+            networkManager.sendMessage((int) point.getX(), (int) point.getY());
+        }
     }
 
     public void enemyMove(Point point) {
-        controller.move(point);
+        if(controller.canPlace(point))
+            super.move(point);
     }
 
 }
