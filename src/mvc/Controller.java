@@ -12,7 +12,7 @@ public class Controller {
     private GameView gameView;
     private GameModel gameModel;
     private NetworkManager networkManager;
-
+    private static final int AI_TIME_CONSTRAINT = 1000000000;
     private GameController gameController;
 
     public Controller(GameView gameView, GameModel gameModel) {
@@ -38,6 +38,11 @@ public class Controller {
 
     public void switchPlayers() {
         this.gameModel.switchPlayers();
+        Player currentPlayer = gameModel.getCurrentPlayer();
+        if(currentPlayer.getPlayerType() == PlayerType.AI)
+        {
+            move(currentPlayer.getAIMove(AI_TIME_CONSTRAINT));
+        }
     }
 
     public boolean isCurrentPlayerHuman(){
@@ -73,12 +78,14 @@ public class Controller {
 
         if (isRemotePlayerHost){
             player1 = new Player(PawnColor.LIGHT, HumanOrAI);
+            player1.setGame(gameModel);
             player2 = new Player(PawnColor.DARK, PlayerType.NETWORK);
             gameModel.setPlayers(player2, player1);
         }
         else {
             player2 = new Player(PawnColor.LIGHT, PlayerType.NETWORK);
             player1 = new Player(PawnColor.DARK, HumanOrAI);
+            player2.setGame(gameModel);
             gameModel.setPlayers(player1, player2);
         }
 
@@ -101,6 +108,7 @@ public class Controller {
 
         Player player1 = new Player(PawnColor.DARK, PlayerType.HUMAN);
         Player player2 = new Player(PawnColor.LIGHT, PlayerType.AI);
+        player2.setGame(gameModel);
 
         gameModel.setPlayers(player1, player2);
 
@@ -113,6 +121,8 @@ public class Controller {
 
         Player player1 = new Player(PawnColor.DARK, PlayerType.AI);
         Player player2 = new Player(PawnColor.LIGHT, PlayerType.AI);
+        player1.setGame(gameModel);
+        player2.setGame(gameModel);
 
         gameModel.setPlayers(player1, player2);
 

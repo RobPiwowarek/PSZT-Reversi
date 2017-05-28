@@ -10,10 +10,16 @@ public class AlphaBeta {
     private Action chosenMove;
     private int depth;
     private Game game;
+    private Heuristic heuristic;
 
-    public AlphaBeta(Game game, int depth) {
-        this.game = game;
+    public AlphaBeta(int depth) {
         this.depth = depth;
+        this.heuristic = new Heuristic();
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+        this.heuristic.setSize(game.getSize());
     }
 
     private class GameActionPair {
@@ -31,7 +37,7 @@ public class AlphaBeta {
 
         // TODO - tablice transponowań
         if (depth == 0 || game.isOver()) {
-            score = game.getScoring();
+            score = heuristic.getScoring(game);
             // dzieki temu wzorkowi AI bierze pod uwage ilosc ruchow wartosciujac sciezke
             // szybsza wygrana > wolniejsza wygrana
             // wolniejsza przegrana > szybsza przegrana
@@ -50,7 +56,7 @@ public class AlphaBeta {
                     clone.makeMove(m);
                     return new GameActionPair(clone, m);
                 })
-                .sorted(Comparator.comparingInt(c -> c.game.getScoring()))
+                .sorted(Comparator.comparingInt(c -> heuristic.getScoring(c.game)))
                 .collect(Collectors.toList());
 
         if (!aiTurn) {
@@ -75,11 +81,6 @@ public class AlphaBeta {
             }
             return a;
         }
-    }
-
-    public Action play() {
-        double inf = Double.POSITIVE_INFINITY;
-        return play((int) inf);
     }
 
     // timeConstraint - nanoseconds

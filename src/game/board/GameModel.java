@@ -36,22 +36,28 @@ public class GameModel implements game.ai.Game, Cloneable {
         nplayer = tmp;
     }
 
-    public GameModel(short size) {
+    public GameModel() {
         this.players = new Player[2];
         this.passCount = 0;
-        this.board = new GameBoard(size);
-        this.board.setStartingPawns();
         blackPawnCount = whitePawnCount = 2;
     }
 
+    public void setSize(short size) {
+
+        this.board = new GameBoard(size);
+        this.board.setStartingPawns();
+
+    }
+
     public GameModel clone() {
-        GameModel cloned = new GameModel(board.getSize());
+        GameModel cloned = new GameModel();
+        cloned.setSize(getSize());
+        cloned.setPlayers(players[0], players[1]);
         cloned.nplayer = nplayer;
         cloned.nopponent = nopponent;
         cloned.blackPawnCount = blackPawnCount;
         cloned.whitePawnCount = whitePawnCount;
         cloned.passCount = passCount;
-        cloned.players = Arrays.copyOf(players, 2);
         cloned.board = board.clone();
         return cloned;
     }
@@ -102,16 +108,6 @@ public class GameModel implements game.ai.Game, Cloneable {
         return actions;
     }
 
-    public int getScoring() {
-        // TODO - better heuristic scoring
-        if(getCurrentPlayerColor() == PawnColor.DARK) {
-            return blackPawnCount - whitePawnCount;
-        }
-        else {
-            return whitePawnCount - blackPawnCount;
-        }
-    }
-
     public boolean canPlace(Point p){
         return this.board.canPlace(p, getCurrentPlayerColor());
     }
@@ -123,5 +119,48 @@ public class GameModel implements game.ai.Game, Cloneable {
     public boolean isOver() {
         // board full or both players were forced to pass or a player lost all their pawns
         return (blackPawnCount + whitePawnCount == board.getSize()*board.getSize()) || (passCount >= 2) || (blackPawnCount == 0) || (whitePawnCount == 0);
+    }
+
+    @Override
+    public int getBlackPawnCount() {
+        return blackPawnCount;
+    }
+
+    @Override
+    public int getWhitePawnCount() {
+        return whitePawnCount;
+    }
+
+    @Override
+    public int getCurrentColorAsInt() {
+        PawnColor c = getCurrentPlayerColor();
+        if(c == PawnColor.DARK)
+        {
+            return 1;
+        }
+        if(c == PawnColor.LIGHT)
+        {
+            return -1;
+        }
+        return 0;
+    }
+
+    @Override
+    public int getPawnAsInt(int x, int y) {
+        PawnColor c = board.getPawn(new Point(x,y)).getColor();
+        if(c == PawnColor.DARK)
+        {
+            return 1;
+        }
+        if(c == PawnColor.LIGHT)
+        {
+            return -1;
+        }
+        return 0;
+    }
+
+    @Override
+    public short getSize() {
+        return board.getSize();
     }
 }
