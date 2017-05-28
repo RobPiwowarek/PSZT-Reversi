@@ -3,6 +3,7 @@ package media.graphics;
 import game.board.Point;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -10,7 +11,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import mvc.GameView;
 
-public class Board extends StackPane {
+public class Board extends BorderPane {
     private final GameView gameView;
     private final Tile[][] tiles;
     private final int size;
@@ -28,7 +29,6 @@ public class Board extends StackPane {
         HBox hBox = setupEmptyTiles();
         startingPosition();
         setScale(hBox);
-
         setupButtons();
     }
 
@@ -55,7 +55,7 @@ public class Board extends StackPane {
         stackPane.getChildren().add(passButton);
         stackPane.setAlignment(Pos.CENTER_RIGHT);
         setPadding(new javafx.geometry.Insets(20));
-        getChildren().add(stackPane);
+        setRight(stackPane);
     }
 
     private void setupPassButton(Button passButton) {
@@ -71,13 +71,13 @@ public class Board extends StackPane {
             vBoxes[i] = new VBox();
             vBoxes[i].setAlignment(Pos.CENTER);
             for (int j = 0; j < tiles.length; j++) {
-                tiles[i][j] = new Tile(this, new Point(j, i)); // inverted because i in double for loop is like y-coordinate
+                tiles[i][j] = new Tile(this, new Point(i, j));
                 vBoxes[i].getChildren().add(tiles[i][j]);
             }
         }
 
         hBox.getChildren().addAll(vBoxes);
-        getChildren().add(hBox);
+        setCenter(hBox);
 
         return hBox;
     }
@@ -111,7 +111,7 @@ public class Board extends StackPane {
         StackPane stackPane = new StackPane();
         stackPane.setAlignment(Pos.TOP_LEFT);
         stackPane.getChildren().add(clockText);
-        getChildren().add(stackPane);
+        setLeft(stackPane);
     }
 
     GameView getGameView() {
