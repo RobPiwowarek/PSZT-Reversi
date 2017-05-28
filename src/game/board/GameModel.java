@@ -3,7 +3,6 @@ package game.board;
 import game.actions.Action;
 import game.actions.Pass;
 import game.actions.Place;
-import game.player.Player;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

@@ -86,7 +86,7 @@ public class GameView {
         board.putNewPawn(x, y);
     }
 
-    public boolean humanMove(Point locationOnBoard){
-        return gameController.humanMove(locationOnBoard);
+    public void move(Point locationOnBoard){
+        gameController.move(locationOnBoard);
     }
 }

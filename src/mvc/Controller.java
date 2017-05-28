@@ -2,9 +2,7 @@ package mvc;
 
 import game.board.GameModel;
 import game.board.Point;
-import game.player.AIPlayer;
-import game.player.HumanPlayer;
-import game.player.Player;
+import game.PlayerType;
 
 public class Controller {
     private GameView gameView;
@@ -25,10 +23,6 @@ public class Controller {
         this.gameController = gameController;
     }
 
-    public Player getPlayer() {
-        return this.gameModel.getPlayer();
-    }
-
     public void placePawn(Point point) {
         this.gameModel.placePawn(point);
     }
@@ -41,35 +35,35 @@ public class Controller {
         this.gameModel.switchPlayers();
     }
 
+    public boolean isCurrentPlayerHuman(){
+       // return gameModel.getCurrentPlayer() == gameController.getColor();
+    }
+
+    public void move(Point point) {
+        gameController.move(point);
+    }
+
     public boolean canPlace(Point point){
         return gameModel.canPlace(point);
     }
 
-    public boolean humanMove(Point locationOnBoard){
-        return gameController.humanMove(locationOnBoard);
-    }
-
     public void createHumanVsHumanLocalController() {
-        gameController = new LocalController(this);
-        Player player1 = new HumanPlayer();
-        Player player2 = new HumanPlayer();
-        gameModel.setPlayer(player1);
-        gameModel.setOpponent(player2);
+        LocalController localController = new LocalController(this);
+
+        gameController = localController;
     }
 
     public void createHumanVsAILocalController() {
-        gameController = new LocalController(this);
-        Player player1 = new HumanPlayer();
-        Player player2 = new AIPlayer();
-        gameModel.setPlayer(player1);
-        gameModel.setOpponent(player2);
+        LocalController localController = new LocalController(this);
+
+        gameController = localController;
+
     }
 
     public void createAIvsAILocalController() {
-        gameController = new LocalController(this);
-        Player player1 = new AIPlayer();
-        Player player2 = new AIPlayer();
-        gameModel.setPlayer(player1);
-        gameModel.setOpponent(player2);
+        LocalController localController = new LocalController(this);
+
+        gameController = localController;
+
     }
 }

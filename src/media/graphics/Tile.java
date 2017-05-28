@@ -24,16 +24,13 @@ public class Tile extends Button {
     }
 
     private void onClick() {
-        // TODO: check if it is human's turn
-
         setOnAction(e -> {
 
-            if (isEmpty && board.getGameView().humanMove(locationOnBoard)) {
-                if (board.round % 2 == 0)
-                    putNewBlackPawn();
-                else
-                    putNewWhitePawn();
-                board.round++;
+            if (board.getGameView().getGameController().isCurrentPlayerHuman()) {
+
+                if (isEmpty) {
+                    board.getGameView().move(locationOnBoard);
+                }
             }
         });
     }

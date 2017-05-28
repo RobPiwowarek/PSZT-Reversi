@@ -37,6 +37,8 @@ public class Board extends StackPane {
             tiles[x][y].putNewBlackPawn();
         else
             tiles[x][y].putNewWhitePawn();
+
+        round++;
     }
 
     public Turn getTurn() {
