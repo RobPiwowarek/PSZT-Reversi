@@ -7,15 +7,12 @@ import game.board.PawnColor;
 import game.board.Point;
 import network.NetworkManager;
 
-import java.util.Observable;
-import java.util.Observer;
-
 
 public class Controller {
     private GameView gameView;
     private GameModel gameModel;
     private NetworkManager networkManager;
-    private static final int AI_TIME_CONSTRAINT = 1000000000;
+    private static final long AI_TIME_CONSTRAINT = 1000;
     private GameController gameController;
     private Runnable aiMove;
     private Thread aiThread;

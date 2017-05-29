@@ -108,7 +108,7 @@ public class AlphaBeta {
         }
     }
 
-    // timeConstraint - nanoseconds
+    // timeConstraint - milliseconds
     public Action play(long timeConstraint) {
         final ExecutorService es = Executors.newSingleThreadExecutor();
         boolean result = false;
@@ -116,7 +116,7 @@ public class AlphaBeta {
         es.execute(new IterativeDeepening());
         es.shutdown(); //maybe unnecessary
         try {
-            result = es.awaitTermination(timeConstraint, TimeUnit.NANOSECONDS);
+            result = es.awaitTermination(timeConstraint, TimeUnit.MILLISECONDS);
         }
         catch(InterruptedException e) {
         }
