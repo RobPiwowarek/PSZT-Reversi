@@ -47,6 +47,16 @@ public class Board extends BorderPane {
         round++;
     }
 
+    public void registerPass() {
+        if (getTurn() == Turn.BLACK_TURN) {
+            turnText.setText("White turn");
+        }
+        else {
+            turnText.setText("Black turn");
+        }
+        round++;
+    }
+
     public void flipPawn(int x, int y) {
         tiles[x][y].flip();
     }
@@ -73,6 +83,11 @@ public class Board extends BorderPane {
     }
 
     private void setupPassButton(Button passButton) {
+        passButton.setOnAction(event -> {
+            if (getGameView().getGameController().isCurrentPlayerHuman()) {
+                getGameView().pass();
+            }
+        });
 
     }
 

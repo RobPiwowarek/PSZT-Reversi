@@ -61,18 +61,9 @@ public class GameBoard {
         moveManager.clearPawnsQueue();
     }
 
-    // return how many pawns were flipped
     public int placePawn(Point p, PawnColor color) {
-        if (canPlace(p, color)) {
-            grid.addPawn(p, color);
-            return moveManager.flipPawns();
-        }
-        return 0;
-    }
-
-    public void placePawnWithoutChecking(Point p, PawnColor color) {
         grid.addPawn(p, color);
-        moveManager.flipPawns();
+        return moveManager.flipPawns();
     }
 
     public void setStartingPawns() {

@@ -7,6 +7,7 @@ import game.actions.Place;
 import mvc.Controller;
 
 import java.util.ArrayDeque;
+import java.util.Collection;
 import java.util.Deque;
 
 public class GameModel implements game.ai.Game, Cloneable {
@@ -65,27 +66,15 @@ public class GameModel implements game.ai.Game, Cloneable {
         return cloned;
     }
 
+    // for AI
     public void makeMove(Action move) {
-        int flipCount;
         Point p = move.getPoint();
-        if (p.getX() == -1 && p.getY() == -1) { // pass
-            ++passCount;
-            switchPlayers();
-            return;
+        if (p.getX() == -1 && p.getY() == -1) {
+            pass();
         }
-        flipCount = board.placePawn(p, getCurrentPlayerColor());
-        if (flipCount == 0) {
-            switchPlayers();
-            return;
+        else {
+            placePawn(p);
         }
-        if (getCurrentPlayerColor() == PawnColor.DARK) {
-            blackPawnCount += flipCount + 1;
-            whitePawnCount -= flipCount;
-        } else {
-            blackPawnCount -= flipCount;
-            whitePawnCount += flipCount + 1;
-        }
-        passCount = 0;
         switchPlayers();
     }
 
@@ -94,7 +83,6 @@ public class GameModel implements game.ai.Game, Cloneable {
     }
 
     public Deque<Action> getPossibleMoves(PawnColor color) {
-        //TODO - optimize
         ArrayDeque<Action> actions = new ArrayDeque<>();
         for (int x = 0; x < board.getSize(); ++x) {
             for (int y = 0; y < board.getSize(); ++y) {
@@ -110,12 +98,32 @@ public class GameModel implements game.ai.Game, Cloneable {
         return actions;
     }
 
+    // for controller
     public boolean canPlace(Point p) {
         return this.board.canPlace(p, getCurrentPlayerColor());
     }
 
+    public boolean canPass() {
+        Collection<Action> possibleMoves = getPossibleMoves();
+        Point p = possibleMoves.iterator().next().getPoint();
+        return possibleMoves.size() == 1 && p.getX() == -1 && p.getY() == -1;
+    }
+
     public void placePawn(Point p) {
-        board.placePawnWithoutChecking(p, getCurrentPlayerColor());
+        int flipCount;
+        flipCount = board.placePawn(p, getCurrentPlayerColor());
+        if (getCurrentPlayerColor() == PawnColor.DARK) {
+            blackPawnCount += flipCount + 1;
+            whitePawnCount -= flipCount;
+        } else {
+            blackPawnCount -= flipCount;
+            whitePawnCount += flipCount + 1;
+        }
+        passCount = 0;
+    }
+
+    public void pass() {
+        ++passCount;
     }
 
     public boolean isOver() {

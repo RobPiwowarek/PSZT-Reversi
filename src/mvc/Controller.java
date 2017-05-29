@@ -47,10 +47,12 @@ public class Controller {
     public void placePawn(Point point) {
         this.gameModel.placePawn(point);
     }
+    public void passInModel() { this.gameModel.pass(); }
 
     public void putNewPawnOnBoard(int x, int y) {
         this.gameView.putNewPawn(x, y);
     }
+    public void passInView() { this.gameView.registerPass(); }
 
     public void flipPawn(int x, int y) {
         this.gameView.flipPawn(x,y);
@@ -79,12 +81,15 @@ public class Controller {
         return gameModel.getCurrentPlayer().getPlayerType() == PlayerType.HUMAN;
     }
 
-    public void move(Point point) {
-        gameController.move(point);
-    }
+    public void move(Point point) { gameController.move(point); }
+    public void pass() { move(new Point(-1,-1)); }
 
     public boolean canPlace(Point point) {
+        if(point.getX() == -1 && point.getY() == -1) {
+            return gameModel.canPass();
+        }
         return gameModel.canPlace(point);
+
     }
 
     public Player getCurrentPlayer() {

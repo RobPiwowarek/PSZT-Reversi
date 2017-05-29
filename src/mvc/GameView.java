@@ -95,4 +95,7 @@ public class GameView {
     public void startGame() {
         gameController.startGame();
     }
+
+    public void pass() { gameController.pass(); }
+    public void registerPass() { board.registerPass(); }
 }
