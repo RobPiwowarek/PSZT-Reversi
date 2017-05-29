@@ -8,6 +8,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.beans.value.*;
 import mvc.GameView;
 
 public class PlayGUI extends StackPane {
@@ -41,6 +42,8 @@ public class PlayGUI extends StackPane {
         VBox vBox = new VBox(20);
         vBox.getChildren().addAll(hBox[0], hBox[1], playButton, menuButton);
         vBox.setAlignment(Pos.CENTER);
+
+        setupRadioButton(button1, hBox[1]);
 
         getChildren().add(vBox);
     }
@@ -94,6 +97,20 @@ public class PlayGUI extends StackPane {
         menuButton.setOnAction(event -> {
             Scene scene = menuButton.getScene();
             scene.setRoot(gameView.getMenu());
+        });
+    }
+
+    private void setupRadioButton(final RadioButton radioButton, HBox hBox)
+    {
+        radioButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> obs, Boolean wasPreviouslySelected, Boolean isNowSelected) {
+                if (isNowSelected) {
+                    hBox.setVisible(true);
+                } else {
+                    hBox.setVisible(false);
+                }
+            }
         });
     }
 

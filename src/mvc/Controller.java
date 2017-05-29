@@ -89,7 +89,6 @@ public class Controller {
             return gameModel.canPass();
         }
         return gameModel.canPlace(point);
-
     }
 
     public Player getCurrentPlayer() {
