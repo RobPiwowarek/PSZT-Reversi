@@ -74,7 +74,7 @@ public class AlphaBeta {
                         clone.makeMove(m);
                         return new GameActionPair(clone, m);
                     })
-                    .sorted(Comparator.comparingInt(c -> heuristic.getScoring(c.game)))
+                    .sorted((c1,c2) -> Integer.compare(heuristic.getScoring(c2.game), heuristic.getScoring(c1.game)))
                     .collect(Collectors.toList());
 
             if (!aiTurn) {
