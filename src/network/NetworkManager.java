@@ -57,9 +57,11 @@ public class NetworkManager {
             try {
                 if (isServer) {
                     controller.setInfo("Waiting for opponent");
+                    controller.disableBoard();
                     ServerSocket serverSocket = new ServerSocket(port);
                     serverSocket.setSoTimeout(200000);
                     clientSocket = serverSocket.accept();
+                    controller.enableBoard();
                     controller.setInfo("Black turn");
                 } else {
                     clientSocket = new Socket(host, port);

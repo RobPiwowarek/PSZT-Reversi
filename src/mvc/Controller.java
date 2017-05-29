@@ -168,4 +168,8 @@ public class Controller {
     {
         gameView.getBoard().setTurnText(info);
     }
+
+    public void disableBoard() { gameView.getBoard().disable();}
+
+    public void enableBoard() { gameView.getBoard().enable();}
 }

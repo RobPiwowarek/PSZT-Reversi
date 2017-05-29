@@ -19,6 +19,7 @@ public class Board extends BorderPane {
     int round;
     private Text clockText;
     private Text turnText;
+    private HBox boardHBox;
 
     public Board(int s, GameView view) {
         gameView = view;
@@ -99,7 +100,7 @@ public class Board extends BorderPane {
     }
 
     private HBox setupEmptyTiles() {
-        HBox hBox = new HBox();
+        boardHBox = new HBox();
         VBox vBoxes[] = new VBox[size];
 
         for (int i = 0; i < vBoxes.length; i++) {
@@ -111,12 +112,12 @@ public class Board extends BorderPane {
             }
         }
 
-        hBox.setMinSize(1,1);
-        setCenter(hBox);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.getChildren().addAll(vBoxes);
+        boardHBox.setMinSize(1,1);
+        setCenter(boardHBox);
+        boardHBox.setAlignment(Pos.CENTER);
+        boardHBox.getChildren().addAll(vBoxes);
 
-        return hBox;
+        return boardHBox;
     }
 
     private void setScale(HBox hBox) {
@@ -184,6 +185,16 @@ public class Board extends BorderPane {
             setMaxSize(100, 40);
             setStyle("-fx-font: 12 arial;");
         }
+    }
+
+    public void disable()
+    {
+        boardHBox.setMouseTransparent(true);
+    }
+
+    public void enable()
+    {
+        boardHBox.setMouseTransparent(false);
     }
 }
 
