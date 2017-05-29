@@ -58,7 +58,20 @@ public class MoveManager {
     }
 
     // flip and clear could be easily merged if necessary.
+    ArrayDeque<Tile> flipPawnsAI() {
+        ArrayDeque<Tile> tiles = tilesToFlip.clone();
+        for (Tile t : tilesToFlip) {
+            t.getPawn().changeOwner();
+        }
+        clearPawnsQueue();
+        return tiles;
+    }
 
+    public void undoFlipPawns(ArrayDeque<Tile> tiles) {
+        for (Tile t : tiles) {
+            t.getPawn().changeOwner();
+        }
+    }
     int flipPawns() {
         int size = tilesToFlip.size();
         for (Tile t : tilesToFlip) {

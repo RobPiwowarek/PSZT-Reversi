@@ -11,6 +11,20 @@ import java.util.Collection;
 import java.util.Deque;
 
 public class GameModel implements game.ai.Game, Cloneable {
+
+    private class ReversibleMove {
+        public Point point;
+        public ArrayDeque<Tile> flippedTiles;
+        public int passCount;
+        public ReversibleMove(Point point, ArrayDeque<Tile> flippedTiles, int passCount) {
+            this.point = point;
+            this.flippedTiles = flippedTiles;
+            this.passCount = passCount;
+        }
+    }
+
+    private ArrayDeque<ReversibleMove> moveStack;
+
     private GameBoard board;
 
     private int nplayer = 0;
@@ -43,6 +57,7 @@ public class GameModel implements game.ai.Game, Cloneable {
     public GameModel() {
         this.players = new Player[2];
         this.passCount = 0;
+        this.moveStack = new ArrayDeque<>();
         blackPawnCount = whitePawnCount = 2;
     }
 
@@ -70,11 +85,33 @@ public class GameModel implements game.ai.Game, Cloneable {
     public void makeMove(Action move) {
         Point p = move.getPoint();
         if (p.getX() == -1 && p.getY() == -1) {
+            moveStack.push(new ReversibleMove(p, null, passCount));
             pass();
         }
         else {
-            placePawn(p);
+            int flipCount;
+            ArrayDeque<Tile> flippedTiles = board.placePawnAI(p, getCurrentPlayerColor());
+            flipCount = flippedTiles.size();
+            if (getCurrentPlayerColor() == PawnColor.DARK) {
+                blackPawnCount += flipCount + 1;
+                whitePawnCount -= flipCount;
+            } else {
+                blackPawnCount -= flipCount;
+                whitePawnCount += flipCount + 1;
+            }
+            moveStack.push(new ReversibleMove(p, flippedTiles, passCount));
+            passCount = 0;
         }
+        switchPlayers();
+    }
+
+    public void undoLastMove() {
+        ReversibleMove lastMove = moveStack.pop();
+        if (lastMove.flippedTiles != null) {
+            board.undoFlipPawns(lastMove.flippedTiles);
+            board.getTile(lastMove.point).clear();
+        }
+        passCount = lastMove.passCount;
         switchPlayers();
     }
 

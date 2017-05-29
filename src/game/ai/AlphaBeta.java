@@ -16,6 +16,7 @@ public class AlphaBeta {
     private int depth;
     private Game game;
     private Heuristic heuristic;
+    private int chosenMoveDepth;
 
     public AlphaBeta(int depth) {
         this.depth = depth;
@@ -33,6 +34,16 @@ public class AlphaBeta {
 
         public GameActionPair(Game game, Action action) {
             this.game = game;
+            this.action = action;
+        }
+    }
+
+    private class ScoreActionPair {
+        public int score;
+        public Action action;
+
+        public ScoreActionPair(int score, Action action) {
+            this.score = score;
             this.action = action;
         }
     }
@@ -67,19 +78,24 @@ public class AlphaBeta {
             b = beta;
 
             // initial sort by shallow heuristic value
-            List<GameActionPair> cloneList = possibleMoves
+            List<Action> moveList = possibleMoves
                     .stream()
                     .map(m -> {
-                        Game clone = game.clone();
-                        clone.makeMove(m);
-                        return new GameActionPair(clone, m);
+                        int s;
+                        game.makeMove(m);
+                        s = heuristic.getScoring(game);
+                        game.undoLastMove();
+                        return new ScoreActionPair(s, m);
                     })
-                    .sorted((c1,c2) -> Integer.compare(heuristic.getScoring(c2.game), heuristic.getScoring(c1.game)))
+                    .sorted((c1,c2) -> Integer.compare(c2.score, c1.score))
+                    .map(sap -> sap.action)
                     .collect(Collectors.toList());
 
             if (!aiTurn) {
-                for (GameActionPair cloneMove : cloneList) {
-                    score = alphaBeta(cloneMove.game, depth - 1, origDepth, a, b, true);
+                for (Action move : moveList) {
+                    game.makeMove(move);
+                    score = alphaBeta(game, depth - 1, origDepth, a, b, true);
+                    game.undoLastMove();
                     if(Thread.currentThread().isInterrupted()) {
                         return 0;
                     }
@@ -90,15 +106,18 @@ public class AlphaBeta {
                 }
                 return b;
             } else {
-                for (GameActionPair cloneMove : cloneList) {
-                    score = alphaBeta(cloneMove.game, depth - 1, origDepth, a, b, false);
+                for (Action move : moveList) {
+                    game.makeMove(move);
+                    score = alphaBeta(game, depth - 1, origDepth, a, b, false);
+                    game.undoLastMove();
                     if(Thread.currentThread().isInterrupted()) {
                         return 0;
                     }
                     if (score > a) {
                         a = score;
                         if (depth == origDepth) { // back to root node
-                            chosenMove = cloneMove.action;
+                            chosenMove = move;
+                            chosenMoveDepth = depth;
                         }
                     }
                     if (a >= b) break; // beta cut off
@@ -117,12 +136,16 @@ public class AlphaBeta {
         es.shutdown(); //maybe unnecessary
         try {
             result = es.awaitTermination(timeConstraint, TimeUnit.MILLISECONDS);
+            if(!result)
+            {
+                es.shutdownNow(); //interrupt thread
+                es.awaitTermination(2000, TimeUnit.MILLISECONDS); //wait for AI to exit out gracefully
+            }
         }
         catch(InterruptedException e) {
         }
-        if(!result) {
-            es.shutdownNow(); //interrupt thread
-        }
+
+        System.out.println("AI move depth: " + chosenMoveDepth);
         return chosenMove;
     }
 }

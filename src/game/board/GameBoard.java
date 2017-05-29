@@ -4,6 +4,9 @@ package game.board;
 
 import mvc.Controller;
 
+import java.lang.reflect.Array;
+import java.util.ArrayDeque;
+
 public class GameBoard {
     private final short DEFAULT_BOARD_SIZE = 8;
     public final short MAX_BOARD_SIZE = 32;
@@ -66,6 +69,15 @@ public class GameBoard {
         return moveManager.flipPawns();
     }
 
+    public ArrayDeque<Tile> placePawnAI(Point p, PawnColor color) {
+        grid.addPawn(p, color);
+        return moveManager.flipPawnsAI();
+    }
+
+    public void undoFlipPawns(ArrayDeque<Tile> tiles) {
+        moveManager.undoFlipPawns(tiles);
+    }
+
     public void setStartingPawns() {
         int a = grid.getX() / 2;
         int b = a - 1;
@@ -79,6 +91,7 @@ public class GameBoard {
     Pawn getPawn(Point p) {
         return grid.getPawn(p);
     }
+    Tile getTile(Point p) { return grid.getTile(p); }
 
     void setController(Controller c){
         moveManager.setController(c);

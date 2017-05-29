@@ -10,6 +10,8 @@ public interface Game {
 
     void makeMove(Action move);
 
+    void undoLastMove();
+
     Collection<Action> getPossibleMoves();
 
     boolean isOver();
