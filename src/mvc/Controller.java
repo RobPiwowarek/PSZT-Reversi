@@ -107,6 +107,7 @@ public class Controller {
         createNetworkManager(port, host, !isRemotePlayerHost);
         NetworkController networkController = new NetworkController(this, networkManager);
         networkManager.setGameController(networkController);
+        networkManager.setController(this);
         networkManager.connect();
 
         Player player1, player2;
@@ -161,6 +162,10 @@ public class Controller {
         gameModel.setPlayers(player1, player2);
 
         gameController = localController;
+    }
 
+    public void setInfo(String info)
+    {
+        gameView.getBoard().setTurnText(info);
     }
 }

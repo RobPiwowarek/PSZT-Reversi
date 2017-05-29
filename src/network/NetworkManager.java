@@ -1,6 +1,7 @@
 package network;
 
 import game.board.Point;
+import mvc.Controller;
 import mvc.NetworkController;
 
 import javax.swing.*;
@@ -23,6 +24,7 @@ public class NetworkManager {
     private MessageReceiver messageReceiver;
 
     private NetworkController gameController;
+    private Controller controller;
 
     public NetworkManager(int port, String host, boolean isServer) {
         this.port = port;
@@ -34,8 +36,12 @@ public class NetworkManager {
         this.gameController = gameController;
     }
 
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
+
     public void connect() {
-        new GameServer().run();
+        new GameServer().start();
     }
 
     public void sendMessage(int x, int y) {
@@ -50,9 +56,11 @@ public class NetworkManager {
         public void run() {
             try {
                 if (isServer) {
+                    controller.setInfo("Waiting for opponent");
                     ServerSocket serverSocket = new ServerSocket(port);
                     serverSocket.setSoTimeout(200000);
                     clientSocket = serverSocket.accept();
+                    controller.setInfo("Black turn");
                 } else {
                     clientSocket = new Socket(host, port);
                 }

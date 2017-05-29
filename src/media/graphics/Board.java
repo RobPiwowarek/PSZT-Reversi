@@ -172,9 +172,9 @@ public class Board extends BorderPane {
         setVisible(false);
     }
 
-    public Text getTurnText()
+    public void setTurnText(String text)
     {
-        return turnText;
+        turnText.setText(text);
     }
 
     private class MyButton extends Button {
