@@ -172,4 +172,9 @@ public class Controller {
     public void disableBoard() { gameView.getBoard().disable();}
 
     public void enableBoard() { gameView.getBoard().enable();}
+
+    public String getScore()
+    {
+        return gameModel.getBlackPawnCount() + ":" + gameModel.getWhitePawnCount();
+    }
 }

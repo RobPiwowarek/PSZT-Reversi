@@ -16,8 +16,9 @@ public class Board extends BorderPane {
     private final GameView gameView;
     private final Tile[][] tiles;
     private final int size;
-    int round;
+    private int round;
     private Text clockText;
+    private Text scoreText;
     private Text turnText;
     private HBox boardHBox;
 
@@ -33,6 +34,7 @@ public class Board extends BorderPane {
         setScale(hBox);
         setupButtons();
         setupTurnText();
+        setupScoreText();
     }
 
     public void putNewPawn(int x, int y) {
@@ -45,7 +47,13 @@ public class Board extends BorderPane {
             turnText.setText("Black turn");
         }
 
+        scoreText.setText(getScore());
         round++;
+    }
+
+    private String getScore()
+    {
+        return gameView.getGameController().getScore();
     }
 
     public void registerPass() {
@@ -142,23 +150,29 @@ public class Board extends BorderPane {
     }
 
     private void setupClockText() {
-        clockText = new Text("Kot");
-        Font font = new Font("Arial Bold", 29);
-        clockText.setFont(font);
+        clockText = new MyText("Kot");
 
         setLeft(clockText);
     }
 
     private void setupTurnText() {
-        turnText = new Text("Black turn");
-        Font font = new Font("Arial Bold", 29);
-        turnText.setFont(font);
+        turnText = new MyText("Black turn");
 
         StackPane stackPane = new StackPane();
-        stackPane.setAlignment(Pos.TOP_LEFT);
         stackPane.getChildren().add(turnText);
         stackPane.setAlignment(Pos.CENTER);
         setBottom(stackPane);
+    }
+
+    private void setupScoreText() {
+        scoreText = new MyText("2:2");
+        Text text1 = new MyText("Black");
+        Text text2 = new MyText("White");
+
+        HBox hBox = new HBox(5);
+        hBox.getChildren().addAll(text1,scoreText,text2);
+        hBox.setAlignment(Pos.TOP_CENTER);
+        setTop(hBox);
     }
 
     GameView getGameView() {
@@ -178,15 +192,6 @@ public class Board extends BorderPane {
         turnText.setText(text);
     }
 
-    private class MyButton extends Button {
-        public MyButton(String text) {
-            super(text);
-            setMinSize(100, 40);
-            setMaxSize(100, 40);
-            setStyle("-fx-font: 12 arial;");
-        }
-    }
-
     public void disable()
     {
         boardHBox.setMouseTransparent(true);
@@ -196,6 +201,24 @@ public class Board extends BorderPane {
     {
         boardHBox.setMouseTransparent(false);
     }
+
+    private class MyButton extends Button {
+        public MyButton(String text) {
+            super(text);
+            setMinSize(100, 40);
+            setMaxSize(100, 40);
+            setStyle("-fx-font: 12 arial;");
+        }
+    }
+
+    private class MyText extends Text {
+        public MyText(String string)  {
+            super(string);
+            Font font = new Font("Arial Bold", 29);
+            setFont(font);
+        }
+    }
+
 }
 
 
