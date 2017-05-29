@@ -17,11 +17,11 @@ public class Controller {
     private NetworkManager networkManager;
     private static final int AI_TIME_CONSTRAINT = 1000000000;
     private GameController gameController;
+    private Runnable aiMove;
     private Thread aiThread;
 
     public Controller(GameView gameView, GameModel gameModel) {
-        Runnable aiMove = () -> { move(getCurrentPlayer().getAIMove(AI_TIME_CONSTRAINT)); };
-        this.aiThread = new Thread(aiMove);
+        aiMove = () -> move(getCurrentPlayer().getAIMove(AI_TIME_CONSTRAINT));
         this.gameView = gameView;
         this.gameModel = gameModel;
         this.gameModel.setSize((short)8);
@@ -33,7 +33,9 @@ public class Controller {
     }
 
     public void killAIThread() {
-        //aiThread.stop();
+        if(aiThread != null) {
+            aiThread.stop();
+        }
     }
 
     public void setGameController(GameController gameController) {
@@ -58,8 +60,8 @@ public class Controller {
     }
 
     private void makeAIMove() {
+        aiThread = new Thread(aiMove);
         aiThread.start();
-
     }
     public void startGame() {
         Player currentPlayer = gameModel.getCurrentPlayer();
