@@ -19,7 +19,7 @@ public class Board extends BorderPane {
     int round;
     private Text clockText;
     private Text turnText;
-    
+
     public Board(int s, GameView view) {
         gameView = view;
         round = 0;
@@ -41,7 +41,7 @@ public class Board extends BorderPane {
         }
         else {
             tiles[x][y].putNewWhitePawn();
-            turnText.setText("Black turn" );
+            turnText.setText("Black turn");
         }
 
         round++;
@@ -89,12 +89,16 @@ public class Board extends BorderPane {
 
         for (int i = 0; i < vBoxes.length; i++) {
             vBoxes[i] = new VBox();
+            vBoxes[i].setAlignment(Pos.CENTER);
             for (int j = 0; j < tiles.length; j++) {
                 tiles[i][j] = new Tile(this, new Point(i, j));
                 vBoxes[i].getChildren().add(tiles[i][j]);
             }
         }
 
+        hBox.setMinSize(1,1);
+        setCenter(hBox);
+        hBox.setAlignment(Pos.CENTER);
         hBox.getChildren().addAll(vBoxes);
 
         return hBox;
@@ -109,9 +113,6 @@ public class Board extends BorderPane {
             hBox.setScaleX(hBox.getScaleX() * 0.4);
             hBox.setScaleY(hBox.getScaleY() * 0.4);
         }
-
-        setCenter(hBox);
-        hBox.setAlignment(Pos.CENTER);
     }
 
     private void startingPosition() {
