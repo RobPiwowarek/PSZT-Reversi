@@ -84,6 +84,7 @@ public class NetworkGUI extends StackPane {
             else {
                 this.gameView.getGameController().createHumanVsHumanNetworkController(!hostButton.isSelected(), PlayerType.AI, Integer.valueOf(textField[1].getText()), textField[0].getText());
             }
+
         });
     }
 

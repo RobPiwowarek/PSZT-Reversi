@@ -1,6 +1,7 @@
 package media.graphics;
 
 import game.board.Point;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -208,7 +209,7 @@ public class Board extends BorderPane {
 
     public void setTurnText(String text)
     {
-        turnText.setText(text);
+        Platform.runLater(()-> turnText.setText(text));
     }
 
     public void disable()

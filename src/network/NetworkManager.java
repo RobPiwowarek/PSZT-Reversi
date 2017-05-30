@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 public class NetworkManager {
     private boolean isConnected = false;
@@ -48,10 +49,12 @@ public class NetworkManager {
     public void closeSockets()
     {
         try {
-            if (clientSocket != null)
+            if (clientSocket != null) {
                 clientSocket.close();
-            if (serverSocket != null)
+            }
+            if (serverSocket != null) {
                 serverSocket.close();
+            }
         }
         catch (IOException e) {
 
