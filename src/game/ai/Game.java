@@ -26,4 +26,6 @@ public interface Game {
 
     short getSize();
 
+    long getZobristKey();
+
 }

@@ -4,6 +4,7 @@ import game.Player;
 import game.actions.Action;
 import game.actions.Pass;
 import game.actions.Place;
+import game.ai.Zobrist;
 import mvc.Controller;
 
 import java.util.ArrayDeque;
@@ -29,11 +30,14 @@ public class GameModel implements game.ai.Game, Cloneable {
 
     private int nplayer = 0;
     private int nopponent = 1;
-
+    private long zobristKey;
+    private Zobrist zobrist;
     private Player[] players;
     private int whitePawnCount;
     private int blackPawnCount;
     private int passCount;
+
+    public long getZobristKey() { return this.zobristKey; }
 
     public Player getCurrentPlayer() {
         return players[nplayer];
@@ -62,9 +66,10 @@ public class GameModel implements game.ai.Game, Cloneable {
     }
 
     public void setSize(short size) {
+        this.zobrist = new Zobrist(size);
         this.board = new GameBoard(size);
         this.board.setStartingPawns();
-
+        this.zobristKey = zobrist.getGameKey(this);
     }
 
     public void reset() {
@@ -93,6 +98,7 @@ public class GameModel implements game.ai.Game, Cloneable {
     // for AI
     public void makeMove(Action move) {
         Point p = move.getPoint();
+        zobristKey = zobrist.getUpdatedKey(this, zobristKey, (int)p.getX(), (int)p.getY(), getCurrentColorAsInt(), true);
         if (p.getX() == -1 && p.getY() == -1) {
             moveStack.push(new ReversibleMove(p, null, passCount));
             pass();
@@ -100,6 +106,11 @@ public class GameModel implements game.ai.Game, Cloneable {
         else {
             int flipCount;
             ArrayDeque<Tile> flippedTiles = board.placePawnAI(p, getCurrentPlayerColor());
+            Point p2;
+            for(Tile t : flippedTiles) {
+                p2 = t.getPoint();
+                zobristKey = zobrist.getUpdatedKey(this, zobristKey, (int)p2.getX(), (int)p2.getY(), getCurrentColorAsInt(), false);
+            }
             flipCount = flippedTiles.size();
             if (getCurrentPlayerColor() == PawnColor.DARK) {
                 blackPawnCount += flipCount + 1;
@@ -116,7 +127,12 @@ public class GameModel implements game.ai.Game, Cloneable {
 
     public void undoLastMove() {
         ReversibleMove lastMove = moveStack.pop();
+        Point p;
         if (lastMove.flippedTiles != null) {
+            for(Tile t : lastMove.flippedTiles) {
+                p = t.getPoint();
+                zobristKey = zobrist.getUpdatedKey(this, zobristKey, (int)p.getX(), (int)p.getY(), getCurrentColorAsInt(), false);
+            }
             int flipCount = lastMove.flippedTiles.size();
             if (getCurrentPlayerColor() == PawnColor.DARK) {
                 blackPawnCount += flipCount ;
@@ -127,8 +143,10 @@ public class GameModel implements game.ai.Game, Cloneable {
             }
             board.undoFlipPawns(lastMove.flippedTiles);
             board.getTile(lastMove.point).clear();
+            zobristKey = zobrist.getUpdatedKey(this, zobristKey, (int)lastMove.point.getX(), (int)lastMove.point.getY(), 0, false);
         }
         passCount = lastMove.passCount;
+        zobristKey = zobrist.getUpdatedKey(this, zobristKey, -1, -1, 0, true); // just change player
         switchPlayers();
     }
 
@@ -165,7 +183,14 @@ public class GameModel implements game.ai.Game, Cloneable {
 
     public void placePawn(Point p) {
         int flipCount;
-        flipCount = board.placePawn(p, getCurrentPlayerColor());
+        zobristKey = zobrist.getUpdatedKey(this, zobristKey, (int)p.getX(), (int)p.getY(), getCurrentColorAsInt(), true);
+        ArrayDeque<Tile> tiles = board.placePawn(p, getCurrentPlayerColor());
+        Point p2;
+        for(Tile t : tiles) {
+            p2 = t.getPoint();
+            zobristKey = zobrist.getUpdatedKey(this, zobristKey, (int)p2.getX(), (int)p2.getY(), getCurrentColorAsInt(), false);
+        }
+        flipCount = tiles.size();
         if (getCurrentPlayerColor() == PawnColor.DARK) {
             blackPawnCount += flipCount + 1;
             whitePawnCount -= flipCount;
