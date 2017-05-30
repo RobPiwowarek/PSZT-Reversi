@@ -170,6 +170,21 @@ public class GameModel implements game.ai.Game, Cloneable {
         return actions;
     }
 
+    // pass doesnt count here
+    public int getNPossibleMoves(int color) {
+        PawnColor c = color == 1 ? PawnColor.DARK : PawnColor.LIGHT;
+        int nmoves = 0;
+        for (int x = 0; x < board.getSize(); ++x) {
+            for (int y = 0; y < board.getSize(); ++y) {
+                if (board.canPlace(new Point(x, y), c)) {
+                    ++nmoves;
+                }
+                board.clearPawnsQueue();
+            }
+        }
+        return nmoves;
+    }
+
     // for controller
     public boolean canPlace(Point p) {
         return this.board.canPlace(p, getCurrentPlayerColor());
