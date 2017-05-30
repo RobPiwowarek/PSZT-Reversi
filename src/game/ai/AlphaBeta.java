@@ -17,6 +17,7 @@ public class AlphaBeta {
     private Game game;
     private Heuristic heuristic;
     private int chosenMoveDepth;
+    private TranspositionTable tt;
 
     public AlphaBeta(int depth) {
         this.depth = depth;
@@ -26,16 +27,7 @@ public class AlphaBeta {
     public void setGame(Game game) {
         this.game = game;
         this.heuristic.setSize(game.getSize());
-    }
-
-    private class GameActionPair {
-        public Game game;
-        public Action action;
-
-        public GameActionPair(Game game, Action action) {
-            this.game = game;
-            this.action = action;
-        }
+        this.tt = new TranspositionTable(game.getSize()*1000000);
     }
 
     private class ScoreActionPair {
@@ -47,7 +39,6 @@ public class AlphaBeta {
             this.action = action;
         }
     }
-
 
     private class IterativeDeepening implements Runnable {
         private Game gameClone;
@@ -71,13 +62,37 @@ public class AlphaBeta {
 
         private double alphaBeta(Game game, int depth, int origDepth, double alpha, double beta, boolean aiTurn) {
             Collection<Action> possibleMoves;
-            double a, b, score;
+            double a, b, score, bestValue;
+            a = alpha;
+            b = beta;
 
             if(Thread.currentThread().isInterrupted()) {
                 return 0;
             }
 
-            // TODO - tablice transponowań
+            Transposition t = tt.getTransposition(game);
+            if(t != null && t.getKey() == game.getZobristKey()) {
+                if(t.getDepth() >= depth) {
+                    TranspositionFlag flag = t.getFlag();
+                    int value = t.getValue();
+                    if(flag == TranspositionFlag.LOWERBOUND && value > a) {
+                        a = value;
+                    }
+                    else if(flag == TranspositionFlag.UPPERBOUND && value < b) {
+                        b = value;
+                    }
+                    else if(flag == TranspositionFlag.EXACT || a >= b) {
+                        if(depth == origDepth) {
+                            chosenMove = t.getMove();
+                            chosenMoveDepth = depth;
+                            System.out.println("saving move from TT!");
+                        }
+                        return value;
+                    }
+                }
+
+            }
+
             if (depth == 0 || game.isOver()) {
                 if(!game.isOver()) {
                     reachedOnlyLeaves = false;
@@ -88,8 +103,6 @@ public class AlphaBeta {
             }
 
             possibleMoves = game.getPossibleMoves();
-            a = alpha;
-            b = beta;
 
             // initial sort by shallow heuristic value
             List<Action> moveList = possibleMoves
@@ -118,7 +131,7 @@ public class AlphaBeta {
                     }
                     if (a >= b) break; // alpha cut off
                 }
-                return b;
+                bestValue = b;
             } else {
                 for (Action move : moveList) {
                     game.makeMove(move);
@@ -136,8 +149,22 @@ public class AlphaBeta {
                     }
                     if (a >= b) break; // beta cut off
                 }
-                return a;
+                bestValue = a;
             }
+            TranspositionFlag newFlag;
+            if(bestValue <= alpha) {
+                newFlag = TranspositionFlag.UPPERBOUND;
+            }
+            else if(bestValue >= beta) {
+                newFlag = TranspositionFlag.LOWERBOUND;
+            }
+            else {
+                newFlag = TranspositionFlag.EXACT;
+            }
+            if(t == null || t.getDepth() < depth) {
+                tt.putTransposition(game, new Transposition(game.getZobristKey(), depth, newFlag, chosenMove, (int) bestValue));
+            }
+            return bestValue;
         }
     }
 

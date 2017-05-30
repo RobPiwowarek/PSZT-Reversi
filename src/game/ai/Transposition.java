@@ -19,12 +19,18 @@ public class Transposition {
         return value;
     }
 
+    public long getKey() {
+        return key;
+    }
+
+    private long key;
     private int depth;
     private TranspositionFlag flag;
     private Action move;
     private int value;
 
-    public Transposition(int depth, TranspositionFlag flag, Action move, int value) {
+    public Transposition(long key, int depth, TranspositionFlag flag, Action move, int value) {
+        this.key = key;
         this.depth = depth;
         this.flag = flag;
         this.move = move;
