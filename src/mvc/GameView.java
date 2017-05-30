@@ -102,11 +102,9 @@ public class GameView {
     public void registerPass() { board.registerPass(); }
 
     public void showGameOver() {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Game Over");
-            alert.setHeaderText("Game Over");
-            alert.showAndWait();
-        });
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game Over");
+        alert.setHeaderText("Game Over");
+        Platform.runLater(() -> alert.showAndWait());
     }
 }

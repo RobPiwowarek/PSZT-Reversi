@@ -39,17 +39,17 @@ public class Heuristic {
         }
     }
 
-    public int getScoring(Game game, int AIColor) {
+    public int getScoring(Game game) {
         int boardNTiles = boardSize * boardSize;
         int blackPawnCount = game.getBlackPawnCount();
         int whitePawnCount = game.getWhitePawnCount();
-        int tileDifference = (blackPawnCount - whitePawnCount) * AIColor;
+        int tileDifference = (blackPawnCount - whitePawnCount) * game.getCurrentColorAsInt();
         if (blackPawnCount + whitePawnCount < boardNTiles / 2) {
             int h;
             int count = 0;
             for (int y = 0; y < boardSize; ++y) {
                 for (int x = 0; x < boardSize; ++x) {
-                    h = heuristicTable[y][x] * (AIColor) * (game.getPawnAsInt(x, y));
+                    h = heuristicTable[y][x] * (game.getCurrentColorAsInt()) * (game.getPawnAsInt(x, y));
                     count += h;
                 }
             }

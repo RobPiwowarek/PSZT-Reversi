@@ -113,13 +113,7 @@ public class Board extends BorderPane {
 
     private void setupEndButton(Button endButton) {
         endButton.setOnAction(event -> {
-<<<<<<< HEAD
             Main.restart(new Stage());
-=======
-            Scene scene = endButton.getScene();
-            scene.setRoot(gameView.getMenu());
-            reset();
->>>>>>> origin/master
         });
     }
 
