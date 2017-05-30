@@ -76,6 +76,10 @@ public class Controller {
         }
     }
 
+    public void start() {
+        gameController.start();
+    }
+
     public void switchPlayers() {
         this.gameModel.switchPlayers();
         Player currentPlayer = gameModel.getCurrentPlayer();
@@ -134,7 +138,7 @@ public class Controller {
         } else {
             player2 = new Player(PawnColor.LIGHT, PlayerType.NETWORK);
             player1 = new Player(PawnColor.DARK, HumanOrAI);
-            player2.setGame(gameModel);
+            player1.setGame(gameModel);
             gameModel.setPlayers(player1, player2);
         }
 

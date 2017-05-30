@@ -25,4 +25,6 @@ public class NetworkController extends GameController {
             super.move(point);
     }
 
+    public void start() {} // networkmanager will do startgame
+
 }

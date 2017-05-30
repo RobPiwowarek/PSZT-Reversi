@@ -20,4 +20,8 @@ public abstract class GameController {
             controller.showGameOver();
         }
     }
+
+    public void start() {
+        controller.startGame();
+    }
 }

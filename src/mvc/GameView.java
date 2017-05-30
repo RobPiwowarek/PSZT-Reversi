@@ -95,7 +95,7 @@ public class GameView {
     }
 
     public void startGame() {
-        gameController.startGame();
+        gameController.start();
     }
 
     public void pass() { gameController.pass(); }
