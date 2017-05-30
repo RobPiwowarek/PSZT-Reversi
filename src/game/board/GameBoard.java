@@ -64,7 +64,7 @@ public class GameBoard {
         moveManager.clearPawnsQueue();
     }
 
-    public int placePawn(Point p, PawnColor color) {
+    public ArrayDeque<Tile> placePawn(Point p, PawnColor color) {
         grid.addPawn(p, color);
         return moveManager.flipPawns();
     }

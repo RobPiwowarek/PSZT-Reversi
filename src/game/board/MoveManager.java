@@ -72,8 +72,8 @@ public class MoveManager {
             t.getPawn().changeOwner();
         }
     }
-    int flipPawns() {
-        int size = tilesToFlip.size();
+    ArrayDeque<Tile> flipPawns() {
+        ArrayDeque<Tile> tiles = tilesToFlip.clone();
         for (Tile t : tilesToFlip) {
             Point p = t.getPoint();
             if(this.controller != null) {
@@ -83,7 +83,7 @@ public class MoveManager {
 
         }
         clearPawnsQueue();
-        return size;
+        return tiles;
     }
 
     void clearPawnsQueue() {
