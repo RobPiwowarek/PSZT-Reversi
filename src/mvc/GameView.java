@@ -28,11 +28,11 @@ public class GameView {
         networkGUI = new NetworkGUI(this);
         playGUI = new PlayGUI(this);
 
-        Scene scene = new Scene(mainMenu, 700, 700, Color.WHITESMOKE);
+        Scene scene = new Scene(mainMenu, 900, 700, Color.WHITESMOKE);
 
         primaryStage.setTitle("Reversi");
         primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
@@ -88,7 +88,9 @@ public class GameView {
         board.putNewPawn(x, y);
     }
 
-    public void flipPawn(int x, int y) { board.flipPawn(x,y);}
+    public void flipPawn(int x, int y) {
+        board.flipPawn(x, y);
+    }
 
     public void move(Point locationOnBoard) {
         gameController.move(locationOnBoard);
@@ -98,8 +100,13 @@ public class GameView {
         gameController.start();
     }
 
-    public void pass() { gameController.pass(); }
-    public void registerPass() { board.registerPass(); }
+    public void pass() {
+        gameController.pass();
+    }
+
+    public void registerPass() {
+        board.registerPass();
+    }
 
     public void showGameOver() {
         Platform.runLater(() -> {
@@ -108,5 +115,9 @@ public class GameView {
             alert.setHeaderText("Game Over");
             alert.showAndWait();
         });
+    }
+
+    public void changeTextColor(int x) {
+        board.changeTextColor(x);
     }
 }

@@ -70,6 +70,7 @@ public class PlayGUI extends StackPane {
 
         button4 = new RadioButton("Player begins");
         button4.setToggleGroup(group);
+        button4.setSelected(true);
 
         button5 = new RadioButton("AI begins");
         button5.setToggleGroup(group);

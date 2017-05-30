@@ -15,8 +15,6 @@ public class Main extends Application {
         restart(primaryStage);
     }
 
-    // TODO:
-
     public static void restart(Stage primaryStage) {
         GameModel gameModel = new GameModel();
         GameView gameView = new GameView(primaryStage);
