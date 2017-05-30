@@ -50,11 +50,15 @@ public class AlphaBeta {
 
 
     private class IterativeDeepening implements Runnable {
+        private Game gameClone;
+        public IterativeDeepening(Game game) {
+            this.gameClone = game.clone();
+        }
         @Override
         public void run() {
             double inf = Double.POSITIVE_INFINITY;
             for (int d = 1; d < depth; ++d) {
-                alphaBeta(game, d, d, -inf, inf, true); // chosenMove will update
+                alphaBeta(gameClone, d, d, -inf, inf, true); // chosenMove will update
             }
         }
 
@@ -132,14 +136,13 @@ public class AlphaBeta {
         final ExecutorService es = Executors.newSingleThreadExecutor();
         boolean result = false;
         chosenMove = null;
-        es.execute(new IterativeDeepening());
+        es.execute(new IterativeDeepening(game));
         es.shutdown(); //maybe unnecessary
         try {
             result = es.awaitTermination(timeConstraint, TimeUnit.MILLISECONDS);
             if(!result)
             {
                 es.shutdownNow(); //interrupt thread
-                es.awaitTermination(2000, TimeUnit.MILLISECONDS); //wait for AI to exit out gracefully
             }
         }
         catch(InterruptedException e) {

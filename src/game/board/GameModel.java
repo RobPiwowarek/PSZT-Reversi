@@ -108,6 +108,14 @@ public class GameModel implements game.ai.Game, Cloneable {
     public void undoLastMove() {
         ReversibleMove lastMove = moveStack.pop();
         if (lastMove.flippedTiles != null) {
+            int flipCount = lastMove.flippedTiles.size();
+            if (getCurrentPlayerColor() == PawnColor.DARK) {
+                blackPawnCount += flipCount ;
+                whitePawnCount -= flipCount + 1;
+            } else {
+                blackPawnCount -= flipCount + 1;
+                whitePawnCount += flipCount;
+            }
             board.undoFlipPawns(lastMove.flippedTiles);
             board.getTile(lastMove.point).clear();
         }
