@@ -10,7 +10,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import mvc.GameView;
+import main.Main;
 
 public class Board extends BorderPane {
     private final GameView gameView;
@@ -102,8 +104,7 @@ public class Board extends BorderPane {
 
     private void setupEndButton(Button endButton) {
         endButton.setOnAction(event -> {
-            Scene scene = endButton.getScene();
-            scene.setRoot(gameView.getMenu());
+            Main.restart(new Stage());
         });
     }
 

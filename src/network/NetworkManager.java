@@ -62,7 +62,9 @@ public class NetworkManager {
         try {
             messageSender.sendMessage(x, y);
         } catch (IOException ignored) {
-
+            controller.setInfo("Connection failed");
+            controller.disableBoard();
+            closeSockets();
         }
     }
 
@@ -86,6 +88,8 @@ public class NetworkManager {
                 messageReceiver = new MessageReceiver();
                 messageReceiver.start();
             } catch (IOException ignored) {
+                controller.setInfo("Connection failed");
+                controller.disableBoard();
                 closeSockets();
             }
         }
@@ -122,7 +126,9 @@ public class NetworkManager {
                     }
                 }
             } catch (IOException | ClassNotFoundException ignored) {
-
+                controller.setInfo("Connection failed");
+                controller.disableBoard();
+                closeSockets();
             }
         }
     }

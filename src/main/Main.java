@@ -1,3 +1,5 @@
+package main;
+
 import game.board.GameModel;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -15,7 +17,7 @@ public class Main extends Application {
 
     // TODO:
 
-    public void restart(Stage primaryStage) {
+    public static void restart(Stage primaryStage) {
         GameModel gameModel = new GameModel();
         GameView gameView = new GameView(primaryStage);
         Controller controller = new Controller(gameView, gameModel);
