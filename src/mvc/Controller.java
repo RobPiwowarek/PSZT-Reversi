@@ -11,7 +11,7 @@ import network.NetworkManager;
 public class Controller {
     private GameView gameView;
     private GameModel gameModel;
-    private NetworkManager networkManager;
+    private NetworkManager networkManager = null;
     private static final long AI_TIME_CONSTRAINT = 1000;
     private GameController gameController;
     private Runnable aiMove;
@@ -29,10 +29,17 @@ public class Controller {
         return gameController;
     }
 
-    public void killAIThread() {
+    private void killAIThread() {
         if(aiThread != null) {
             aiThread.stop();
         }
+    }
+
+    public void killThreads()
+    {
+        killAIThread();
+        if (networkManager != null)
+            networkManager.closeSockets();
     }
 
     public void setGameController(GameController gameController) {

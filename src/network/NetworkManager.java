@@ -4,7 +4,6 @@ import game.board.Point;
 import mvc.Controller;
 import mvc.NetworkController;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,11 +16,12 @@ public class NetworkManager {
     private String host;
     private boolean isServer;
 
-    private ServerSocket serverSocket;
-    private Socket clientSocket;
+    private Socket clientSocket = null;
+    private ServerSocket serverSocket = null;
 
     private MessageSender messageSender;
     private MessageReceiver messageReceiver;
+    private GameServer gameServer;
 
     private NetworkController gameController;
     private Controller controller;
@@ -41,7 +41,21 @@ public class NetworkManager {
     }
 
     public void connect() {
-        new GameServer().start();
+        gameServer = new GameServer();
+        gameServer.start();
+    }
+
+    public void closeSockets()
+    {
+        try {
+            if (clientSocket != null)
+                clientSocket.close();
+            if (serverSocket != null)
+                serverSocket.close();
+        }
+        catch (IOException e) {
+
+        }
     }
 
     public void sendMessage(int x, int y) {
@@ -58,9 +72,10 @@ public class NetworkManager {
                 if (isServer) {
                     controller.setInfo("Waiting for opponent");
                     controller.disableBoard();
-                    ServerSocket serverSocket = new ServerSocket(port);
+                    serverSocket = new ServerSocket(port);
                     serverSocket.setSoTimeout(200000);
                     clientSocket = serverSocket.accept();
+                    serverSocket.close();
                     controller.enableBoard();
                     controller.setInfo("Black turn");
                 } else {
@@ -71,7 +86,7 @@ public class NetworkManager {
                 messageReceiver = new MessageReceiver();
                 messageReceiver.start();
             } catch (IOException ignored) {
-                JOptionPane.showMessageDialog(null, "Connection failed", "Error", JOptionPane.INFORMATION_MESSAGE);
+                closeSockets();
             }
         }
     }

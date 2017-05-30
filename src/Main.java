@@ -20,7 +20,7 @@ public class Main extends Application {
         GameView gameView = new GameView(primaryStage);
         Controller controller = new Controller(gameView, gameModel);
         gameView.setGameController(controller);
-        primaryStage.setOnCloseRequest(we -> controller.killAIThread());
+        primaryStage.setOnCloseRequest(we -> controller.killThreads());
     }
 
     public static void main(String[] args) {
