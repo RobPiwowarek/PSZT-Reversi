@@ -146,6 +146,7 @@ public class AlphaBeta {
             }
         }
         catch(InterruptedException e) {
+            es.shutdownNow();
         }
 
         System.out.println("AI move depth: " + chosenMoveDepth);

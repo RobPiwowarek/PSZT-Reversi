@@ -31,7 +31,7 @@ public class Controller {
 
     private void killAIThread() {
         if(aiThread != null) {
-            aiThread.stop();
+            aiThread.interrupt();
         }
     }
 
@@ -79,15 +79,22 @@ public class Controller {
     public void switchPlayers() {
         this.gameModel.switchPlayers();
         Player currentPlayer = gameModel.getCurrentPlayer();
-        if (currentPlayer.getPlayerType() == PlayerType.AI) {
+        if (currentPlayer.getPlayerType() == PlayerType.AI && !isGameOver()) {
             makeAIMove();
         }
     }
 
+    public void endGame() {
+        gameModel.reset();
+        killThreads();
+    }
+
+    public void showGameOver() { gameView.showGameOver(); }
+
     public boolean isCurrentPlayerHuman() {
         return gameModel.getCurrentPlayer().getPlayerType() == PlayerType.HUMAN;
     }
-
+    public boolean isGameOver() { return gameModel.isOver(); }
     public void move(Point point) { gameController.move(point); }
     public void pass() { move(new Point(-1,-1)); }
 

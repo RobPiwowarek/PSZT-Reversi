@@ -15,5 +15,9 @@ public abstract class GameController {
             controller.putNewPawnOnBoard((int) p.getX(), (int) p.getY());
         }
         controller.switchPlayers();
+        if(controller.isGameOver()) {
+            controller.endGame();
+            controller.showGameOver();
+        }
     }
 }

@@ -15,8 +15,8 @@ public class NetworkController extends GameController {
     //player move
     public void move(Point point) {
         if(controller.canPlace(point)) {
-            super.move(point);
             networkManager.sendMessage((int) point.getX(), (int) point.getY());
+            super.move(point);
         }
     }
 

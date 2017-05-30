@@ -24,6 +24,11 @@ public class PawnSprite extends ImageView {
         this.color = -1;
         setImage(imageManager.whitePawnImage);
     }
+
+    public void clear() {
+        this.color = 0;
+        setImage(imageManager.emptyTileImage);
+    }
 }
 
 class ImageManager {
