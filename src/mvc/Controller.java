@@ -144,13 +144,20 @@ public class Controller {
         gameController = localController;
     }
 
-    // TODO: jakas mozliwosc decyzji kto zaczyna?
-    public void createHumanVsAILocalController() {
+    public void createHumanVsAILocalController(boolean humanStarts) {
         LocalController localController = new LocalController(this);
+        Player player1, player2;
 
-        Player player1 = new Player(PawnColor.DARK, PlayerType.HUMAN);
-        Player player2 = new Player(PawnColor.LIGHT, PlayerType.AI);
-        player2.setGame(gameModel);
+        if (humanStarts) {
+            player1 = new Player(PawnColor.DARK, PlayerType.HUMAN);
+            player2 = new Player(PawnColor.LIGHT, PlayerType.AI);
+            player2.setGame(gameModel);
+        }
+        else {
+            player1 = new Player(PawnColor.DARK, PlayerType.AI);
+            player1.setGame(gameModel);
+            player2 = new Player(PawnColor.LIGHT, PlayerType.HUMAN);
+        }
 
         gameModel.setPlayers(player1, player2);
 

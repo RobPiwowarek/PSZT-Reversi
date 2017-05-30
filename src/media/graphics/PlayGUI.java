@@ -82,7 +82,12 @@ public class PlayGUI extends StackPane {
             scene.setRoot(gameView.getBoard());
 
             if (button1.isSelected()) {
-                this.gameView.getGameController().createHumanVsAILocalController();
+                if(button4.isSelected()) {
+                    this.gameView.getGameController().createHumanVsAILocalController(true);
+                }
+                else {
+                    this.gameView.getGameController().createHumanVsAILocalController(false);
+                }
             } else if (button2.isSelected()) {
                 this.gameView.getGameController().createHumanVsHumanLocalController();
             } else {
