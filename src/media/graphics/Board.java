@@ -79,6 +79,15 @@ public class Board extends BorderPane {
             return Turn.WHITE_TURN;
     }
 
+    public void clear() {
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles.length; j++) {
+                tiles[i][j].clear();
+            }
+        }
+        startingPosition();
+    }
+
     private void setupButtons() {
         MyButton passButton = new MyButton("Pass");
         setupPassButton(passButton);
@@ -104,8 +113,21 @@ public class Board extends BorderPane {
 
     private void setupEndButton(Button endButton) {
         endButton.setOnAction(event -> {
+<<<<<<< HEAD
             Main.restart(new Stage());
+=======
+            Scene scene = endButton.getScene();
+            scene.setRoot(gameView.getMenu());
+            reset();
+>>>>>>> origin/master
         });
+    }
+
+    private void reset() {
+        round = 0;
+        turnText.setText("Black turn");
+        clear();
+        gameView.getGameController().endGame();
     }
 
     private HBox setupEmptyTiles() {

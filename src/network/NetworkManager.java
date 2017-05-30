@@ -78,6 +78,7 @@ public class NetworkManager {
                     serverSocket.setSoTimeout(200000);
                     clientSocket = serverSocket.accept();
                     serverSocket.close();
+                    controller.startGame();
                     controller.enableBoard();
                     controller.setInfo("Black turn");
                 } else {

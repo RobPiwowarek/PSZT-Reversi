@@ -6,7 +6,9 @@
 package mvc;
 
 import game.board.Point;
+import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import media.graphics.*;
@@ -93,9 +95,16 @@ public class GameView {
     }
 
     public void startGame() {
-        gameController.startGame();
+        gameController.start();
     }
 
     public void pass() { gameController.pass(); }
     public void registerPass() { board.registerPass(); }
+
+    public void showGameOver() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game Over");
+        alert.setHeaderText("Game Over");
+        Platform.runLater(() -> alert.showAndWait());
+    }
 }

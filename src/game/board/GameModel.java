@@ -62,10 +62,19 @@ public class GameModel implements game.ai.Game, Cloneable {
     }
 
     public void setSize(short size) {
-
         this.board = new GameBoard(size);
         this.board.setStartingPawns();
 
+    }
+
+    public void reset() {
+        this.passCount = 0;
+        this.moveStack.clear();
+        this.nplayer = 0;
+        this.nopponent = 1;
+        blackPawnCount = whitePawnCount = 2;
+        this.board.clear();
+        this.board.setStartingPawns();
     }
 
     public GameModel clone() {

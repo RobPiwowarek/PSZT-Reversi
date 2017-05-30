@@ -23,6 +23,11 @@ public class Tile extends Button {
         onClick();
     }
 
+    public void clear() {
+        isEmpty = true;
+        pawnSprite.clear();
+    }
+
     private void onClick() {
         setOnAction(e -> {
             if (board.getGameView().getGameController().isCurrentPlayerHuman()) {

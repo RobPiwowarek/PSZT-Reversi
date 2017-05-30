@@ -88,6 +88,10 @@ public class GameBoard {
         grid.addPawn(new Point(b, a), PawnColor.DARK);
     }
 
+    void clear() {
+        grid.clear();
+    }
+
     Pawn getPawn(Point p) {
         return grid.getPawn(p);
     }
