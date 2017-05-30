@@ -10,9 +10,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
+import javafx.scene.paint.Color;
 import mvc.GameView;
-import main.Main;
 
 public class Board extends BorderPane {
     private final GameView gameView;
@@ -23,6 +22,7 @@ public class Board extends BorderPane {
     private Text scoreText;
     private Text turnText;
     private HBox boardHBox;
+    private Text text1,text2;
 
     public Board(int s, GameView view) {
         gameView = view;
@@ -86,6 +86,8 @@ public class Board extends BorderPane {
             }
         }
         startingPosition();
+        text1.setFill(Color.BLACK);
+        text2.setFill(Color.BLACK);
     }
 
     private void setupButtons() {
@@ -185,8 +187,8 @@ public class Board extends BorderPane {
 
     private void setupScoreText() {
         scoreText = new MyText("2:2");
-        Text text1 = new MyText("Black");
-        Text text2 = new MyText("White");
+        text1 = new MyText("Black");
+        text2 = new MyText("White");
 
         HBox hBox = new HBox(5);
         hBox.getChildren().addAll(text1,scoreText,text2);
@@ -221,12 +223,20 @@ public class Board extends BorderPane {
         boardHBox.setMouseTransparent(false);
     }
 
+    public void changeTextColor (int x) {
+        if (x == 0)
+            text1.setFill(Color.RED);
+        else
+            text2.setFill(Color.RED);
+    }
+
+
     private class MyButton extends Button {
         public MyButton(String text) {
             super(text);
             setMinSize(100, 40);
             setMaxSize(100, 40);
-            setStyle("-fx-font: 12 arial;");
+            setStyle("-fx-font: 12 arial");
         }
     }
 
