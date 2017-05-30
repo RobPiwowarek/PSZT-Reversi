@@ -153,8 +153,8 @@ public class Board extends BorderPane {
             hBox.setScaleY(hBox.getScaleY() * 0.7);
         }
         if (size == 32) {
-            hBox.setScaleX(hBox.getScaleX() * 0.4);
-            hBox.setScaleY(hBox.getScaleY() * 0.4);
+            hBox.setScaleX(hBox.getScaleX() * 0.38);
+            hBox.setScaleY(hBox.getScaleY() * 0.38);
         }
     }
 

@@ -28,11 +28,11 @@ public class GameView {
         networkGUI = new NetworkGUI(this);
         playGUI = new PlayGUI(this);
 
-        Scene scene = new Scene(mainMenu, 700, 700, Color.WHITESMOKE);
+        Scene scene = new Scene(mainMenu, 900, 700, Color.WHITESMOKE);
 
         primaryStage.setTitle("Reversi");
         primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
