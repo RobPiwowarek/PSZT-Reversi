@@ -51,12 +51,14 @@ public class AlphaBeta {
 
     private class IterativeDeepening implements Runnable {
         private Game gameClone;
+        private int AIColor;
         public IterativeDeepening(Game game) {
             this.gameClone = game.clone();
         }
         @Override
         public void run() {
             double inf = Double.POSITIVE_INFINITY;
+            AIColor = gameClone.getCurrentColorAsInt();
             for (int d = 1; d < depth; ++d) {
                 alphaBeta(gameClone, d, d, -inf, inf, true); // chosenMove will update
             }
@@ -72,7 +74,7 @@ public class AlphaBeta {
 
             // TODO - tablice transponowań
             if (depth == 0 || game.isOver()) {
-                score = heuristic.getScoring(game);
+                score = heuristic.getScoring(game, AIColor);
                 // give higher values to quicker wins and slower losses
                 return (score - 0.01 * depth * Math.signum(score));
             }
@@ -87,7 +89,7 @@ public class AlphaBeta {
                     .map(m -> {
                         int s;
                         game.makeMove(m);
-                        s = heuristic.getScoring(game);
+                        s = heuristic.getScoring(game, AIColor);
                         game.undoLastMove();
                         return new ScoreActionPair(s, m);
                     })
