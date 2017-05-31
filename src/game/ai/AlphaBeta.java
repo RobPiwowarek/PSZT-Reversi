@@ -162,11 +162,11 @@ public class AlphaBeta {
             }
             TranspositionFlag newFlag;
             Action storeMove = chosenMove;
-            if(bestValue <= alpha && aiTurn) {
+            if(bestValue <= alpha) {
                 newFlag = TranspositionFlag.UPPERBOUND;
                 storeMove = null;
             }
-            else if(bestValue >= beta && !aiTurn) {
+            else if(bestValue >= beta) {
                 newFlag = TranspositionFlag.LOWERBOUND;
             }
             else {
