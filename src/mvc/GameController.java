@@ -16,7 +16,7 @@ public abstract class GameController {
         }
         controller.switchPlayers();
         if(controller.isGameOver()) {
-            controller.endGame();
+            controller.killThreads();
             controller.showGameOver();
         }
     }

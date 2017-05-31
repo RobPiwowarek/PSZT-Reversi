@@ -161,17 +161,19 @@ public class AlphaBeta {
                 bestValue = a;
             }
             TranspositionFlag newFlag;
-            if(bestValue <= alpha) {
+            Action storeMove = chosenMove;
+            if(bestValue <= alpha && aiTurn) {
                 newFlag = TranspositionFlag.UPPERBOUND;
+                storeMove = null;
             }
-            else if(bestValue >= beta) {
+            else if(bestValue >= beta && !aiTurn) {
                 newFlag = TranspositionFlag.LOWERBOUND;
             }
             else {
                 newFlag = TranspositionFlag.EXACT;
             }
             if(t == null || t.getDepth() < depth) {
-                tt.putTransposition(game, new Transposition(game.getZobristKey(), depth, newFlag, chosenMove, (int) bestValue));
+                tt.putTransposition(game, new Transposition(game.getZobristKey(), depth, newFlag, storeMove, (int) bestValue));
             }
             return bestValue;
         }

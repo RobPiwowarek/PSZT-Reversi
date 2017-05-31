@@ -125,6 +125,7 @@ public class Board extends BorderPane {
     private void reset() {
         round = 0;
         turnText.setText("Black turn");
+        setupScoreText();
         clear();
         gameView.getGameController().endGame();
     }
@@ -216,19 +217,21 @@ public class Board extends BorderPane {
 
     public void disable()
     {
-        boardHBox.setMouseTransparent(true);
+        Platform.runLater(() ->boardHBox.setMouseTransparent(true));
     }
 
     public void enable()
     {
-        boardHBox.setMouseTransparent(false);
+        Platform.runLater(() ->boardHBox.setMouseTransparent(false));
     }
 
     public void changeTextColor (int x) {
-        if (x == 0)
-            text1.setFill(Color.RED);
-        else
-            text2.setFill(Color.RED);
+        Platform.runLater(() -> {
+            if (x == 0)
+                text1.setFill(Color.RED);
+            else
+                text2.setFill(Color.RED);
+        });
     }
 
 
