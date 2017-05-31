@@ -42,7 +42,7 @@ public class Heuristic {
     public int getScoring(Game game, int AIColor) {
         int blackPawnCount = game.getBlackPawnCount();
         int whitePawnCount = game.getWhitePawnCount();
-        int tileDifference = (100 * (blackPawnCount - whitePawnCount) * AIColor) / (blackPawnCount + whitePawnCount);
+        int tileDifference = (blackPawnCount - whitePawnCount)*AIColor;
         int inf = 10000; // good enough here probably
         if(game.isOver()) {
             if(tileDifference > 0) {
@@ -55,13 +55,28 @@ public class Heuristic {
                 return 0;
             }
         }
+        int relativeTileDifference;
+        int AIPawnCount = AIColor == 1 ? blackPawnCount : whitePawnCount;
+        int OppPawnCount = AIColor == 1 ? whitePawnCount : blackPawnCount;
+        if(AIPawnCount > OppPawnCount) {
+            relativeTileDifference = 100*AIPawnCount/(AIPawnCount + OppPawnCount);
+        }
+        else if(OppPawnCount > AIPawnCount) {
+            relativeTileDifference = -100*OppPawnCount/(AIPawnCount + OppPawnCount);
+        }
+        else {
+            relativeTileDifference = 0;
+        }
 
         //mobility
-        int nblackmoves = game.getNPossibleMoves(1);
-        int nwhitemoves = game.getNPossibleMoves(-1);
+        int aimoves = game.getNPossibleMoves(AIColor);
+        int oppmoves = game.getNPossibleMoves(-AIColor);
         int mobility = 0;
-        if(nblackmoves + nblackmoves != 0) {
-            mobility = (100 * (nblackmoves - nwhitemoves) * AIColor) / (nblackmoves + nwhitemoves);
+        if(aimoves > oppmoves) {
+            mobility = 100*aimoves/(aimoves + oppmoves);
+        }
+        else if(oppmoves > aimoves) {
+            mobility = -100*oppmoves/(aimoves + oppmoves);
         }
 
         //pawn positions
@@ -90,12 +105,44 @@ public class Heuristic {
                 }
             }
         }
-
         int corners = 0;
         if(blackCorners + whiteCorners != 0) {
-            corners = (100* (blackCorners - whiteCorners) * AIColor) / (blackCorners + whiteCorners);
+            corners = (25* (blackCorners - whiteCorners) * AIColor) / (blackCorners + whiteCorners);
         }
 
-        return 10*tileDifference + 80*mobility + 10*positions + 800*corners;
+        // close to corners
+        int blackCloseToCorners = 0;
+        int whiteCloseToCorners = 0;
+        for(int i = 0; i < 2; ++i) {
+            for(int j = 0; j < 2; ++j) {
+                if(game.getPawnAsInt(i*(size-1), j*(size-1)) == 0) { // empty corner
+                    int color;
+                    color = game.getPawnAsInt(i*(size-1), j*(size-3) + 1);
+                    if(color == 1) {
+                        ++blackCloseToCorners;
+                    }
+                    else if(color == -1) {
+                        ++whiteCloseToCorners;
+                    }
+                    color = game.getPawnAsInt(i*(size-3) + 1, j*(size-1));
+                    if(color == 1) {
+                        ++blackCloseToCorners;
+                    }
+                    else if(color == -1) {
+                        ++whiteCloseToCorners;
+                    }
+                    color = game.getPawnAsInt(i*(size-3) + 1, j*(size-3) + 1);
+                    if(color == 1) {
+                        ++blackCloseToCorners;
+                    }
+                    else if(color == -1) {
+                        ++whiteCloseToCorners;
+                    }
+                }
+            }
+        }
+        int closeCorners = -12*(blackCloseToCorners - whiteCloseToCorners)*AIColor;
+
+        return 10*relativeTileDifference + 78*mobility + 10*positions + 801*corners + 382*closeCorners;
     }
 }

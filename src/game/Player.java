@@ -33,6 +33,9 @@ public class Player {
             if(move != null) {
                 return move.getPoint();
             }
+            else {
+                System.out.println("AI couldnt think of a move in time!");
+            }
         }
         return null;
     }

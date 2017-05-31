@@ -2,6 +2,7 @@ package game.ai;
 
 import game.actions.Action;
 
+import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -85,7 +86,6 @@ public class AlphaBeta {
                         if(depth == origDepth) {
                             chosenMove = t.getMove();
                             chosenMoveDepth = depth;
-                            System.out.println("saving move from TT!");
                         }
                         return value;
                     }
@@ -114,9 +114,18 @@ public class AlphaBeta {
                         game.undoLastMove();
                         return new ScoreActionPair(s, m);
                     })
-                    .sorted((c1,c2) -> Integer.compare(c2.score, c1.score))
+                    .sorted((c1,c2) -> aiTurn ? Integer.compare(c2.score, c1.score) : Integer.compare(c1.score, c2.score))
                     .map(sap -> sap.action)
                     .collect(Collectors.toList());
+
+            // put move from TT at the front
+            if(t != null) {
+                Action bMove = t.getMove();
+                if(bMove != null && moveList.contains(bMove)) {
+                    moveList.remove(bMove);
+                    moveList.add(0, bMove);
+                }
+            }
 
             if (!aiTurn) {
                 for (Action move : moveList) {
