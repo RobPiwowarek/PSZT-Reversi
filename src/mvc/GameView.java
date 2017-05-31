@@ -85,11 +85,11 @@ public class GameView {
     }
 
     public void putNewPawn(int x, int y) {
-        board.putNewPawn(x, y);
+        Platform.runLater(() -> board.putNewPawn(x, y));
     }
 
     public void flipPawn(int x, int y) {
-        board.flipPawn(x, y);
+        Platform.runLater(() ->board.flipPawn(x, y));
     }
 
     public void move(Point locationOnBoard) {
@@ -104,9 +104,7 @@ public class GameView {
         gameController.pass();
     }
 
-    public void registerPass() {
-        board.registerPass();
-    }
+    public void registerPass() { Platform.runLater(() -> board.registerPass()); }
 
     public void showGameOver() {
         Platform.runLater(() -> {
@@ -118,6 +116,6 @@ public class GameView {
     }
 
     public void changeTextColor(int x) {
-        board.changeTextColor(x);
+        Platform.runLater(() ->board.changeTextColor(x));
     }
 }
