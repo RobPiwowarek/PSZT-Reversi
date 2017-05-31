@@ -1,5 +1,6 @@
 package game;
 
+import game.actions.Action;
 import game.ai.AlphaBeta;
 import game.board.GameModel;
 import game.board.PawnColor;
@@ -28,7 +29,10 @@ public class Player {
 
     public Point getAIMove(long timeConstraint) {
         if (playerType == PlayerType.AI) {
-            return ai.play(timeConstraint).getPoint();
+            Action move = ai.play(timeConstraint);
+            if(move != null) {
+                return move.getPoint();
+            }
         }
         return null;
     }

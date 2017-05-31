@@ -89,8 +89,8 @@ public class Controller {
     }
 
     public void endGame() {
-        gameModel.reset();
         killThreads();
+        gameModel.reset();
     }
 
     public void showGameOver() { gameView.showGameOver(); }
@@ -99,10 +99,17 @@ public class Controller {
         return gameModel.getCurrentPlayer().getPlayerType() == PlayerType.HUMAN;
     }
     public boolean isGameOver() { return gameModel.isOver(); }
-    public void move(Point point) { gameController.move(point); }
+    public void move(Point point) {
+        if(point != null) {
+            gameController.move(point);
+        }
+    }
     public void pass() { move(new Point(-1,-1)); }
 
     public boolean canPlace(Point point) {
+        if(point == null) {
+            return false;
+        }
         if(point.getX() == -1 && point.getY() == -1) {
             return gameModel.canPass();
         }
