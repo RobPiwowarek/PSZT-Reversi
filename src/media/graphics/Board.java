@@ -73,17 +73,17 @@ public class Board extends BorderPane {
         tiles[x][y].flip();
     }
 
-    public Turn getTurn() {
+    private Turn getTurn() {
         if (round % 2 == 0)
             return Turn.BLACK_TURN;
         else
             return Turn.WHITE_TURN;
     }
 
-    public void clear() {
-        for (int i = 0; i < tiles.length; i++) {
+    private void clear() {
+        for (Tile[] tile : tiles) {
             for (int j = 0; j < tiles.length; j++) {
-                tiles[i][j].clear();
+                tile[j].clear();
             }
         }
         startingPosition();
@@ -173,7 +173,7 @@ public class Board extends BorderPane {
     }
 
     private void setupClockText() {
-        clockText = new MyText("Kot");
+        clockText = new MyText("");
 
         setLeft(clockText);
     }
@@ -236,7 +236,7 @@ public class Board extends BorderPane {
 
 
     private class MyButton extends Button {
-        public MyButton(String text) {
+        MyButton(String text) {
             super(text);
             setMinSize(100, 40);
             setMaxSize(100, 40);
@@ -245,7 +245,7 @@ public class Board extends BorderPane {
     }
 
     private class MyText extends Text {
-        public MyText(String string)  {
+        MyText(String string)  {
             super(string);
             Font font = new Font("Arial Bold", 29);
             setFont(font);

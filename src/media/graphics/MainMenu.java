@@ -60,7 +60,7 @@ public class MainMenu extends VBox {
     }
 
     private void setupAuthorButton(Button authorButton) {
-        authorButton.setOnAction(event -> JOptionPane.showMessageDialog(null, "git push -fml\nschnutzer@tumblr\nlolidestroyer69", "Author", JOptionPane.INFORMATION_MESSAGE));
+        authorButton.setOnAction(event -> JOptionPane.showMessageDialog(null, "Robert Piwowarek\nAgata Kłoss\nMarcin Kondras\nWEITI PW 2017", "Author", JOptionPane.INFORMATION_MESSAGE));
     }
 
     private void setupExitButton(final Button exitButton) {
@@ -78,12 +78,12 @@ public class MainMenu extends VBox {
         setVisible(false);
     }
 
-    public GameView getGameView() {
+    GameView getGameView() {
         return gameView;
     }
 
     private class MyButton extends Button {
-        public MyButton(String text) {
+        MyButton(String text) {
             super(text);
             setMinSize(200, 40);
             setMaxSize(200, 40);
